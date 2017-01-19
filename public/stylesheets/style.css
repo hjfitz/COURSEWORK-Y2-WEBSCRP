@@ -1,5 +1,11 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+nav {
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
