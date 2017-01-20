@@ -29,11 +29,21 @@ The learning outcomes (as defined in the Unit Spec.) are:
   - Allows for configuration with sliders and job input/loan input
   - Plan everything proportionally
   - Info saved in database. Will be configured during onboarding (?)
-3. Emails and weather
-  - Speaks for themselves
-4. Reader/news parser
+3. Emails
+  - Readonly?
+4. Weather
+  - Config options:
+    - F/C/K
+    - City
+    - Attributes
+      - temp (max/min)
+      - humidity
+      - wind speed
+      - Clouds?
+      - Clear or no?
+5. Reader/news parser
   - Inspired by Pocket/Feedly. We'll see how this goes
-5. Todolist?
+6. Todolist?
   - Because I can.
 
 ## Libraries in Mind

@@ -13,16 +13,44 @@ $(document).ready(function() {
 
 function getWeather(days=5) {
   $.getJSON(portsWeather, function(data) {
-    //console.log(data);
     if (data.cod != 200) {
       console.error("owm fucked again");
+      console.error(data);
+      putErrorInCard();
     } else {
       let nextDays = data.list;
       for (let i=0;i<days;i++) {
         weatherItems.push(nextDays[i]);
       }
+      putWeatherInCard();
     }
   });
+}
+function putWeatherInCard() {
+  const weatherArea = document.getElementById("weather-content");
+  const weatherText = document.getElementById("weather-text");
+  const todayWeather = weatherItems[0];
+  const weatherDesc = todayWeather.weather.main;
+  const curTemp = kelvinToCelsius(todayWeather.main.temp);
+  const minTemp = kelvinToCelsius(todayWeather.main.temp_min);
+  const maxTemp = kelvinToCelsius(todayWeather.main.temp_max);
+  var weatherAnnonce = "Current Temp: "+ curTemp+" with lows of "+minTemp+" and highs of "+maxTemp;
+  var tempPara = document.createElement('p');
+  var descPara = document.createElement('p');
+  tempPara.textContent = weatherAnnonce;
+  weatherArea.appendChild(tempPara);
+}
+
+function kelvinToCelsius(tempK) {
+  return parseInt(tempK) - 273.15;
+}
+
+function kelvinToFareneit(tempK) {
+  return parseInt(tempK) * (9/5) - 459.67;
+}
+
+function putErrorInCard() {
+  document.getElementById("weather-text").textContent = "owm fucked again";
 }
 
 function getEvents(nextDays) {
