@@ -11,10 +11,16 @@
     <meta name="theme-color" content="#512da8"> <!-- purple darken-2 on materialize-->
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Attempt to work with gapi -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src=javascripts/auth.js></script>
+
   </head>
 
 
   <body>
+
     <nav>
       <div class="nav-wrapper purple darken-2">
         <a href="#" class="brand-logo center">{{title}}</a>
@@ -27,12 +33,15 @@
       </div>
     </nav>
 
-    {{{body}}}
+
+    <div class=container>
 
 
+        {{{body}}}
 
+
+    </div>
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   </body>
 </html>
