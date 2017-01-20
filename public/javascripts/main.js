@@ -11,6 +11,7 @@ $(document).ready(function() {
   console.log(weatherItems);
 });
 
+//TODO move weather to separate js file
 function getWeather(days=5) {
   $.getJSON(portsWeather, function(data) {
     if (data.cod != 200) {
@@ -34,19 +35,22 @@ function putWeatherInCard() {
   const curTemp = kelvinToCelsius(todayWeather.main.temp);
   const minTemp = kelvinToCelsius(todayWeather.main.temp_min);
   const maxTemp = kelvinToCelsius(todayWeather.main.temp_max);
-  var weatherAnnonce = "Current Temp: "+ curTemp+" with lows of "+minTemp+" and highs of "+maxTemp;
+  const weatherAnnonce = "Current Temp: "+curTemp+" with lows of "+minTemp+" and highs of "+maxTemp;
+  const curAnnounce = "The sky is " + weatherDesc;
   var tempPara = document.createElement('p');
   var descPara = document.createElement('p');
   tempPara.textContent = weatherAnnonce;
+  descPara.textContent = curAnnounce;
   weatherArea.appendChild(tempPara);
+  weatherArea.appendChild(descPara);
 }
 
 function kelvinToCelsius(tempK) {
-  return parseInt(tempK) - 273.15;
+  return (parseInt(tempK) - 273.15).toFixed(2);
 }
 
 function kelvinToFareneit(tempK) {
-  return parseInt(tempK) * (9/5) - 459.67;
+  return (parseInt(tempK) * (9/5) - 459.67).toFixed(2);
 }
 
 function putErrorInCard() {

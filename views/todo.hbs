@@ -1,0 +1,22 @@
+<ul class="collapsible popout" data-collapsible="accordion">
+
+  <!--add conditional for crossed out or now -->
+  {{#each todos}}
+  <li>
+    <div class="collapsible-header">
+      {{title}}
+    </div>
+    <div class="collapsible-body">
+      <form action="#">
+        <p>
+          <input type="checkbox" id="test5" />
+          <label for="test5">{{desc}}</label>
+        </p>
+      </form>
+    </div>
+  </li>
+  {{/each}}
+</ul>
+
+
+<link rel=stylesheet href="public/stylesheets/todo.css">
