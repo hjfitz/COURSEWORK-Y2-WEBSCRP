@@ -1,0 +1,8 @@
+.todo-check {
+  float:right;
+  height:0;
+}
+
+.collapsible-body>p {
+  display:inline-block;
+}

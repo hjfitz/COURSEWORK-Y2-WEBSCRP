@@ -17,8 +17,8 @@ router.get('/budget', function(req,res,next) {
 router.get('/todo', function(req,res,next) {
   sqliteDB.all('select * from todo', function(err, todos) {
     res.render('todo', {
-      title: "todo",
-      todos: todos
+      "title": "todo",
+      "todos": todos
     });
   });
 });
