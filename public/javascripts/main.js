@@ -1,21 +1,28 @@
 const OWMAPIKEY = "bbc67f01cffb0e40951dbab4a4e69a87";
+const OWMPRE = "http://api.openweathermap.org/data/2.5/weather?q=Portsmouth";
+const OWMPOST = ",uk&appid=" + OWMAPIKEY;
+const PortsInfo = OWMPRE + "Portsmouth" + OWMPOST;
 const portsWeather = "http://api.openweathermap.org/data/2.5/forecast/city?id=2639996&APPID=bbc67f01cffb0e40951dbab4a4e69a87";
-let weatherItems = [];
+var weatherItems = [];
 
 $(document).ready(function() {
-  getWeather(6);
-  getEvents(5);
+  getWeather();
+//  getEvents(5);
+  console.log(weatherItems);
 });
 
-function getWeather(city, days=5) {
-  if (!city) {
-    $.getJSON(portsWeather, function(data) {
+function getWeather(days=5) {
+  $.getJSON(portsWeather, function(data) {
+    //console.log(data);
+    if (data.cod != 200) {
+      console.error("owm fucked again");
+    } else {
       let nextDays = data.list;
       for (let i=0;i<days;i++) {
         weatherItems.push(nextDays[i]);
       }
-    });
-  }
+    }
+  });
 }
 
 function getEvents(nextDays) {
