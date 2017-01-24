@@ -53,7 +53,7 @@ function getWeather(source="owm") {
           }
         }
       );
-    }
+    });
   }
 }
 
