@@ -5,12 +5,22 @@ const OWMPOST = ",uk&appid=" + OWMAPIKEY;
 const owmUrl = OWMPRE + city + OWMPOST;
 const portsWeather = "http://api.openweathermap.org/data/2.5/forecast/city?id=2639996&APPID=bbc67f01cffb0e40951dbab4a4e69a87";
 
-var coords = [];
 var weatherInfo = [];
+storeLocation();
+console.log(weatherInfo);
+function storeLocation() {
+  var pos;
+  navigator.geolocation.getCurrentPosition(function(position) {
+    pos = {
+      "latitude": position.coords.latitude,
+      "longitude": position.coords.longitude
+    }
+    weatherInfo.push(pos);
+  });
+  console.log(weatherInfo);
+}
 
 function getWeather(source="owm") {
-  //var loc = getLocation();
-  //console.log(Object.keys(loc));
   if (source === "owm") {
     $.getJSON(owmUrl, function(data) {
       if (data.cod != 200) {
@@ -76,11 +86,6 @@ function putWeatherInCard() {
   weatherArea.appendChild(descPara);
 }
 
-function getLocation() {
-  var coord = {}
-
-  return coord;
-}
 
 function kelvinToCelsius(tempK) {
   return (parseInt(tempK) - 273.15).toFixed(2);
