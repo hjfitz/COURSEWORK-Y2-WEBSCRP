@@ -12,3 +12,14 @@ body {
 a {
   color: #00B7FF;
 }
+
+#cal-contain {
+  z-index: 999999;
+  position:absolute;
+  right:0;
+
+}
+
+.hidden {
+  display:none;
+}

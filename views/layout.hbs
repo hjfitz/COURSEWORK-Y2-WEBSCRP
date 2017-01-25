@@ -28,9 +28,11 @@
           <li><a href="#">Recipe book</a></li>
           <li><a href="#">Budget config</a></li>
           <li><a href="#">Todos</a></li>
-          <li><a href="#">Thing 4</a></li>
+          <li id="cal-drop"><a href="#">Calendar</a></li>
         </ul>
       </div>
+      <div id="cal-contain" class="hidden"> <!-- temporary until calendar db is implemented -->
+<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=300&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=89d61hh5bupr6o5kcdu677ja24fonsf6%40import.calendar.google.com&ctz=Europe/London" style="border: 0" width="400" height="300" frameborder="0" scrolling="no"></iframe>      </div>
     </nav>
 
 
@@ -42,6 +44,6 @@
 
     </div>
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script type="text/javascript" src="bower_components/materialize/dist/js/materialize.js"></script>
   </body>
 </html>

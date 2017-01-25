@@ -45,6 +45,12 @@ The learning outcomes (as defined in the Unit Spec.) are:
   - Inspired by Pocket/Feedly. We'll see how this goes
 6. Todolist?
   - Because I can.
+7. Optional images
+  - Save source to DB
+    - Reddit (and sub)
+    - APOD
+    - ???
+  - Create loading icon
 
 ## Libraries in Mind
 - Express and Handlebars
