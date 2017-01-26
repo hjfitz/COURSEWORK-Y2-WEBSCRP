@@ -1,6 +1,6 @@
 <p></p>
 <div class="row">
-  <div class="col s12 m4">
+  <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Today's Recipe</span>
@@ -8,7 +8,7 @@
       </div>
     </div>
   </div>
-  <div class="col s12 m4">
+  <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Budget Status</span>
@@ -16,7 +16,9 @@
       </div>
     </div>
   </div>
-  <div class="col s12 m4">
+</div>
+<div class=row>
+  <div class="col s12 m6">
     <div class="card">
       <div id="weather-content" class="card-content">
         <span class="card-title">Weather</span>
@@ -24,17 +26,24 @@
       </div>
     </div>
   </div>
-</div>
-<div class=row>
-  <div class="col s12 m4">
+  <div class="col s12 m6">
     <div class="card">
-      <div class="card-content">
-        <span class="card-title">Latest News</span>
-        <p></p>
+      <div class="card-image">
+        <a id="news-image-link" href=#>
+          <img id=news-image src="images/loading.png">
+        </a>
+      </div>
+      <div id="news-content" class="card-content">
+        <span id="news-title" class="card-title"></span>
+      </div>
+      <div class="card-action">
+        <a id="news-link" href="#">Link</a>
       </div>
     </div>
   </div>
-  <div class="col s12 m4">
+</div>
+<div class=row>
+  <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Emails</span>
@@ -42,11 +51,13 @@
       </div>
     </div>
   </div>
-  <div class="col s12 m4">
+  <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Your Todos</span>
-        <p></p>
+          {{#each todos}}
+            <p>{{title}}</p>
+          {{/each}}
       </div>
     </div>
   </div>
@@ -58,12 +69,14 @@
         <a id=pic-link href="#">
           <img id=pic-image src="images/loading.png">
         </a>
+      </div>
+      <div class="card-content center">
         <span id=pic-text class="card-title">Picture of the day</span>
       </div>
     </div>
   </div>
 </div>
-<script type="text/javascript" src=javascripts/widgets/util.js></script>
+<script type="text/javascript" src=javascripts/widgets/news.js></script>
 <script type="text/javascript" src="javascripts/widgets/picture.js"></script>
 <script type="text/javascript" src="javascripts/widgets/weather.js"></script>
 <script type="text/javascript" src="javascripts/main.js"></script>

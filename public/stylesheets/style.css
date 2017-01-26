@@ -23,3 +23,15 @@ a {
 .hidden {
   display:none;
 }
+
+.warmWeather {
+  color:#B71C1C;
+}
+
+.coldWeather {
+  color: #0D47A1;
+}
+
+.dark {
+  background-color: #263238;
+}

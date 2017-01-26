@@ -1,49 +1,52 @@
 const OWMAPIKEY = "bbc67f01cffb0e40951dbab4a4e69a87";
-const OWMPRE = "http://api.openweathermap.org/data/2.5/weather?q=";
-var city = "Portsmouth";
-const OWMPOST = ",uk&appid=" + OWMAPIKEY;
-const owmUrl = OWMPRE + city + OWMPOST;
-const portsWeather = "http://api.openweathermap.org/data/2.5/forecast/city?id=2639996&APPID=bbc67f01cffb0e40951dbab4a4e69a87";
-
+var owm = "http://api.openweathermap.org/data/2.5/weather?lat=";
+var dsn = "https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/";
 var weatherInfo = {};
-var coords = []
+
 
 function getWeather(source="owm") {
-  var xhr = new XMLHttpRequest();
-  if (source === "owm") {
-    console.log("Using OWM!");
-    xhr.open('GET', owmUrl, true);
-    xhr.onload = function() {
-      console.log("working")
-      if (xhr.status === 200) {
-        data = JSON.parse(xhr.responseText);
-        if (data.cod !== 200) {
-          getWeather("dsn");
-        } else {
-          weatherInfo.min      = kelvinToCelsius(data.main.temp_min);
-          weatherInfo.max      = kelvinToCelsius(data.main.temp_max);
-          weatherInfo.avg      = kelvinToCelsius(data.main.temp);
-          weatherInfo.pressure = data.main.pressure;
-          weatherInfo.humidity = data.main.humidity;
-          weatherInfo.sunrise  = data.sys.sunrise; //parse me!
-          weatherInfo.sunset   = data.sys.sunset;
-          weatherInfo.desc     = data.weather[0].main;
-          putWeatherInCard();
-        }
-      } else  {
-        console.error("Error with owm");
-      }
-    }
-    xhr.send();
-  } else if (source === "dsn") {
-    console.warn("Falling back to darksky.net");
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      var dsn = "https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/" + pos.coords.latitude.toFixed(4) + "," + pos.coords.longitude.toFixed(4) +"?units=si";
-      xhr.open('GET', dsn, true);
+  let xhr = new XMLHttpRequest();
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    const COORDS = {
+      lat: pos.coords.latitude.toFixed(4),
+      lon: pos.coords.longitude.toFixed(4)
+    };
+    if (source === "owm") {
+      console.log("Using OWM!");
+      owm += COORDS.lat + "&lon=" + COORDS.lon + "&appid=" + OWMAPIKEY;
+      xhr.open('GET', owm, true);
       xhr.onload = function() {
         if (xhr.status === 200) {
-          console.log(weatherInfo);
           data = JSON.parse(xhr.responseText);
+          if (data.cod !== 200) {
+            getWeather("dsn");
+          } else {
+            weatherInfo.min      = kelvinToCelsius(data.main.temp_min);
+            weatherInfo.max      = kelvinToCelsius(data.main.temp_max);
+            weatherInfo.avg      = kelvinToCelsius(data.main.temp);
+            weatherInfo.pressure = data.main.pressure;
+            weatherInfo.humidity = data.main.humidity;
+            weatherInfo.sunrise  = data.sys.sunrise; //parse me!
+            weatherInfo.sunset   = data.sys.sunset;
+            weatherInfo.desc     = data.weather[0].main;
+            putWeatherInCard();
+          }
+        } else  {
+          console.error("Error with owm");
+        }
+      }
+      xhr.send();
+    } else if (source === "dsn") {
+      console.warn("Falling back to darksky.net for weather");
+      dsn += pos.coords.latitude.toFixed(4) + ",";
+      dsn +=pos.coords.longitude.toFixed(4) +"?units=si";
+      // darksky.net has a no access-control-header present
+      // rather than force the user to install a chrome extension
+      // we use jquery's $.ajax and json with padding as the datatype
+      $.ajax({
+        url: dsn,
+        dataType: 'jsonp',
+        success: function(data) {
           weatherInfo.min      = data.daily.data[0].temperatureMin;
           weatherInfo.max      = data.daily.data[0].temperatureMax;
           weatherInfo.avg      = data.currently.temperature;
@@ -54,10 +57,9 @@ function getWeather(source="owm") {
           weatherInfo.desc     = data.currently.summary;
           putWeatherInCard();
         }
-      }
-      xhr.send();
-    });
-  }
+      });
+    }
+  });
 }
 
 function putWeatherInCard() {
@@ -65,16 +67,35 @@ function putWeatherInCard() {
   const weatherArea = document.getElementById("weather-content");
   const weatherText = document.getElementById("weather-text");
   const weatherDesc = weatherInfo.desc;
+
   const curTemp = weatherInfo.avg + tempUnit;
   const minTemp = weatherInfo.min + tempUnit;
   const maxTemp = weatherInfo.max + tempUnit;
-  const weatherAnnonce = "Current Temp: "+curTemp+" with lows of "+minTemp+" and highs of "+maxTemp;
-  const curAnnounce = "The sky is " + weatherDesc;
-  var tempPara = document.createElement('p');
-  var descPara = document.createElement('p');
-  tempPara.textContent = weatherAnnonce;
-  descPara.textContent = curAnnounce;
+
+  let tempPara = document.createElement('p');
+  let minTempPara = document.createElement('p');
+  let maxTempPara = document.createElement('p');
+  let descPara = document.createElement('p');
+
+  let coldSpan = document.createElement('span');
+  let warmSpan = document.createElement('span');
+
+  coldSpan.classList = "coldWeather";
+  warmSpan.classList = "warmWeather";
+
+  coldSpan.textContent = minTemp;
+  warmSpan.textContent = maxTemp;
+
+  tempPara.textContent = "It's currently " + curTemp;
+  minTempPara.textContent = "Maximum temp is ";
+  maxTempPara.textContent = "Minimum temp is ";
+
+  minTempPara.appendChild(coldSpan);
+  maxTempPara.appendChild(warmSpan);
+  descPara.textContent = "It's " + weatherDesc.toLowerCase() + " outside.";
   weatherArea.appendChild(tempPara);
+  weatherArea.appendChild(minTempPara);
+  weatherArea.appendChild(maxTempPara);
   weatherArea.appendChild(descPara);
 }
 

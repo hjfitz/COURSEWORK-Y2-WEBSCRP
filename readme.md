@@ -51,6 +51,8 @@ The learning outcomes (as defined in the Unit Spec.) are:
     - APOD
     - ???
   - Create loading icon
+8. Time planner with timetable agenda and dynamic revision plans
+  - Replace calendar hover
 
 ## Libraries in Mind
 - Express and Handlebars
