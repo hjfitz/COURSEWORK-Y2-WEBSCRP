@@ -2,9 +2,16 @@
   "dbFile": "util/dashboard.db",
   "weatherProvider": "owm",
   "imageProvider": "NASA",
+  "imageProviders": [
+    "REDDIT", "NASA"
+  ],
   "nightmodeEnabled": true,
-  "newsProvider": "hn",
-  "imageSubs": [
+  "newsProvider": "HN",
+  "newsProviders": [
+    "BBCN", "BBCS", "HN"
+  ],
+  "redditSub": "cats",
+  "redditSubs": [
     "earthporn", "cats"
   ]
 }
