@@ -1,17 +1,22 @@
 {
   "dbFile": "util/dashboard.db",
-  "weatherProvider": "owm",
-  "imageProvider": "NASA",
-  "imageProviders": [
-    "REDDIT", "NASA"
-  ],
-  "nightmodeEnabled": true,
-  "newsProvider": "HN",
-  "newsProviders": [
-    "BBCN", "BBCS", "HN"
-  ],
-  "redditSub": "cats",
-  "redditSubs": [
-    "earthporn", "cats"
-  ]
+	"nightmodeEnabled": true,
+  "weather": {
+		"provider": "owm",
+		"providers": [ "owm", "dsn"]
+	},
+	"image": {
+		"provider": "NASA",
+		"providers": ["NASA", "REDDIT"]
+	},
+	"news": {
+		"provider": "HN",
+		"providers": ["BBCN", "BBCS", "HN"]
+	},
+	"reddit": {
+		"pic-sub": "aww",
+		"pic-subs": ["aww", "earthporn", "brutalism"],
+		"news-sub": "news",
+		"news-subs": ["news", "futurism"]
+	}
 }
