@@ -25,6 +25,8 @@ function goDayMode() {
 }
 
 $(document).ready(function() {
-  //getWeather();
-  getRedditPic();
+  getWeather();
+  // getBing();
+  // getRedditPic();
+  getAPOD();
 });

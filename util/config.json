@@ -1,3 +1,10 @@
 {
-  "dbFile": "util/dashboard.db"
+  "dbFile": "util/dashboard.db",
+  "weatherProvider": "owm",
+  "imageProvider": "NASA",
+  "nightmodeEnabled": true,
+  "newsProvider": "hn",
+  "imageSubs": [
+    "earthporn", "cats"
+  ]
 }
