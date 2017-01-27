@@ -30,7 +30,7 @@ function goDayMode() {
 
 $(document).ready(function() {
   getWeather();
-  getNews();
+  getNewNews();
   // getRedditPic();
   getAPOD();
 });

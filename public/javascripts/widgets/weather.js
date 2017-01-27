@@ -1,43 +1,34 @@
 const OWMAPIKEY = "bbc67f01cffb0e40951dbab4a4e69a87";
 var owm = "http://api.openweathermap.org/data/2.5/weather?lat=";
 var dsn = "https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/";
-var weatherInfo = {};
-
 
 function getWeather(source="owm") {
   let xhr = new XMLHttpRequest();
   navigator.geolocation.getCurrentPosition(function(pos) {
-    const COORDS = {
-      lat: pos.coords.latitude.toFixed(4),
-      lon: pos.coords.longitude.toFixed(4)
-    };
+    const COORDS =
+    {  lat: pos.coords.latitude.toFixed(4),
+       lon: pos.coords.longitude.toFixed(4) };
     if (source === "owm") {
-      console.log("Using OWM!");
+      console.log("Using OWM for weather.");
       owm += COORDS.lat + "&lon=" + COORDS.lon + "&appid=" + OWMAPIKEY;
-      xhr.open('GET', owm, true);
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          data = JSON.parse(xhr.responseText);
-          if (data.cod !== 200) {
-            getWeather("dsn");
-          } else {
-            weatherInfo.min      = kelvinToCelsius(data.main.temp_min);
-            weatherInfo.max      = kelvinToCelsius(data.main.temp_max);
-            weatherInfo.avg      = kelvinToCelsius(data.main.temp);
-            weatherInfo.pressure = data.main.pressure;
-            weatherInfo.humidity = data.main.humidity;
-            weatherInfo.sunrise  = data.sys.sunrise; //parse me!
-            weatherInfo.sunset   = data.sys.sunset;
-            weatherInfo.desc     = data.weather[0].main;
-            putWeatherInCard();
-          }
-        } else  {
-          console.error("Error with owm");
+      getJSON(owm, function(data) {
+        if (data.cod !== 200) {
+          getWeather("dsn");
+        } else {
+          let weatherInfo =
+          { "min"      : kelvinToCelsius(data.main.temp_min),
+            "max"      : kelvinToCelsius(data.main.temp_max),
+            "avg"      : kelvinToCelsius(data.main.temp),
+            "pressure" : data.main.pressure,
+            "humidity" : data.main.humidity,
+            "sunrise"  : data.sys.sunrise, //parse me!
+            "sunset"   : data.sys.sunset,
+            "desc"     : data.weather[0].main };
+          putWeatherInCard(weatherInfo);
         }
-      }
-      xhr.send();
+      });
     } else if (source === "dsn") {
-      console.warn("Falling back to darksky.net for weather");
+      console.warn("Falling back to darksky.net for weather.");
       dsn += pos.coords.latitude.toFixed(4) + ",";
       dsn +=pos.coords.longitude.toFixed(4) +"?units=si";
       // darksky.net has a no access-control-header present
@@ -47,22 +38,23 @@ function getWeather(source="owm") {
         url: dsn,
         dataType: 'jsonp',
         success: function(data) {
-          weatherInfo.min      = data.daily.data[0].temperatureMin;
-          weatherInfo.max      = data.daily.data[0].temperatureMax;
-          weatherInfo.avg      = data.currently.temperature;
-          weatherInfo.pressure = data.currently.pressure;
-          weatherInfo.humidity = data.currently.humidity;
-          weatherInfo.sunrise  = data.daily.data[0].sunriseTime;
-          weatherInfo.sunset   = data.daily.data[0].sunsetTime;
-          weatherInfo.desc     = data.currently.summary;
-          putWeatherInCard();
+          let weatherInfo =
+          { "min"      : data.daily.data[0].temperatureMin,
+            "max"      : data.daily.data[0].temperatureMax,
+            "avg"      : data.currently.temperature,
+            "pressure" : data.currently.pressure,
+            "humidity" : data.currently.humidity,
+            "sunrise"  : data.daily.data[0].sunriseTime,
+            "sunset"   : data.daily.data[0].sunsetTime,
+            "desc"     : data.currently.summary };
+          putWeatherInCard(weatherInfo);
         }
       });
     }
   });
 }
 
-function putWeatherInCard() {
+function putWeatherInCard(weatherInfo) {
   let tempUnit = "°C";
   const weatherArea = document.getElementById("weather-content");
   const weatherText = document.getElementById("weather-text");

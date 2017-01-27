@@ -11,27 +11,20 @@
 const NEWSAPIKEY = "&apiKey=7ebe193132874eb7980037010dc43400";
 const newsApiUrl = " https://newsapi.org/v1/articles?source=";
 let source = "bbc-news";
+let sources = ['bbc-news', 'hacker-news', 'national-geographic']
 const NEWSAPISORT = "&sortBy=latest";
-const NEWSAPIGET = newsApiUrl + source + NEWSAPIKEY;
-function getNews() {
-  let xhr = new XMLHttpRequest();
-  console.log(NEWSAPIGET);
-  xhr.open('GET', NEWSAPIGET, true);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      let data = JSON.parse(xhr.responseText);
-      let newsInfo = {
-        "newsPic": data.articles[0].urlToImage,
-        "desc": data.articles[0].description,
-        "title": data.articles[0].title,
-        "url": data.articles[0].url
-      };
-      putNewsInCard(newsInfo);
-    } else {
-      console.error("Error with API, url: " + NEWSAPIGET);
-    }
-  }
-  xhr.send();
+const NEWSAPIGET = newsApiUrl + sources[(Math.random() * 2).toFixed(0)] + NEWSAPIKEY;
+
+function getNewNews() {
+  getJSON(NEWSAPIGET, function(data) {
+    let newsInfo = {
+      "newsPic": data.articles[0].urlToImage,
+      "desc": data.articles[0].description,
+      "title": data.articles[0].title,
+      "url": data.articles[0].url
+    };
+    putNewsInCard(newsInfo);
+  });
 }
 
 function putNewsInCard(news) {
