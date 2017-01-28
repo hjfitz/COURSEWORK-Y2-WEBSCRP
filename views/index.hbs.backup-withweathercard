@@ -1,56 +1,4 @@
 <p></p>
-<div class=row>
-  <div class="col s12 m6">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Agenda</span>
-        <p></p>
-      </div>
-    </div>
-  </div>
-  <div class="col s12 m6">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Your Todos</span>
-        <ul class=collection>
-          {{#each todos}}
-          <!-- Need to remove from database upon swipe -->
-            <li class="collection-item dismissable">{{title}}</li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<div class=row>
-  <div class="col s12 m6">
-    <div class="card">
-      <div class="card-image">
-        <a id=pic-link href="#">
-          <img id=pic-image src="images/loading.png">
-        </a>
-      </div>
-      <div class="card-content center">
-        <span id=pic-text class="card-title truncate">Picture of the day</span>
-      </div>
-    </div>
-  </div>
-  <div class="col s12 m6">
-    <div class="card">
-      <div class="card-image">
-        <a id="news-image-link" href=#>
-          <img id=news-image src="images/loading.png">
-        </a>
-      </div>
-      <div id="news-content" class="card-content">
-        <span id="news-title" class="card-title truncate"></span>
-      </div>
-      <div class="card-action">
-        <a id="news-link" href="#">Link</a>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="row">
   <div class="col s12 m6">
     <div class="card">
@@ -69,23 +17,66 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col s12 m4 offset-m4">
-    <div class=card>
-      <div class="card-content center">
-        <span class=card-title>Night Mode</span>
-          <div class="switch">
-          <label>
-            Off
-            <input id="night-mode-toggle" type="checkbox">
-            <span class="lever"></span>
-            On
-          </label>
-        </div>
+<div class=row>
+  <div class="col s12 m6">
+    <div class="card">
+      <div id="weather-content" class="card-content">
+        <span class="card-title">Weather</span>
+        <p id="weather-text"></p>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-image">
+        <a id="news-image-link" href=#>
+          <img id=news-image src="images/loading.png">
+        </a>
+      </div>
+      <div id="news-content" class="card-content">
+        <span id="news-title" class="card-title"></span>
+      </div>
+      <div class="card-action">
+        <a id="news-link" href="#">Link</a>
       </div>
     </div>
   </div>
 </div>
+<div class=row>
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Emails</span>
+        <p></p>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Your Todos</span>
+          {{#each todos}}
+            <p>{{title}}</p>
+          {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12">
+    <div class="card">
+      <div class="card-image">
+        <a id=pic-link href="#">
+          <img id=pic-image src="images/loading.png">
+        </a>
+      </div>
+      <div class="card-content center">
+        <span id=pic-text class="card-title">Picture of the day</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src=javascripts/widgets/util.js></script>
 <script type="text/javascript" src=javascripts/widgets/news.js></script>
 <script type="text/javascript" src="javascripts/widgets/picture.js"></script>
 <script type="text/javascript" src="javascripts/widgets/weather.js"></script>

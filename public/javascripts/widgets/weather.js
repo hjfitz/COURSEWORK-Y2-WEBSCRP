@@ -2,19 +2,20 @@ const OWMAPIKEY = "bbc67f01cffb0e40951dbab4a4e69a87";
 var owm = "http://api.openweathermap.org/data/2.5/weather?lat=";
 var dsn = "https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/";
 
-function getWeather(source="owm") {
+function getWeather(source="owm", callback) {
   let xhr = new XMLHttpRequest();
   navigator.geolocation.getCurrentPosition(function(pos) {
     const COORDS =
     {  lat: pos.coords.latitude.toFixed(4),
        lon: pos.coords.longitude.toFixed(4) };
     if (source === "owm") {
-      console.log("Using OWM for weather.");
       owm += COORDS.lat + "&lon=" + COORDS.lon + "&appid=" + OWMAPIKEY;
       getJSON(owm, function(data) {
         if (data.cod !== 200) {
-          getWeather("dsn");
+          console.error("owm down, url: " + owm);
+          getWeather("dsn", callback);
         } else {
+          console.info("Using OWM for weather.");
           let weatherInfo =
           { "min"      : kelvinToCelsius(data.main.temp_min),
             "max"      : kelvinToCelsius(data.main.temp_max),
@@ -24,11 +25,11 @@ function getWeather(source="owm") {
             "sunrise"  : data.sys.sunrise, //parse me!
             "sunset"   : data.sys.sunset,
             "desc"     : data.weather[0].main };
-          putWeatherInCard(weatherInfo);
+          callback(weatherInfo);
         }
       });
     } else if (source === "dsn") {
-      console.warn("Falling back to darksky.net for weather.");
+      console.info("Falling back to darksky.net for weather.");
       dsn += pos.coords.latitude.toFixed(4) + ",";
       dsn +=pos.coords.longitude.toFixed(4) +"?units=si";
       // darksky.net has a no access-control-header present
@@ -47,7 +48,7 @@ function getWeather(source="owm") {
             "sunrise"  : data.daily.data[0].sunriseTime,
             "sunset"   : data.daily.data[0].sunsetTime,
             "desc"     : data.currently.summary };
-          putWeatherInCard(weatherInfo);
+          callback(weatherInfo);
         }
       });
     }

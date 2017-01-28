@@ -10,3 +10,7 @@ function getJSON(url, callback) {
   }
   xhr.send();
 }
+
+function hideElem(element) {
+  element.classList.toggle("hidden");
+}

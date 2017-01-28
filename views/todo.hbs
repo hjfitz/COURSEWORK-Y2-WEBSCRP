@@ -1,21 +1,59 @@
-<ul class="collapsible popout" data-collapsible="accordion">
-
-  <!--add conditional for crossed out or now -->
-  {{#each todos}}
-  <li>
-    <div class="collapsible-header">
-      {{title}}
+<div id="todo-add-form" class="row hidden">
+  <div class="card">
+    <div class="card-content">
+      <span class=card-title>Add A Todo</span>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="todo-title" type="text" class="materialize-textarea validate">
+              <label for="todo-title">Title</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+               <textarea id="todo-desc" class="materialize-textarea validate"></textarea>
+               <label for="textarea1">Description</label>
+            </div>
+          </div>
+       </form>
+     </div>
+     <div class=row>
+       <a id="todo-add-button" class="waves-effect waves-light btn">Add Todo</a>
+     </div>
+   </div>
+ </div>
+</div>
+<div class="row">
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">Your Todos</span>
+      <div class=row>
+        <ul class="collapsible popout" data-collapsible="accordion">
+          <!--add conditional for crossed out or now -->
+          {{#each todos}}
+          <li>
+            <div class="collapsible-header">
+              {{title}}
+            </div>
+            <div class="collapsible-body">
+              <p class="todo-desc">{{desc}}</p>
+              <form class="todo-check" action="#">
+                  <input type="checkbox" id="test5" />
+                  <label for="test5"></label>
+              </form>
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="row">
+        <a id="todo-form-show" class="waves-effect waves-light btn">Add Todo</a>
+      </div>
     </div>
-    <div class="collapsible-body">
-      <p class="todo-desc">{{desc}}</p>
-      <form class="todo-check" action="#">
-          <input type="checkbox" id="test5" />
-          <label for="test5"></label>
-      </form>
-    </div>
-  </li>
-  {{/each}}
-</ul>
+  </div>
+</div>
 
 
+<script type=text/javascript src=javascripts/todo/main.js></script>
 <link rel=stylesheet href="stylesheets/todo.css">
