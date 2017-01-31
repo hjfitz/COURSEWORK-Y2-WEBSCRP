@@ -5,6 +5,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const api = require('./routes/api');
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -18,6 +19,7 @@ app.set('view engine', 'hbs');
 // app.use( require('express-subdomain-handler')({ baseUrl: 'localhost', prefix: 'api', logger: true}) );
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,6 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(subdomain('api', api));
 app.use('/', index);
 app.use('/users', users);
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 //attempting to use express-subdomain-router
 // app.use(subdomain('api', api));
 
