@@ -34,7 +34,8 @@ function initTodo() {
   });
 }
 
-
-module.exports.init = init;
-module.exports.db = db;
-module.exports.initTodo = initTodo;
+module.exports = {
+  "init": init,
+  "db": db,
+  "initTodo": initTodo
+};

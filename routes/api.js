@@ -1,15 +1,21 @@
 const express = require('express');
-const router = express.Router();
-console.log("api loaded");
+const api = express.Router();
+const dbUtil = require('../util/db');
+const sqliteDB = dbUtil.db;
+const config = require('../util/config.json');
 
-router.get('/', function(req,res, next) {
-  res.send("Welcome to the API");
-});
-
-router.get('/user', function(req,res) {
-  res.json({
-    "cod": 200
+api.get('/todos', function(req, res, next) {
+  sqliteDB.all('select * from todo', function(err, todos) {
+    if (err)  {
+      res.send(err); //make a callback function to handle this
+    } else {
+      res.json(todos);
+    }
   });
 });
 
-module.exports = router;
+api.get('/config', function(req, res, next) {
+    res.json(config);
+});
+
+module.exports = api;

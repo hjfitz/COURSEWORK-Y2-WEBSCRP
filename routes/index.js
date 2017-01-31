@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const dbUtil = require('../util/db');
 const sqliteDB = dbUtil.db;
-console.log("main loaded");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   sqliteDB.all('select * from todo', function(err, todos) {
