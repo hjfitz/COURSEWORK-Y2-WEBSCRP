@@ -5,8 +5,15 @@ const sqliteDB = dbUtil.db;
 const config = require('../util/config.json');
 
 api.get('/', function(req, res, next) {
-  res.send("oioi");
+  res.send("Welcome to APIv1!");
 })
+
+
+/******************/
+/*                */
+/*   SERVER GET   */
+/*                */
+/******************/
 
 api.get('/todos', function(req, res, next) {
   sqliteDB.all('select * from todo', function(err, todos) {
@@ -21,6 +28,13 @@ api.get('/todos', function(req, res, next) {
 api.get('/config', function(req, res, next) {
     res.json(config);
 });
+
+
+/*******************/
+/*                 */
+/*   SERVER POST   */
+/*                 */
+/*******************/
 
 api.post('/add/todo', function(req, res, next) {
   console.log(req.body);
@@ -37,7 +51,6 @@ api.post('/add/todo', function(req, res, next) {
     } else {
       res.json({
         code:200,
-        errors:"",
         text: "Successfully inserted!",
         params: [
           req.body.title,

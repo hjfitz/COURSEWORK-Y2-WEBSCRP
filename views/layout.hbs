@@ -20,12 +20,7 @@
     <script src=javascripts/auth.js></script>-->
   </head>
   <body>
-    <ul id="dropdown1" class="dropdown-content">
-      <li class="weather-info"><a  id=weather-high href="#!"></a></li>
-      <li class="weather-info"><a  id=weather-low href="#!"></a></li>
-      <li class="divider"></li>
-      <li class="weather-info"><a  id=weather-description href="#!"></a></li>
-    </ul>
+
     <nav>
       <div class="nav-wrapper purple darken-2">
         <a href="/" id="main-logo" class="brand-logo center">{{title}}</a>
@@ -37,7 +32,7 @@
         </ul>
         <ul id="status" class="right hide-on-down">
           <li><a id=calinfo href="#">Calendar</a></li>
-          <li>
+          <li {{{weather}}}>
             <a id=weathinfo class="dropdown-button" href="#!" data-activates="dropdown1">Weather</a>
           </li>
           <li><a id=timeinfo href="#">Time:</a></li>

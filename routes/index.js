@@ -20,6 +20,7 @@ router.get('/todo', function(req,res,next) {
   sqliteDB.all('select * from todo', function(err, todos) {
     res.render('todo', {
       "title": "To-do List",
+      "weather": "class=hidden",
       "todos": todos,
       "todo": "class=active"
     });

@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('ws-cwk:server');
-var http = require('http');
-
+const app = require('../app');
+const debug = require('debug')('ws-cwk:server');
+const http = require('http');
+const https = require('https'); //TODO
 /**
  * Get port from environment and store in Express.
  */

@@ -4,10 +4,26 @@ const btnAddTodo = document.getElementById("todo-add-button");
 const todoTitleForm = document.getElementById("todo-title");
 const todoDescForm = document.getElementById("todo-desc");
 const forms = [todoTitleForm, todoDescForm];
+const optionButtons = document.getElementsByClassName("options-button");
+const dropdownMenus = document.getElementsByClassName("dropdown-content");
 
-btnHideUnhide.addEventListener("click", () => hideElem(hiddenTodoForm));
+$(document).ready(function() {
+  $(".dropdown-button").dropdown();
+  btnHideUnhide.addEventListener("click", () => hideElem(hiddenTodoForm));
+  btnAddTodo.addEventListener("click", parseTodoForm);
+  // console.log(optionButtons.length);
+  for (let i=0;i<optionButtons.length;i++) {
+    addDropdown(optionButtons[i], dropdownMenus[i], i);
+  }
+});
 
-btnAddTodo.addEventListener("click", parseTodoForm);
+function addDropdown(btn, dropdown, count) {
+  let newClass = "button" + count;
+  let newID = newClass;
+  dropdown.setAttribute('id', newID);
+  btn.setAttribute('data-activates', newClass);
+
+}
 
 function parseTodoForm() {
   let erroneousForms = [];
@@ -27,14 +43,16 @@ function parseTodoForm() {
 }
 
 function parseSuccess() {
-  let dbInput =
-    {
-      "title": forms[0].value,
-      "desc":  forms[1].value
-    };
+  let dbInput = {
+    "title": forms[0].value,
+    "desc":  forms[1].value
+  };
 
   const url = "http://api.webscrp.dev:8000/add/todo"; //TODO
-  $.post(url, dbInput, (data) => console.log(data) );
+  $.post(url, dbInput, function(data) {
+    console.log(data);
+    location.reload();
+  });
   // let xhr = new XMLHttpRequest();
   // xhr.open('POST', url, true);
   // xhr.onload = function() {

@@ -51,3 +51,15 @@ a {
   background-color:#7B1FA2;
   color:white;
 }
+
+.options-button {
+  color:#000;
+  float:right!important;
+  height:100%;
+  width: 40px;
+  z-index:9999;
+}
+
+.todo-desc {
+  width: 100%;
+}
