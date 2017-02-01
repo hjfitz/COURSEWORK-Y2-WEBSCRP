@@ -64,3 +64,15 @@ The learning outcomes (as defined in the Unit Spec.) are:
   - [shepherd](http://github.hubspot.com/shepherd/docs/welcome/)
 - SQLITE/MySQL
   - Depends on the size of the file required.
+
+## Requirements and setup
+- Because express-subdomain is hacky, you need to set up your hosts file correctly. Assuming you wish to access the application from webscrp.dev:
+  - Note: should probably add this as a script in package.json
+```bash
+echo "127.0.0.1 webscrp.dev" >> /etc/hosts
+echo "172.0.0.1 api.webscrp.dev" >> /etc/hosts
+```
+**THE API WILL NOT WORK UNLESS YOU COMPLETE THIS STEP**
+- Firefox and Chrom**ium** are the web browsers that this has been tested to work on.
+	- It's been tested on both Ubuntu and Fedora linux.
+

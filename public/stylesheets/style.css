@@ -63,3 +63,12 @@ a {
 .todo-desc {
   width: 100%;
 }
+
+#edit-input {
+  z-index:999;
+  position:absolute;
+  top: 25%;
+  left:25%;
+  width: 100vw;
+  height: 100vh;
+}

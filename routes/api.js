@@ -16,7 +16,7 @@ api.get('/', function(req, res, next) {
 /******************/
 
 api.get('/todos', function(req, res, next) {
-  sqliteDB.all('select * from todo', function(err, todos) {
+  sqliteDB.all('select rowid, * from todo', function(err, todos) {
     if (err)  {
       res.send(err); //make a callback function to handle this
     } else {

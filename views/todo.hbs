@@ -32,7 +32,7 @@
         <ul class="collapsible" data-collapsible="accordion">
           <!--add conditional for crossed out or now -->
           {{#each todos}}
-          <ul class="dropdown-content options-dropdown">
+          <ul data-rowinfo='{ "rowid":"{{rowid}}", "title":"{{title}}", "desc":"{{desc}}" }' class="dropdown-content options-dropdown">
             <li><a href="#!">Edit</a></li>
             <li><a href="#!">Delete</a></li>
           </ul>
@@ -53,7 +53,36 @@
     </div>
   </div>
 </div>
-
+<div id="page-shadow">
+  <!--do something with me-->
+</div>
+<div id=edit-input class="row hidden">
+    <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+  <div class="col s12 m6">
+    <div class=card>
+      <div class=card-content>
+        <span id=todo-edit class=card-title>Edit A Todo</span>
+        <div class=row>
+        <form class="col s12">
+          <div class=row>
+            <div class="input-field col s6">
+              <input id="title" type="text" class="validate">
+              <label for="title">Title</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="desc" type="text" class="validate">
+              <label for="desc">Description</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <button class="btn waves-effect waves-light right" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type=text/javascript src=javascripts/todo/main.js></script>
 <link rel=stylesheet href="stylesheets/todo.css">

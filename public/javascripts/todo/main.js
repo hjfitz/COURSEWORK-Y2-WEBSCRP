@@ -6,12 +6,12 @@ const todoDescForm = document.getElementById("todo-desc");
 const forms = [todoTitleForm, todoDescForm];
 const optionButtons = document.getElementsByClassName("options-button");
 const dropdownMenus = document.getElementsByClassName("dropdown-content");
+const editForm = document.getElementById("edit-input");
 
 $(document).ready(function() {
   $(".dropdown-button").dropdown();
   btnHideUnhide.addEventListener("click", () => hideElem(hiddenTodoForm));
   btnAddTodo.addEventListener("click", parseTodoForm);
-  // console.log(optionButtons.length);
   for (let i=0;i<optionButtons.length;i++) {
     addDropdown(optionButtons[i], dropdownMenus[i], i);
   }
@@ -22,7 +22,26 @@ function addDropdown(btn, dropdown, count) {
   let newID = newClass;
   dropdown.setAttribute('id', newID);
   btn.setAttribute('data-activates', newClass);
+  //add delete/edit event listeners to dropdown
+  enableDeleteEdit(dropdown);
+}
 
+function enableDeleteEdit(dropdown) {
+  let dropChildren = dropdown.children;
+  let buttons = {
+     edit: dropChildren[0],
+     delete: dropChildren[1]
+  };
+  buttons.edit.addEventListener('click', (ev) => changeTodo(ev));
+  buttons.delete.addEventListener('click', (ev) => changeTodo(ev));
+}
+
+function changeTodo(event) {
+  let type = event.target.textContent;
+  let rowinfo = JSON.parse(event.currentTarget.parentElement.dataset.rowinfo);
+  if (type === "Edit") {
+    editForm.classList.toggle("hidden");
+  }
 }
 
 function parseTodoForm() {
