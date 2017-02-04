@@ -53,6 +53,7 @@ The learning outcomes (as defined in the Unit Spec.) are:
   - Create loading icon
 8. Time planner with timetable agenda and dynamic revision plans
   - Replace calendar hover
+9. Make the UI fit the dimensions of a TV screen/dashboard/mirror(?)
 
 ## Libraries in Mind
 - Express and Handlebars
@@ -75,4 +76,3 @@ echo "172.0.0.1 api.webscrp.dev" >> /etc/hosts
 **THE API WILL NOT WORK UNLESS YOU COMPLETE THIS STEP**
 - Firefox and Chrom**ium** are the web browsers that this has been tested to work on.
 	- It's been tested on both Ubuntu and Fedora linux.
-

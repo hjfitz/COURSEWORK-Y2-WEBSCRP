@@ -16,6 +16,7 @@ $(document).ready(function() {
   getNewNews();
   // getRedditPic();
   getAPOD();
+  // getBing();
   // getUserPreferences
   // make a call to api. /config and save to localStorage
 });

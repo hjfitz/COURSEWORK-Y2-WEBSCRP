@@ -29,3 +29,12 @@ function toggleNightMode() {
   });
   document.body.classList.toggle("dark");
 }
+
+function inArr(item, arr) {
+  arr.forEach(function(entry) {
+    if (item == entry) {
+      return true;
+    }
+  });
+  return false;
+}

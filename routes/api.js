@@ -36,7 +36,7 @@ api.get('/config', function(req, res, next) {
 /*                 */
 /*******************/
 
-api.post('/add/todo', function(req, res, next) {
+api.post('/todo/add', function(req, res, next) {
   console.log(req.body);
   sqliteDB.run('INSERT INTO todo (title, desc) VALUES ($title, $desc)', {
     $title: req.body.title,
@@ -56,6 +56,28 @@ api.post('/add/todo', function(req, res, next) {
           req.body.title,
           req.body.desc
         ]
+      });
+    }
+  });
+});
+
+api.post('/todo/edit', function(req,res,next) {
+  sqliteDB.run('UPDATE TODO set title = $title, desc = $desc where rowid = $rowid', {
+    $rowid: req.body.rowid,
+    $title: req.body.title,
+    $desc: req.body.desc
+  }, function(err) {
+    if (err) {
+      console.error("Error with POST on /todo/edit: " + err);
+      res.json({
+        code:500,
+        errors: err
+      });
+    } else {
+      res.json({
+        code:200,
+        text: "Successfully updated!",
+        params: req.body
       });
     }
   });
