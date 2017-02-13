@@ -8,4 +8,5 @@ echo "Attempting to backup hosts file..."
 cp /etc/hosts .hosts.bak
 echo "127.0.0.1   webscrp.dev" >> /etc/hosts
 echo "127.0.0.1   api.webscrp.dev" >> /etc/hosts
-echo "Setup complete."
+echo "Hosts file updated. Backedup as .hosts.bak."
+

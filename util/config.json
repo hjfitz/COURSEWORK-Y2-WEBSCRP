@@ -1,22 +1,29 @@
 {
-  "dbFile": "util/dashboard.db",
-	"nightmodeEnabled": true,
-  "weather": {
-		"provider": "owm",
-		"providers": [ "owm", "dsn"]
-	},
-	"image": {
-		"provider": "NASA",
-		"providers": ["NASA", "REDDIT"]
-	},
-	"news": {
-		"provider": "HN",
-		"providers": ["BBCN", "BBCS", "HN"]
-	},
-	"reddit": {
-		"pic-sub": "aww",
-		"pic-subs": ["aww", "earthporn", "brutalism"],
-		"news-sub": "news",
-		"news-subs": ["news", "futurism"]
-	}
+  "server": {
+    "dbFile": "util/dashboard.db"
+  },
+  "client": {
+  	"nightmodeEnabled": false,
+    "weather": {
+  		"provider": "owm",
+  		"providers": [ "owm", "dsn"]
+  	},
+  	"image": {
+  		"provider": "NASA",
+  		"providers": ["NASA", "REDDIT"]
+  	},
+  	"news": {
+  		"provider": "random",
+  		"providers": ["bbc-news", "hacker-news", "national-geographic"]
+  	},
+  	"reddit": {
+  		"pic-sub": "aww",
+  		"pic-subs": ["aww", "earthporn", "brutalism"],
+  		"news-sub": "news",
+  		"news-subs": ["news", "futurism"]
+  	},
+    "layout": {
+
+    }
+  }
 }

@@ -1,5 +1,5 @@
 
-let nightMode = false;
+// let nightMode = false;
 
 function toggleHiddenCal() {
   calContainer.classList.toggle("hidden");
@@ -14,8 +14,8 @@ $(document).ready(function() {
   startTime();
   getWeather("owm", (data) => putWeatherInStatus(data));
   getNewNews();
-  // getRedditPic();
-  getAPOD();
+  getRedditPic();
+  // getAPOD();
   // getBing();
   // getUserPreferences
   // make a call to api. /config and save to localStorage

@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const config = require('./config.json');
-const db = new sqlite3.Database(config.dbFile);
+const db = new sqlite3.Database(config.server.dbFile);
 
 //check if the program's been run before
 function init()  {
