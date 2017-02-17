@@ -1,30 +1,19 @@
-const btnHideUnhide = document.getElementById("todo-form-show");
-const hiddenTodoForm = document.getElementById("todo-add-form");
-const btnAddTodo = document.getElementById("todo-add-button");
-const todoTitleForm = document.getElementById("todo-title");
-const todoDescForm = document.getElementById("todo-desc");
-const forms = [todoTitleForm, todoDescForm];
-const optionButtons = document.getElementsByClassName("options-button");
-const dropdownMenus = document.getElementsByClassName("dropdown-content");
-const editForm = document.getElementById("edit-input");
-const editBtn = document.getElementById("edit-button");
-const descBox = document.getElementById("desc");
-const titleBox = document.getElementById("title");
-const pageShadow = document.getElementById("page-shadow");
-let editId = 0;
+const btnHideUnhide = document.getElementById('todo-form-show')
+const hiddenTodoForm = document.getElementById('todo-add-form')
+const btnAddTodo = document.getElementById('todo-add-button')
+const todoTitleForm = document.getElementById('todo-title')
+const todoDescForm = document.getElementById('todo-desc')
+const forms = [todoTitleForm, todoDescForm]
+const optionButtons = document.getElementsByClassName('options-button')
+const dropdownMenus = document.getElementsByClassName('dropdown-content')
+const editForm = document.getElementById('edit-input')
+const editBtn = document.getElementById('edit-button')
+const descBox = document.getElementById('desc')
+const titleBox = document.getElementById('title')
+const pageShadow = document.getElementById('page-shadow')
+let editId = 0
 
-$(document).ready(function() {
-  $(".dropdown-button").dropdown();
-  pageShadow.addEventListener("click", toggleEdit);
-  btnHideUnhide.addEventListener("click", () => hideElem(hiddenTodoForm));
-  editBtn.addEventListener("click", postEdits);
-  btnAddTodo.addEventListener("click", parseTodoForm);
-  for (let i=0;i<optionButtons.length;i++) {
-    addDropdown(optionButtons[i], dropdownMenus[i], i);
-  }
-});
-
-function addDropdown(btn, dropdown, count) {
+function addDropdown (btn, dropdown, count) {
   let newClass = "button" + count;
   let newID = newClass;
   dropdown.setAttribute('id', newID);
@@ -72,32 +61,32 @@ function parseTodoForm() {
   }
 }
 
-function postEdits() {
+function postEdits () {
   let changedInfo = {
-    rowid:editId,
+    rowid: editId,
     title: titleBox.value,
     desc: descBox.value
   };
-  console.log(changedInfo);
+  console.log(changedInfo)
   //create dynamically
-  const url = "http://api.webscrp.dev:8000/todo/edit";
+  const url = 'http://api.webscrp.dev:8000/todo/edit'
   $.post(url, changedInfo, function(data) {
     if (data.code === 200) {
-      toggleEdit();
-      location.reload();
+      toggleEdit()
+      location.reload()
       //fix this with the api
       //brings up the question: should I fill the page with handlebars for the initial load?
     } else {
-      console.error("Issue with updating.");
+      console.error('Issue with updating.')
     }
   });
 }
 
-function toggleEdit() {
-  pageShadow.classList.toggle("hidden");
-  editForm.classList.toggle("hidden");
+function toggleEdit () {
+  pageShadow.classList.toggle('hidden')
+  editForm.classList.toggle('hidden')
 }
-function parseSuccess() {
+function parseSuccess () {
   let dbInput = {
     "title": forms[0].value,
     "desc":  forms[1].value
@@ -116,3 +105,14 @@ function parseSuccess() {
   // }
   // xhr.send();
 }
+
+$(document).ready( function () {
+  $(".dropdown-button").dropdown();
+  pageShadow.addEventListener('click', toggleEdit)
+  btnHideUnhide.addEventListener('click', () => hideElem(hiddenTodoForm))
+  editBtn.addEventListener('click', postEdits)
+  btnAddTodo.addEventListener('click', parseTodoForm)
+  for (let i = 0; i < optionButtons.length; i++) {
+    addDropdown(optionButtons[i], dropdownMenus[i], i)
+  }
+})

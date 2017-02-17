@@ -1,0 +1,8 @@
+.todo-wrapper {
+  height:100vh;
+  display:grid;
+  grid-template-areas: "todo-area"
+                       "add-area"
+                       "edit-area";
+  grid-template-rows: 1fr 100px 200px;
+}

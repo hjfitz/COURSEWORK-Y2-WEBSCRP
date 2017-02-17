@@ -27,6 +27,17 @@ router.get('/todo', function(req,res,next) {
   });
 });
 
+
+router.get('/todo-v2', function (req,res,next) {
+  res.render('todoMin', {
+    "title": "To-do List Version 2",
+    "weather": "class=hidden",
+    "todo": "class=active"
+  });
+});
+
+
+
 router.get('/news', function(req,res,next) {
   res.render('news', {
     "title": "News",
