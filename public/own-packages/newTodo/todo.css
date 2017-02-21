@@ -1,8 +1,11 @@
-#todo-wrapper {
+/*#todo-wrapper {
   height:100vh;
   display:grid;
   grid-template-areas: "add-area"
-                       "todo-area"
-                       "edit-area";
-  grid-template-rows: 1fr 100px 200px;
+                       "todo-area";
+  grid-template-rows: 1fr 100px;
+}*/
+
+.area {
+  padding:2em 0;
 }

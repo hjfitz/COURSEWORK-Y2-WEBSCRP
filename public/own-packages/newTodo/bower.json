@@ -1,0 +1,18 @@
+{
+  "name": "todo-webscrp-780461",
+  "authors": [
+    "780461 <up780461@myport.ac.uk>"
+  ],
+  "description": "todo webapp for express + handlebars",
+  "main": "todo.js",
+  "license": "GPL",
+  "homepage": "https://github.com/hjfitz/todo-webscrp",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ]
+}

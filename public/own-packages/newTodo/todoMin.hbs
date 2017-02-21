@@ -1,0 +1,35 @@
+
+<div id='todo-wrapper' class='card'>
+
+  <div class='card-content'>
+    <span class='card-title'>{{title}}</span>
+
+
+    <div id='todo-area' class='area'>
+  	</div>
+
+    <div id='add-area' class='area'>
+      <span class='card-title'>Add/Edit</span>
+      <form class='col s12'>
+        <div class='row'>
+          <div class='input-field col s12'>
+            <input id='todo-title' type='text' class='materialize-textarea validate'>
+            <label for='todo-title'>Title</label>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='input-field col s12'>
+             <textarea id='todo-desc' class='materialize-textarea validate'></textarea>
+             <label for='textarea1'>Description</label>
+          </div>
+        </div>
+     </form>
+     <a id='todo-add-button' class='waves-effect waves-light btn green'>Add Todo</a>
+     <a id='todo-edit-button' class='waves-effect waves-light btn'>Edit Todo</a>
+    </div>
+
+  </div>
+</div>
+
+<script type='text/javascript' src='own-packages/newTodo/todo.js'></script>
+<link rel='stylesheet' href='own-packages/newTodo/todo.css'>
