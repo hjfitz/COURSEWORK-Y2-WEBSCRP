@@ -9,3 +9,28 @@
 .area {
   padding:2em 0;
 }
+
+body {
+  overflow-x:hidden;
+}
+
+.todo-check {
+  float:right;
+  height:0;
+}
+
+.collapsible-body>p {
+  display:inline-block;
+}
+
+.options-button {
+  color:#000;
+  float:right!important;
+  height:100%;
+  width: 40px;
+  z-index:9999;
+}
+
+.todo-desc {
+  width: 100%;
+}

@@ -24,7 +24,7 @@
 ]
 ```
 - Point your router to render the page, wherever you have stored it:
-```handlebars
+```javascript
 router.get('/todo', function(req,res,next) {
   res.render('../bower_plugins/todo-780461-webscrp/todoMin', {
     "title": "todo"
