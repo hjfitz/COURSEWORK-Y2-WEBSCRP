@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  const nightSwitch = document.getElementById("night-mode-toggle");
-  nightSwitch.addEventListener("click", toggleNightMode);
+  // const nightSwitch = document.getElementById("night-mode-toggle");
+  // nightSwitch.addEventListener("click", toggleNightMode);
 
 });
 

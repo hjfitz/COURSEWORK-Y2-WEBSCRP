@@ -4,10 +4,13 @@ const mainArea = document.getElementById('todo-area')
 const addArea = document.getElementById('add-area')
 const addButton = document.getElementById('todo-add-button')
 const titleBox = document.getElementById('todo-title')
-const descBoc = document.getElementById('todo-desc')
+const descBox = document.getElementById('todo-desc')
+const editButton = document.getElementById('todo-edit-button')
 const forms = [titleBox, descBox];
+var rowID = -1;
 
 addButton.addEventListener('click', parseTodoForm);
+editButton.addEventListener('click', () => { parseTodoForm(PUTTodo) } );
 
 function getTodos () {
   let xhr = new XMLHttpRequest();
@@ -43,6 +46,8 @@ function putTodosInPage (todos) {
 
     optContainer.classList = "dropdown-content options-dropdown";
     optContainer.id = "todo" + i;
+    optContainer.dataset.todo = JSON.stringify(todo);
+
 
     triggerButton.setAttribute('data-activates', optContainer.id);
     triggerButton.classList = "options-button dropdown-button";
@@ -50,6 +55,8 @@ function putTodosInPage (todos) {
     triggerButton.href = '#';
 
     editA.textContent = "Edit";
+    editA.addEventListener('click', editTodo);
+
     delA.textContent = "Delete";
 
     editBtn.appendChild(editA);
@@ -57,7 +64,6 @@ function putTodosInPage (todos) {
 
     optContainer.appendChild(editBtn);
     optContainer.appendChild(delBtn);
-    optContainer.dataset.datajson = JSON.stringify(todo);
 
     titleContainer.classList = 'collapsible-header';
     descContainer.classList = 'collapsible-body';
@@ -80,7 +86,7 @@ function putTodosInPage (todos) {
   mainArea.appendChild(todoList);
 }
 
-function parseTodoForm() {
+function parseTodoForm(restFunc) {
   let erroneousForms = [];
   forms.forEach((form) => {
     if (form.value.length === 0) {
@@ -91,7 +97,10 @@ function parseTodoForm() {
     }
   });
   if (erroneousForms.length === 0) {
-    POSTTodo()
+    let newTodo = { "rowid": rowID,
+                    "title": titleBox.value,
+                    "desc": descBox.value };
+    restFunc(newTodo);
   }
 }
 
@@ -100,6 +109,34 @@ function POSTTodo() {
   let desc = descBox.value;
   //TOOD
   // $.post()
-  }
+}
+
+function PUTTodo(todo) {
+  $.ajax({
+    type:"PUT",
+    url: "http://api.webscrp.dev:8000/todos/" + todo.rowid,
+    data: todo,
+    success: function(data) {
+      if (data.code === 200) {
+        getTodos();
+        $('.collapsible').collapsible();
+      }
+    }
+  });
+}
+
+function editTodo(event) {
+    editButton.classList = "waves-effect waves-light btn";
+    //there *needs* to be a more elegant way of fixing this
+    let todoInfo = JSON.parse(event.target.parentElement.parentElement.dataset.todo);
+    //put the information in the page
+    rowID = todoInfo.rowid;
+    titleBox.value = todoInfo.title;
+    descBox.textContent = todoInfo.desc;
+    console.log(todoInfo);
+}
+
+
 
 getTodos();
+$('.collapsible').collapsible();

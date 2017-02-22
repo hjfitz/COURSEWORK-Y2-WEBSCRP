@@ -37,6 +37,7 @@ app.use('*.hbs', function(req, res, next) {
   var err = new Error('Forbidden');
   err.status = 403;
   res.send(err);
+  next();
 })
 
 /*
