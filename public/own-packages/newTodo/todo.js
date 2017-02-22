@@ -2,6 +2,12 @@ const wrapper = document.getElementById('todo-wrapper')
 const editArea = document.getElementById('edit-area')
 const mainArea = document.getElementById('todo-area')
 const addArea = document.getElementById('add-area')
+const addButton = document.getElementById('todo-add-button')
+const titleBox = document.getElementById('todo-title')
+const descBoc = document.getElementById('todo-desc')
+const forms = [titleBox, descBox];
+
+addButton.addEventListener('click', parseTodoForm);
 
 function getTodos () {
   let xhr = new XMLHttpRequest();
@@ -35,7 +41,6 @@ function putTodosInPage (todos) {
 
     let triggerButton = document.createElement('a');
 
-    optContainer.dataset.datajson = JSON.stringify(todo);
     optContainer.classList = "dropdown-content options-dropdown";
     optContainer.id = "todo" + i;
 
@@ -52,6 +57,7 @@ function putTodosInPage (todos) {
 
     optContainer.appendChild(editBtn);
     optContainer.appendChild(delBtn);
+    optContainer.dataset.datajson = JSON.stringify(todo);
 
     titleContainer.classList = 'collapsible-header';
     descContainer.classList = 'collapsible-body';
@@ -74,5 +80,26 @@ function putTodosInPage (todos) {
   mainArea.appendChild(todoList);
 }
 
+function parseTodoForm() {
+  let erroneousForms = [];
+  forms.forEach((form) => {
+    if (form.value.length === 0) {
+      erroneousForms.push(form);
+      form.classList = "materialize-textarea validate invalid";
+    } else {
+      form.classList = "materialize-textarea validate valid";
+    }
+  });
+  if (erroneousForms.length === 0) {
+    POSTTodo()
+  }
+}
+
+function POSTTodo() {
+  let title = titleBox.value;
+  let desc = descBox.value;
+  //TOOD
+  // $.post()
+  }
 
 getTodos();
