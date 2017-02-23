@@ -27,6 +27,10 @@ api.get('/todos', function(req, res, next) {
   });
 });
 
+/*
+ * changes a todo (idempotent!) depending on the ID given
+ * takes information from the body and changes, using a simple update query
+ */
 api.put('/todos/:id', function(req,res,next) {
   console.log(req.params.id);
   console.log(req.body.title);
@@ -52,7 +56,7 @@ api.put('/todos/:id', function(req,res,next) {
   });
 });
 
-api.post('/todo/add', function(req, res, next) {
+api.post('/todos', function(req, res, next) {
   console.log(req.body);
   sqliteDB.run('INSERT INTO todo (title, desc) VALUES ($title, $desc)', {
     $title: req.body.title,
@@ -72,6 +76,26 @@ api.post('/todo/add', function(req, res, next) {
           req.body.title,
           req.body.desc
         ]
+      });
+    }
+  });
+});
+
+api.delete('/todos/:id', function(req,res,next) {
+  console.log(req.params.id);
+  sqliteDB.run('DELETE FROM todo WHERE rowid=$rowid', {
+    $rowid: req.params.id
+  }, function(err) {
+    if (err) {
+      console.error("DELETE on /add/todo failed: " + err);
+      res.json({
+        code:500,
+        errors: err
+      });
+    } else {
+      res.json({
+        code:200,
+        text: "Successfully deleted"
       });
     }
   });

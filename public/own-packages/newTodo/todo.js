@@ -9,7 +9,7 @@ const editButton = document.getElementById('todo-edit-button')
 const forms = [titleBox, descBox];
 var rowID = -1;
 
-addButton.addEventListener('click', parseTodoForm);
+addButton.addEventListener('click', () => { parseTodoForm(POSTTodo) } );
 editButton.addEventListener('click', () => { parseTodoForm(PUTTodo) } );
 
 function getTodos () {
@@ -58,6 +58,7 @@ function putTodosInPage (todos) {
     editA.addEventListener('click', editTodo);
 
     delA.textContent = "Delete";
+    delA.addEventListener('click', delTodo);
 
     editBtn.appendChild(editA);
     delBtn.appendChild(delA);
@@ -84,6 +85,7 @@ function putTodosInPage (todos) {
     i++;
   });
   mainArea.appendChild(todoList);
+  $('.collapsible').collapsible();
 }
 
 function parseTodoForm(restFunc) {
@@ -97,35 +99,53 @@ function parseTodoForm(restFunc) {
     }
   });
   if (erroneousForms.length === 0) {
-    let newTodo = { "rowid": rowID,
-                    "title": titleBox.value,
-                    "desc": descBox.value };
+    let newTodo = {
+      "rowid": rowID,
+      "title": titleBox.value,
+      "desc": descBox.value
+    };
     restFunc(newTodo);
+    getTodos();
+    clearForms();
   }
 }
 
-function POSTTodo() {
-  let title = titleBox.value;
-  let desc = descBox.value;
-  //TOOD
-  // $.post()
+function POSTTodo(todo) {
+  console.log("POST invoked");
+  $.post('http://api.webscrp.dev:8000/todos', {
+    "title": todo.title,
+    "desc": todo.desc
+  });
 }
 
 function PUTTodo(todo) {
+  console.log("PUT invoked");
   $.ajax({
     type:"PUT",
     url: "http://api.webscrp.dev:8000/todos/" + todo.rowid,
-    data: todo,
-    success: function(data) {
-      if (data.code === 200) {
-        getTodos();
-        $('.collapsible').collapsible();
-      }
-    }
+    data: todo
+  });
+  addButton.classList.toggle('hidden'); //obviously this is a bit hacky and won't work every time (assume oyu press edit on multiple todos)
+}
+
+function delTodo(event) {
+  let rowID = JSON.parse(event.target.parentElement.parentElement.dataset.todo).rowid;
+  console.log(rowID);
+  $.ajax({
+    type:"DELETE",
+    url: "http://api.webscrp.dev:8000/todos/" + rowID
+  });
+  getTodos();
+}
+
+function clearForms() {
+  forms.forEach( (form) => {
+    form.value = "";
   });
 }
 
 function editTodo(event) {
+    addButton.classList.toggle('hidden');
     editButton.classList = "waves-effect waves-light btn";
     //there *needs* to be a more elegant way of fixing this
     let todoInfo = JSON.parse(event.target.parentElement.parentElement.dataset.todo);
@@ -138,5 +158,5 @@ function editTodo(event) {
 
 
 
-getTodos();
-$('.collapsible').collapsible();
+  getTodos();
+  // $('.collapsible').collapsible();
