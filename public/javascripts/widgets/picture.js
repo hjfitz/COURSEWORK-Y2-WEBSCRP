@@ -1,6 +1,6 @@
-const APODAPIKEY = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3";
-let subreddit = "funny";
-const REDDITURL = "https://www.reddit.com/r/" + subreddit + "/top/.json";
+const APODAPIKEY = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3"
+let subreddit = "funny"
+const REDDITURL = "https://www.reddit.com/r/" + subreddit + "/top/.json"
 
 function getAPOD() {
   getJSON(APODAPIKEY, function(data) {
@@ -14,7 +14,6 @@ function getAPOD() {
   });
 }
 
-//TODO fri 03 feb
 function getRedditPic() {
   getJSON(REDDITURL, function(data) {
     //random number for entry - constant length 25 thanks to reddit api
@@ -28,15 +27,10 @@ function getRedditPic() {
       currentPost = picList[randomPost];
       let postUrl = "http://www.reddit.com" + currentPost.data.permalink;
       let imgUrl = currentPost.data.url;
-
-
-      console.log(currentPost.data.url);
-      console.log(imgUrl.match(/\.(jpeg|jpg|gif|png)$/) != null);
-      if (imgUrl.match(/\.(jpeg|jpg|gif|png)$/) != null) {
-        notImage = false;
-      }
+      console.log(imgUrl)
+      console.log(imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
+      notImage = (imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
     }
-
     let picData = {
       alt: currentPost.data.title,
       src: currentPost.data.url,

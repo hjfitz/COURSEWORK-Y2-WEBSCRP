@@ -5,8 +5,8 @@
   "client": {
   	"nightmodeEnabled": false,
     "weather": {
-  		"provider": "owm",
-  		"providers": [ "owm", "dsn"]
+  		"provider": "OpenWeatherMap",
+  		"providers": [ "OpenWeatherMap", "DarkSky.net"]
   	},
   	"image": {
   		"provider": "NASA",
@@ -17,10 +17,10 @@
   		"providers": ["bbc-news", "hacker-news", "national-geographic"]
   	},
   	"reddit": {
-  		"pic-sub": "aww",
-  		"pic-subs": ["aww", "earthporn", "brutalism"],
-  		"news-sub": "news",
-  		"news-subs": ["news", "futurism"]
+  		"picSub": "aww",
+  		"picSubs": ["aww", "earthporn", "brutalism", "minimalism"],
+  		"newsSub": "news",
+  		"newsSubs": ["news", "futurism"]
   	},
     "layout": {
 
