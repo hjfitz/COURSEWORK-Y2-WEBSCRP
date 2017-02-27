@@ -26,7 +26,8 @@ function saveConfig () {
   //shove it on the server
   $.ajax({
     type: 'PUT',
-    url: 'http://api.webscrp.dev:8000/config',
+    // url: 'http://api.webscrp.dev:8000/config',
+    url: '/api/config'
     data: clientConfig
   })
 }

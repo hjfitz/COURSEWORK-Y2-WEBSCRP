@@ -1,5 +1,5 @@
 const APODAPIKEY = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3"
-let subreddit = "funny"
+let subreddit = "brutalism"
 const REDDITURL = "https://www.reddit.com/r/" + subreddit + "/top/.json"
 
 function getAPOD() {

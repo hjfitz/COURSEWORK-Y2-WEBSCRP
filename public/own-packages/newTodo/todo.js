@@ -10,11 +10,12 @@ const forms = [titleBox, descBox];
 var rowID = -1;
 
 addButton.addEventListener('click', () => { parseTodoForm(POSTTodo) } );
-editButton.addEventListener('click', () => { parseTodoForm(PUTTodo) } );
+editButton.addEventListener('click', () => { parseTodoForm(PATCHTodo) } );
 
 function getTodos () {
   let xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://api.webscrp.dev:8000/todos', true);
+  // xhr.open('GET', 'http://api.webscrp.dev:8000/todos', true);
+  xhr.open('GET', '/api/todos', true)
   xhr.onload = function () {
     let todos = JSON.parse(xhr.responseText);
     putTodosInPage(todos);
@@ -27,7 +28,7 @@ function putTodosInPage (todos) {
   let todoList = document.createElement('ul');
   todoList.classList = 'collapsible';
   todoList.dataset.collapsible = 'accordion';
-  var i = 0;
+  let i = 0;
   todos.forEach( (todo) => {
     //create the main todo elements
     let todoContainer = document.createElement('li');
@@ -44,20 +45,20 @@ function putTodosInPage (todos) {
 
     let triggerButton = document.createElement('a');
 
-    optContainer.classList = "dropdown-content options-dropdown";
-    optContainer.id = "todo" + i;
+    optContainer.classList = 'dropdown-content options-dropdown';
+    optContainer.id = 'todo' + i;
     optContainer.dataset.todo = JSON.stringify(todo);
 
 
     triggerButton.setAttribute('data-activates', optContainer.id);
-    triggerButton.classList = "options-button dropdown-button";
-    triggerButton.textContent = "⋮";
+    triggerButton.classList = 'options-button dropdown-button';
+    triggerButton.textContent = '⋮';
     triggerButton.href = '#';
 
-    editA.textContent = "Edit";
+    editA.textContent = 'Edit';
     editA.addEventListener('click', editTodo);
 
-    delA.textContent = "Delete";
+    delA.textContent = 'Delete';
     delA.addEventListener('click', delTodo);
 
     editBtn.appendChild(editA);
@@ -72,7 +73,7 @@ function putTodosInPage (todos) {
     titleContainer.textContent = todo.title;
     descText.textContent = todo.desc;
 
-    descText.classList = "todo-desc";
+    descText.classList = 'todo-desc';
 
     descText.appendChild(triggerButton);
 
@@ -93,16 +94,16 @@ function parseTodoForm(restFunc) {
   forms.forEach((form) => {
     if (form.value.length === 0) {
       erroneousForms.push(form);
-      form.classList = "materialize-textarea validate invalid";
+      form.classList = 'materialize-textarea validate invalid';
     } else {
-      form.classList = "materialize-textarea validate valid";
+      form.classList = 'materialize-textarea validate valid';
     }
   });
   if (erroneousForms.length === 0) {
     let newTodo = {
-      "rowid": rowID,
-      "title": titleBox.value,
-      "desc": descBox.value
+      'rowid': rowID,
+      'title': titleBox.value,
+      'desc': descBox.value
     };
     restFunc(newTodo);
     getTodos();
@@ -111,42 +112,45 @@ function parseTodoForm(restFunc) {
 }
 
 function POSTTodo(todo) {
-  console.log("POST invoked");
-  $.post('http://api.webscrp.dev:8000/todos', {
-    "title": todo.title,
-    "desc": todo.desc
+  console.log('POST invoked');
+  // $.post('http://api.webscrp.dev:8000/todos', {
+  $.post('/api/todos', {
+    'title': todo.title,
+    'desc': todo.desc
   });
 }
 
-function PUTTodo(todo) {
-  console.log("PUT invoked");
+function PATCHTodo(todo) {
+  console.log('PATCH invoked');
   $.ajax({
-    type:"PUT",
-    url: "http://api.webscrp.dev:8000/todos/" + todo.rowid,
+    type:'PATCH',
+    // url: 'http://api.webscrp.dev:8000/todos/' + todo.rowid,
+    url: '/api/todos' + todo.rowid,
     data: todo
   });
   addButton.classList.toggle('hidden'); //obviously this is a bit hacky and won't work every time (assume oyu press edit on multiple todos)
 }
 
 function delTodo(event) {
-  let rowID = JSON.parse(event.target.parentElement.parentElement.dataset.todo).rowid;
+  let rowid = JSON.parse(event.target.parentElement.parentElement.dataset.todo).rowid;
   console.log(rowID);
   $.ajax({
-    type:"DELETE",
-    url: "http://api.webscrp.dev:8000/todos/" + rowID
+    type:'DELETE',
+    // url: 'http://api.webscrp.dev:8000/todos/' + rowid
+    url: '/api/todos' + rowid
   });
   getTodos();
 }
 
 function clearForms() {
   forms.forEach( (form) => {
-    form.value = "";
+    form.value = '';
   });
 }
 
 function editTodo(event) {
     addButton.classList.toggle('hidden');
-    editButton.classList = "waves-effect waves-light btn";
+    editButton.classList = 'waves-effect waves-light btn';
     //there *needs* to be a more elegant way of fixing this
     let todoInfo = JSON.parse(event.target.parentElement.parentElement.dataset.todo);
     //put the information in the page
@@ -157,6 +161,5 @@ function editTodo(event) {
 }
 
 
-
-  getTodos();
+getTodos();
   // $('.collapsible').collapsible();

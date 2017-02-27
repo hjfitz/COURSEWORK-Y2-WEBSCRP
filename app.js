@@ -1,4 +1,4 @@
-const subdomain = require('express-subdomain');
+// const subdomain = require('express-subdomain');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -24,7 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(subdomain('api', api));
+app.use('/api', api);
+// app.use(subdomain('api', api));
 app.use('/', index);
 app.use('/users', users);
 
