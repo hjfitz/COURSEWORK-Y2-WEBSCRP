@@ -25,19 +25,15 @@
     <nav>
       <div class="nav-wrapper purple darken-2">
         <a href="/" id="main-logo" class="brand-logo center">{{title}}</a>
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li><a href="#">Recipe book</a></li>
-          <li {{{news}}}><a href="news">News</a></li>
-          <li {{{todo}}}><a href="todo">Todos</a></li>
-          <li id="cal-drop"><a href="#">Calendar</a></li>
-        </ul>
+
+
         <ul id="status" class="right hide-on-down">
-          <li><a id=calinfo href="#">Calendar</a></li>
           <li {{{weather}}}>
             <a id=weathinfo class="dropdown-button" href="#!" data-activates="dropdown1">Weather</a>
           </li>
           <li><a id=timeinfo href="#">Time:</a></li>
         </ul>
+
       </div>
       <div id="cal-contain" class="rollover hidden"> <!-- temporary until calendar db is implemented -->
         <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=300&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=89d61hh5bupr6o5kcdu677ja24fonsf6%40import.calendar.google.com&ctz=Europe/London" style="border: 0" width="400" height="300" frameborder="0" scrolling="no"></iframe>
@@ -45,14 +41,23 @@
     </nav>
     <div class=container>
 
+      <ul id="dropdown1" class="dropdown-content weather-dropdown">
+        <li class="weather-info"><a  id=weather-high href="#!"></a></li>
+        <li class="weather-info"><a  id=weather-low href="#!"></a></li>
+        <li class="divider"></li>
+        <li class="weather-info"><a  id=weather-description href="#!"></a></li>
+      </ul>
+
+
 
         {{{body}}}
 
 
 
     </div>
+    <script type="text/javascript" src="javascripts/statusbar/time.js"></script>
+    <script type="text/javascript" src="javascripts/statusbar/weather.js"></script>
+    <script type="text/javascript" src="javascripts/statusbar/main.js"></script>
 
-    <script type="text/javascript" src="javascripts/statusbar.js"></script>
-    <script type='text/javascript'>  startTime();</script>
   </body>
 </html>

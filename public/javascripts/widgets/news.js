@@ -13,10 +13,13 @@ const newsApiUrl = " https://newsapi.org/v1/articles?source=";
 let source = "bbc-news";
 let sources = ['bbc-news', 'hacker-news', 'national-geographic']
 const NEWSAPISORT = "&sortBy=latest";
-const NEWSAPIGET = newsApiUrl + sources[(Math.random() * 2).toFixed(0)] + NEWSAPIKEY;
+// const curSource = sources[(Math.random() * 2).toFixed(0)]
+let curSource = source
+console.log(curSource)
+const NEWSAPIGET = newsApiUrl + curSource  + NEWSAPIKEY;
 
 function getNewNews() {
-  getJSON(NEWSAPIGET, function(data) {
+  getJSON(NEWSAPIGET, (data) => {
     let newsInfo = {
       "newsPic": data.articles[0].urlToImage,
       "desc": data.articles[0].description,

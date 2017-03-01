@@ -26,7 +26,7 @@ function getTodos () {
 function putTodosInPage (todos) {
   mainArea.innerHTML = '';
   let todoList = document.createElement('ul');
-  todoList.classList = 'collapsible';
+  todoList.classList = 'collapsible not-dark';
   todoList.dataset.collapsible = 'accordion';
   let i = 0;
   todos.forEach( (todo) => {

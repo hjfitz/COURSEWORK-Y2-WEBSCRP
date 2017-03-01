@@ -8,7 +8,8 @@ function putConfigInPage () {
   //clear page before we add more selects!
   mainForm.innerHTML = ''
   // jQuery GET looks significantly nicer than using XMLHttpRequest
-  $.get('http://api.webscrp.dev:8000/config', (data) => {
+  // $.get('http://api.webscrp.dev:8000/config', (data) => {
+  $.get('/api/config', (data) => {
     // as of yet, there's no dynamic way to create this.
     // Perhaps the json should be restructured TODO(?)
     createSelect('weather', data.weather.provider, data.weather.providers)
@@ -27,7 +28,7 @@ function saveConfig () {
   $.ajax({
     type: 'PUT',
     // url: 'http://api.webscrp.dev:8000/config',
-    url: '/api/config'
+    url: '/api/config',
     data: clientConfig
   })
 }
@@ -91,10 +92,15 @@ function createSelect (title, initial, options) {
   $('select').material_select()
 }
 
+function createMap() {
+  const map = L.map('map-container').setView([51,0]);
+}
+
 $(document).ready( () => {
   // attach event listeners
   discardButton.addEventListener('click', putConfigInPage)
   saveButton.addEventListener('click', saveConfig)
   // stick the current configuration in the page
   putConfigInPage()
+  createMap()
 })

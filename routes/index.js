@@ -6,7 +6,7 @@ const sqliteDB = dbUtil.db
 router.get('/', function (req, res, next) {
   sqliteDB.all('select * from todo', (err, todos) => {
     if (err) console.error(err)
-    res.render('index', {
+    res.render('index-2', {
       title: 'ws_cwk3',
       'todos': todos
     })

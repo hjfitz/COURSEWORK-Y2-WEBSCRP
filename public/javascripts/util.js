@@ -25,9 +25,14 @@ function hideElem(element) {
 
 function toggleNightMode() {
   let cards = document.querySelectorAll('.card')
+  let notChange = document.querySelectorAll('.not-dark')
   cards.forEach(function(card) {
     card.classList.toggle('blue-grey')
     card.classList.toggle('white-text')
   })
+  notChange.forEach( (item) => {
+    item.classList.toggle('black-text')
+  })
   document.body.classList.toggle('dark')
+  Materialize.toast('Night mode toggled!', 3000)
 }

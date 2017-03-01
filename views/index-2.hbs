@@ -1,27 +1,12 @@
 <script type="text/javascript" src=javascripts/widgets/news.js></script>
 <script type="text/javascript" src="javascripts/widgets/picture.js"></script>
-<script type="text/javascript" src="javascripts/widgets/weather.js"></script>
-<script type="text/javascript" src="javascripts/main.js"></script>
+<script type="text/javascript" src="javascripts/index.js"></script>
 
 <p></p> <!-- fix me! -->
 <div class=row>
 
-
   <div class="col s12 m6">
-    <div class="card">
-      <div class="card-image">
-        <a id=pic-link href="#">
-          <img id=pic-image src="images/loading.png">
-        </a>
-      </div>
-      <div class="card-content center">
-        <span id=pic-text class="card-title truncate">Picture of the moment</span>
-      </div>
-    </div>
-  </div>
 
-
-  <div class="col s12 m6">
     <div id=newsCard class="card">
       <div class="card-image">
         <a id="news-image-link" href=#>
@@ -35,14 +20,11 @@
         <a id="news-link" href="#">Link</a>
       </div>
     </div>
-  </div>
 
-
-  <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">Your Todos</span>
-        <ul class=collection>
+        <span class="card-title"><a href="/todo" class="orange-text">Your Todos</a></span>
+        <ul class="collection not-dark">
           {{#each todos}}
           <!-- Need to remove from database upon swipe -->
             <li class="collection-item dismissable">{{title}}</li>
@@ -50,10 +32,28 @@
         </ul>
       </div>
     </div>
+
+
+
   </div>
 
 
   <div class="col s12 m6">
+
+    <div class=row>
+      <div class="card">
+        <div class="card-image">
+          <a id=pic-link href="#">
+            <img id=pic-image src="images/loading.png">
+          </a>
+        </div>
+        <div class="card-content center">
+          <span id=pic-text class="card-title truncate">Picture of the moment</span>
+        </div>
+      </div>
+    </div>
+
+  <div class="row">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Agenda</span>
@@ -61,6 +61,5 @@
       </div>
     </div>
   </div>
-
 
 </div>

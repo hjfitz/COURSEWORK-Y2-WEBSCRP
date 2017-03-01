@@ -1,11 +1,11 @@
 const OWMAPIKEY = 'bbc67f01cffb0e40951dbab4a4e69a87'
-const owm = 'http://api.openweathermap.org/data/2.5/weather?lat='
-const dsn = 'https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/'
+let owm = 'http://api.openweathermap.org/data/2.5/weather?lat='
+let dsn = 'https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/'
 
 function getWeather(source='owm', callback) {
   let xhr = new XMLHttpRequest()
   navigator.geolocation.getCurrentPosition((pos) => {
-    const COORDS = {
+    let COORDS = {
       lat: pos.coords.latitude.toFixed(4),
       lon: pos.coords.longitude.toFixed(4)
     }
@@ -92,6 +92,45 @@ function putWeatherInCard(weatherInfo) {
   weatherArea.appendChild(minTempPara)
   weatherArea.appendChild(maxTempPara)
   weatherArea.appendChild(descPara)
+}
+
+function putWeatherInStatus (weatherInfo) {
+  let tempUnit = '°C'
+
+  const weatherButton = document.getElementById('weathinfo')
+  const weatherHigh = document.getElementById('weather-high')
+  const weatherLow = document.getElementById('weather-low')
+  const weatherDesc = document.getElementById('weather-description')
+  const weatherInfoDesc = weatherInfo.desc
+
+  const curTemp = weatherInfo.avg + tempUnit
+  const minTemp = weatherInfo.min + tempUnit
+  const maxTemp = weatherInfo.max + tempUnit
+  let tempPara = document.createElement('p')
+  let minTempPara = document.createElement('p')
+  let maxTempPara = document.createElement('p')
+  let descPara = document.createElement('p')
+
+  let coldSpan = document.createElement('span')
+  let warmSpan = document.createElement('span')
+
+  coldSpan.classList = 'coldWeather'
+  warmSpan.classList = 'warmWeather'
+
+  coldSpan.textContent = minTemp
+  warmSpan.textContent = maxTemp
+
+  weatherButton.textContent = 'It\'s currently ' + curTemp
+  minTempPara.textContent = 'Maximum temp is '
+  maxTempPara.textContent = 'Minimum temp is '
+
+  minTempPara.appendChild(coldSpan)
+  maxTempPara.appendChild(warmSpan)
+  descPara.textContent = 'It\'s ' + weatherInfoDesc.toLowerCase() + ' outside.'
+
+  weatherHigh.appendChild(minTempPara)
+  weatherLow.appendChild(maxTempPara)
+  weatherDesc.appendChild(descPara)
 }
 
 function kelvinToCelsius(tempK) {

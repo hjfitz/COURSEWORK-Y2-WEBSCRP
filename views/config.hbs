@@ -1,15 +1,24 @@
+<div class=card>
+  <div class=card-content>
+    <span class='card-tite'>Pick a Location</span>
+    <div id='map-container' class='map-container'></div>
+  </div>
+</div>
+
 <!-- content goes here -->
 <div class=card>
   <div class=card-content>
     <span class=card-title>{{title}}</span>
     <form id=config-form class='col s12'>
     </form>
-    <a id='discard-button' class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>Discard</a>
-    <a id='save-button' class="waves-effect waves-light btn green right"><i class="material-icons right">done</i>Save</a>
+    <a id='discard-button' class='waves-effect waves-light btn red'><i class='material-icons right'>clear</i>Discard</a>
+    <a id='save-button' class='waves-effect waves-light btn green right'><i class='material-icons right'>done</i>Save</a>
   </div>
 </div>
 
-
+<!-- add leaflet for the picking of the location -->
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css'>
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
 <!-- add unique CSS and javascript -->
 <script type='text/javascript' src='javascripts/config/config.js'></script>
 <link rel='stylesheet' href='stylesheets/config.css'>

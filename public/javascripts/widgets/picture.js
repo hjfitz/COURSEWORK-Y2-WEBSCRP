@@ -1,9 +1,9 @@
 const APODAPIKEY = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3"
-let subreddit = "brutalism"
+let subreddit = 'aww'
 const REDDITURL = "https://www.reddit.com/r/" + subreddit + "/top/.json"
 
 function getAPOD() {
-  getJSON(APODAPIKEY, function(data) {
+  getJSON(APODAPIKEY, (data) => {
     let picData = {
       alt: data.explanation,
       src: data.url,
@@ -15,7 +15,7 @@ function getAPOD() {
 }
 
 function getRedditPic() {
-  getJSON(REDDITURL, function(data) {
+  getJSON(REDDITURL, (data) => {
     //random number for entry - constant length 25 thanks to reddit api
     let randomPost = (Math.random() * 25).toFixed(0);
     let numChecks = 0; //max bound of 25
@@ -27,8 +27,6 @@ function getRedditPic() {
       currentPost = picList[randomPost];
       let postUrl = "http://www.reddit.com" + currentPost.data.permalink;
       let imgUrl = currentPost.data.url;
-      console.log(imgUrl)
-      console.log(imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
       notImage = (imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
     }
     let picData = {
