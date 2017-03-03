@@ -11,10 +11,10 @@
 const NEWSAPIKEY = "&apiKey=7ebe193132874eb7980037010dc43400";
 const newsApiUrl = " https://newsapi.org/v1/articles?source=";
 let source = "bbc-news";
-let sources = ['bbc-news', 'hacker-news', 'national-geographic']
+let sources = ['bbc-news', 'ars-technica', 'national-geographic']
 const NEWSAPISORT = "&sortBy=latest";
-// const curSource = sources[(Math.random() * 2).toFixed(0)]
-let curSource = source
+const curSource = sources[(Math.random() * 2).toFixed(0)]
+// let curSource = source
 console.log(curSource)
 const NEWSAPIGET = newsApiUrl + curSource  + NEWSAPIKEY;
 

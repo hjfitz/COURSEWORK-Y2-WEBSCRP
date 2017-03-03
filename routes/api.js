@@ -26,11 +26,14 @@ api.put('/config', function (req, res, next) {
   console.log(req.body)
 })
 
-/**
- * Returns the rows form table 'todos'
- */
-api.get('/todos', function (req, res, next) {
-  sqliteDB.all('select rowid, * from todo', function (err, todos) {
+
+/* * * * * * * * * *
+ * T O D O  A P I *
+ * * * * * * * * * */
+
+// Returns the rows form table 'todos'
+api.get('/todos', (req, res, next) => {
+  sqliteDB.all('select rowid, * from todo', (err, todos) => {
     if (err) {
       res.send(err) // TODO make a callback function to handle this
     } else {
@@ -45,6 +48,17 @@ api.get('/todos', function (req, res, next) {
  * TODO validation
  */
 api.patch('/todos/:id', function (req, res, next) {
+  // Get information from the request body
+  var title = req.body.title;
+  var desc  = req.body.desc;
+  var id    = req.params.id;
+  // First, check that the title and description aren't null
+  if (title.length > 1 && desc.length > 1) {
+    //check that the row exists in the database
+  } else {
+    handleError(res, err, "PATCH on /todos", "You can't leave the title or description blank")
+  }
+  // Next, we check if the item exists in the database
   console.log('Attempting PATCH on rowid: ' + req.params.id)
   sqliteDB.run('update todo set title =$title, desc= $desc where rowid = $rowid', {
     $title: req.body.title,
@@ -92,6 +106,22 @@ api.delete('/todos/:id', function (req, res, next) {
   })
 })
 
+function checkExistsByRow (rowid) {
+  sqliteDB.run('SELECT * FROM todo WHERE rowid=$rowid', {
+    $rowid: rowid
+  }, (err, rows) => {
+    if (err) {
+      return -1
+    } else {
+      if (rows.length != 0) {
+        return 1
+      } else {
+        return 0
+      }
+    }
+  })
+}
+
 /**
  * given an error, the response callback an additional information
  * send an error to the user
@@ -99,7 +129,7 @@ api.delete('/todos/:id', function (req, res, next) {
  * @param err the error that we catch (log and send it)
  * @param method Possible extra information to output
  **/
-function handleError (res, err, method) {
+function handleError (res, err, method, issue) {
   var msg = '';
   if (method !== null) {
     msg = 'Error with ' + method + ', error: ';
@@ -108,7 +138,8 @@ function handleError (res, err, method) {
   console.error('\n' + msg + '\n')
   var ret = {
     code: 500,
-    errors: err
+    errors: err,
+    issue: issue
   }
   res.json(ret)
 }
