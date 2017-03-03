@@ -13,15 +13,20 @@ const
   cardDrag    = document.getElementById('drag-toggle-card'),
   //get toggle button
   toggleBtn   = document.getElementById('drag-toggle'),
-  cards = [cardNews, cardTodo, cardImage, cardAgenda];
+  cards       = [cardNews, cardTodo, cardImage, cardAgenda],
+  columns     = [left,right];
 
 let draggable = false
+let mouseCoords = {}
 
 //add event listeners
 cards.forEach( (card) => {
-  card.addEventListener('ondragover', allowDrop)
-  card.addEventListener('ondrop', drop)
-  card.addEventListener('ondragstart', drag)
+  card.addEventListener('dragstart', drag)
+})
+
+columns.forEach ( (col) => {
+  col.addEventListener('dragover', allowDrop)
+  col.addEventListener('drop', drop)
 })
 
 toggleBtn.addEventListener('click', () => {
@@ -35,6 +40,7 @@ toggleBtn.addEventListener('click', () => {
     if (draggable) {
       let div = document.createElement('div');
       div.classList = 'card-action handle'
+      div.setAttribute('draggable', true)
       card.appendChild(div)
     } else {
       //otherwise, we get all of the handles that we added and remove them
@@ -57,17 +63,31 @@ function setDefault () {
 }
 
 function allowDrop (e) {
-    e.preventDefault();
+  e.preventDefault()
 }
 
 function drag (e) {
-    e.dataTransfer.setData("text", e.target.id);
+  console.log("item dragging")
+  e.dataTransfer.setData("text", e.target.id)
+  event.dataTransfer.effectAllowed = "move"
 }
 
 function drop (e) {
-    e.preventDefault();
-    var data = e.dataTransfer.getData("text");
-    e.target.appendChild(document.getElementById(data));
+  e.preventDefault()
+  let cardID = e.dataTransfer.getData('text')
+  let card = document.getElementById(cardID)
+  let mouseX = e.clientX
+  let screenWidth = $(window).width()
+  console.log(screenWidth)
+  if (mouseX < screenWidth/2) {
+    left.appendChild(card)
+  }
+  if (mouseX > screenWidth/2) {
+    right.appendChild(card)
+  }
+  console.log(e.clientX)
+  console.log(e)
+  // e.target.appendChild(document.getElementById(data))
 }
 
 
