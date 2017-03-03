@@ -1,4 +1,9 @@
 const OWMAPIKEY = 'bbc67f01cffb0e40951dbab4a4e69a87'
+const weatherImage = {
+  "drizzle": "images/weather/drizzle.svg",
+  "Clouds": "images/weather/cloud.svg"
+}
+
 let owm = 'http://api.openweathermap.org/data/2.5/weather?lat='
 let dsn = 'https://api.darksky.net/forecast/30b70d1026437f163d8e413b72d70d4c/'
 
@@ -25,7 +30,13 @@ function getWeather(source='owm', callback) {
             'humidity' : data.main.humidity,
             'sunrise'  : data.sys.sunrise, //parse me!
             'sunset'   : data.sys.sunset,
-            'desc'     : data.weather[0].main }
+            'desc'     : data.weather[0].main,
+            'wind'     : {
+              'speed'    : data.wind.speed,
+              'deg'      : data.wind.deg
+            },
+            'sealevel' : data.main.sea_level
+          }
           callback(weatherInfo)
         }
       })
@@ -59,9 +70,11 @@ function getWeather(source='owm', callback) {
 
 function putWeatherInCard(weatherInfo) {
   let tempUnit = '°C'
-  const weatherArea = document.getElementById('weather-content')
-  const weatherText = document.getElementById('weather-text')
-  const weatherDesc = weatherInfo.desc
+  const weatherArea  = document.getElementById('weather-content')
+  const weatherText  = document.getElementById('weather-text')
+  const weatherTitle = document.getElementById('weather-title')
+  const weatherImg   = document.getElementById('weather-image')
+  const weatherDesc  = weatherInfo.desc
 
   const curTemp = weatherInfo.avg + tempUnit
   const minTemp = weatherInfo.min + tempUnit
@@ -75,13 +88,16 @@ function putWeatherInCard(weatherInfo) {
   const coldSpan = document.createElement('span')
   const warmSpan = document.createElement('span')
 
+  console.log(weatherDesc)
+  weatherImg.src = weatherImage[weatherDesc]
+
   coldSpan.classList = 'coldWeather'
   warmSpan.classList = 'warmWeather'
 
   coldSpan.textContent = minTemp
   warmSpan.textContent = maxTemp
 
-  tempPara.textContent = 'It\'s currently ' + curTemp
+  weatherTitle.textContent = 'It\'s currently ' + curTemp
   minTempPara.textContent = 'Maximum temp is '
   maxTempPara.textContent = 'Minimum temp is '
 

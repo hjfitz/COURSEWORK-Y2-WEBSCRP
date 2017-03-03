@@ -11,9 +11,10 @@ const
   cardImage   = document.getElementById('image-card'),
   cardAgenda  = document.getElementById('agenda-card'),
   cardDrag    = document.getElementById('drag-toggle-card'),
+  cardWeather = document.getElementById('weather-card')
   //get toggle button
   toggleBtn   = document.getElementById('drag-toggle'),
-  cards       = [cardNews, cardTodo, cardImage, cardAgenda],
+  cards       = [cardNews, cardTodo, cardImage, cardAgenda, cardWeather],
   columns     = [left,right];
 
 let draggable = false
@@ -55,6 +56,7 @@ toggleBtn.addEventListener('click', () => {
 // put the items in their default location
 //otherwise they would just make a list of cards - not ideal for a dashboard
 function setDefault () {
+  left.appendChild(cardWeather)
   left.appendChild(cardNews)
   left.appendChild(cardTodo)
   right.appendChild(cardImage)
@@ -69,7 +71,7 @@ function allowDrop (e) {
 function drag (e) {
   console.log("item dragging")
   e.dataTransfer.setData("text", e.target.id)
-  event.dataTransfer.effectAllowed = "move"
+  e.dataTransfer.effectAllowed = "move"
 }
 
 function drop (e) {
