@@ -1,0 +1,81 @@
+<script type='text/javascript' src=javascripts/widgets/news.js></script>
+<script type='text/javascript' src='javascripts/widgets/picture.js'></script>
+<script type='text/javascript' src='javascripts/index.js'></script>
+<link rel='stylesheet' href='stylesheets/freeflow.css' />
+<p></p> <!-- fix me! -->
+
+<div class='setup' id='setup'>
+</div>
+
+<div class='row' id='main-row'>
+
+    <div id='weather-card' class='card' draggable='true'>
+      <div id='weather-content' class='card-content'>
+        <span id='weather-title' class='card-title' id='weather-title'>It's currently...</span>
+        <img src='' id='weather-image' />
+        <p id='weather-text'></p>
+      </div>
+    </div>
+
+    <div id='news-card' class='card' draggable='true'>
+      <div class='card-image'>
+        <a id='news-image-link' href=#>
+          <img id=news-image src='images/loading.png'>
+        </a>
+      </div>
+      <div id='news-content' class='card-content'>
+        <span id='news-title' class='card-title truncate'></span>
+      </div>
+      <div class='card-action'>
+        <a id='news-link' href='#'>Link</a>
+      </div>
+    </div>
+
+    <div id='todo-card' class='card' draggable='true'>
+      <div class='card-content'>
+        <span class='card-title'><a href='/todo' class='orange-text'>Your Todos</a></span>
+        <ul class='collection not-dark'>
+          {{#each todos}}
+          <!-- Need to remove from database upon swipe -->
+            <li class='collection-item dismissable'>{{title}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+
+
+      <div id='image-card' class='card' draggable='true'>
+        <div class='card-image'>
+          <a id=pic-link href='#'>
+            <img id=pic-image src='images/loading.png'>
+          </a>
+        </div>
+        <div class='card-content center'>
+          <span id=pic-text class='card-title truncate'>Picture of the moment</span>
+        </div>
+      </div>
+
+
+    <div id='agenda-card' class='card' draggable='true'>
+      <div class='card-content'>
+        <span class='card-title'>Agenda</span>
+        <p></p>
+      </div>
+    </div>
+
+    <div id=drag-toggle-card class='card hidden' draggable='true'>
+      <div class='card-content'>
+        <span class='card-title'>Drag and Drop Enabled</span>
+        <div class="switch">
+          <label>
+            Off
+            <input type="checkbox">
+            <span class="lever" id='drag-toggle'></span>
+            On
+          </label>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script type='text/javascript' src='javascripts/layout/freeflow.js'></script>

@@ -1,7 +1,5 @@
 const
-  // get areas
-  left        = document.getElementById('left-col'),
-  right       = document.getElementById('right-col'),
+  mainArea = document.getElementById('main-row'),
   //get coordinates
   leftCoords  = left.getBoundingClientRect(),
   rightCoords = right.getBoundingClientRect(),
@@ -14,22 +12,12 @@ const
   cardWeather = document.getElementById('weather-card')
   //get toggle button
   toggleBtn   = document.getElementById('drag-toggle'),
-  cards       = [cardNews, cardTodo, cardImage, cardAgenda, cardWeather],
-  columns     = [left,right];
+  cards       = [cardWeather, cardNews, cardTodo, cardImage, cardAgenda],
+  columns     = [left,right]
+  ;
 
-let draggable = false
-let mouseCoords = {}
-
-//add event listeners
-cards.forEach(card => {
-  card.addEventListener('dragstart', drag)
-})
-
-columns.forEach (col => {
-  col.addEventListener('dragover', allowDrop)
-  col.addEventListener('drop', drop)
-})
-
+mainArea.addEventListener('dragover', allowDrop)
+mainArea.addEventListener('drop', drop)
 toggleBtn.addEventListener('click', () => {
   draggable = !draggable
   //let me know because I'm stupid
@@ -55,13 +43,12 @@ toggleBtn.addEventListener('click', () => {
 
 // put the items in their default location
 //otherwise they would just make a list of cards - not ideal for a dashboard
-function setDefault () {
-  left.appendChild(cardWeather)
-  left.appendChild(cardNews)
-  left.appendChild(cardTodo)
-  right.appendChild(cardImage)
-  right.appendChild(cardAgenda)
-  right.appendChild(cardDrag)
+function setLayout (cards) {
+  cards.forEach(card => {
+    mainArea.append(card)
+    card.addEventListener('dragstart', drag)
+    card.addEventListener('drop', drop)
+  })
 }
 
 function allowDrop (e) {
@@ -80,18 +67,7 @@ function drop (e) {
   let cardID = e.dataTransfer.getData('text')
   let card = document.getElementById(cardID)
   let mouseX = e.clientX
-  let screenWidth = $(window).width()
-  console.log(screenWidth)
-  if (mouseX < screenWidth/2) {
-    left.appendChild(card)
-  }
-  if (mouseX > screenWidth/2) {
-    right.appendChild(card)
-  }
-  console.log(e.clientX)
-  console.log(e)
-  // e.target.appendChild(document.getElementById(data))
 }
 
 
-setDefault()
+setDefault(cards)

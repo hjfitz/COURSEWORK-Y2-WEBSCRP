@@ -60,6 +60,11 @@ a {
   z-index:9999;
 }
 
-.todo-desc {
-  width: 100%;
+.col {
+  min-height: 100vh;
+}
+
+.card {
+  resize:both;
+  overflow:auto;
 }

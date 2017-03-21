@@ -29,43 +29,27 @@ function putTodosInPage (todos) {
   todoList.classList = 'collapsible not-dark';
   todoList.dataset.collapsible = 'accordion';
   let i = 0;
-  todos.forEach( (todo) => {
+  todos.forEach((todo) => {
     //create the main todo elements
-    let todoContainer = document.createElement('li');
-    let titleContainer = document.createElement('div');
-    let descContainer = document.createElement('div');
-    let descText = document.createElement('p');
+    let todoContainer  = document.createElement('li')
+    let titleContainer = document.createElement('div')
+    let descContainer  = document.createElement('div')
+    let descText       = document.createElement('p')
     //create the edit and delete buttons
-    let optContainer = document.createElement('ul');
-    let editBtn = document.createElement('li');
-    let delBtn = document.createElement('li');
+    let editButton     = document.createElement('a')
+    let delButton      = document.createElement('a')
 
-    let delA = document.createElement('a');
-    let editA = document.createElement('a');
+    editButton.dataset.todo = JSON.stringify(todo);
+    delButton.dataset.todo = JSON.stringify(todo);
 
-    let triggerButton = document.createElement('a');
+    editButton.textContent = 'edit' //✎'
+    delButton.textContent = 'delete  '//✔'
 
-    optContainer.classList = 'dropdown-content options-dropdown';
-    optContainer.id = 'todo' + i;
-    optContainer.dataset.todo = JSON.stringify(todo);
+    editButton.classList = 'right restbutton'
+    delButton.classList = 'right restbutton'
 
-
-    triggerButton.setAttribute('data-activates', optContainer.id);
-    triggerButton.classList = 'options-button dropdown-button';
-    triggerButton.textContent = '⋮';
-    triggerButton.href = '#';
-
-    editA.textContent = 'Edit';
-    editA.addEventListener('click', editTodo);
-
-    delA.textContent = 'Delete';
-    delA.addEventListener('click', delTodo);
-
-    editBtn.appendChild(editA);
-    delBtn.appendChild(delA);
-
-    optContainer.appendChild(editBtn);
-    optContainer.appendChild(delBtn);
+    editButton.addEventListener('click', editTodo)
+    delButton.addEventListener('click', delTodo)
 
     titleContainer.classList = 'collapsible-header';
     descContainer.classList = 'collapsible-body';
@@ -75,13 +59,12 @@ function putTodosInPage (todos) {
 
     descText.classList = 'todo-desc';
 
-    descText.appendChild(triggerButton);
-
     descContainer.appendChild(descText);
+    descContainer.appendChild(delButton);
+    descContainer.appendChild(editButton);
 
     todoContainer.appendChild(titleContainer);
     todoContainer.appendChild(descContainer);
-    todoList.appendChild(optContainer);
     todoList.appendChild(todoContainer);
     i++;
   });
@@ -112,7 +95,6 @@ function parseTodoForm(restFunc) {
 }
 
 function POSTTodo(todo) {
-  console.log('POST invoked');
   // $.post('http://api.webscrp.dev:8000/todos', {
   $.post('/api/todos', {
     'title': todo.title,
@@ -121,23 +103,21 @@ function POSTTodo(todo) {
 }
 
 function PATCHTodo(todo) {
-  console.log('PATCH invoked');
   $.ajax({
     type:'PATCH',
     // url: 'http://api.webscrp.dev:8000/todos/' + todo.rowid,
-    url: '/api/todos' + todo.rowid,
+    url: '/api/todos/' + todo.rowid,
     data: todo
   });
   addButton.classList.toggle('hidden'); //obviously this is a bit hacky and won't work every time (assume oyu press edit on multiple todos)
 }
 
-function delTodo(event) {
-  let rowid = JSON.parse(event.target.parentElement.parentElement.dataset.todo).rowid;
-  console.log(rowID);
+function delTodo(e) {
+  let rowid = JSON.parse(e.target.dataset.todo).rowid;
   $.ajax({
     type:'DELETE',
     // url: 'http://api.webscrp.dev:8000/todos/' + rowid
-    url: '/api/todos' + rowid
+    url: '/api/todos/' + rowid
   });
   getTodos();
 }
@@ -152,12 +132,11 @@ function editTodo(event) {
     addButton.classList.toggle('hidden');
     editButton.classList = 'waves-effect waves-light btn';
     //there *needs* to be a more elegant way of fixing this
-    let todoInfo = JSON.parse(event.target.parentElement.parentElement.dataset.todo);
+    let todoInfo = JSON.parse(event.target.dataset.todo);
     //put the information in the page
     rowID = todoInfo.rowid;
     titleBox.value = todoInfo.title;
-    descBox.textContent = todoInfo.desc;
-    console.log(todoInfo);
+    descBox.value = todoInfo.desc;
 }
 
 

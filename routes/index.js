@@ -23,6 +23,16 @@ router.get('/drag', function (req, res, next) {
   })
 })
 
+router.get('/flow', function (req, res, next) {
+  sqliteDB.all('select * from todo', (err, todos) => {
+    if (err) console.error(err)
+    res.render('index-freeflow', {
+      title: 'ws_cwk3',
+      'todos': todos
+    })
+  })
+})
+
 router.get('/budget', function (req, res, next) {
   res.render('budget', { title: 'budget' })
 })

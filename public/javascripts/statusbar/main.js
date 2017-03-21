@@ -6,7 +6,7 @@ $(document).ready( () => {
 
 
 function nightModeWatch() {
-  getWeather('owm', (data) => {
+  getWeather('owm', data => {
     putWeatherInCard(data)
     putWeatherInStatus(data)
     //temporary, and most likely buggy, auto night mode feature

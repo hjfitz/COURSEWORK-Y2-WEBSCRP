@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "init": "bash init.sh",
-		"install-reqs": "bash reqs.sh",
+    "install-reqs": "bash reqs.sh",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
@@ -22,6 +21,7 @@
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
+    "grunt": "^1.0.1",
     "nodemon": "^1.11.0"
   },
   "bugs": {

@@ -1,4 +1,5 @@
 const OWMAPIKEY = 'bbc67f01cffb0e40951dbab4a4e69a87'
+const OWMIMGURL = 'http://openweathermap.org/img/w/'
 const weatherImage = {
   "drizzle": "images/weather/drizzle.svg",
   "Clouds": "images/weather/cloud.svg"
@@ -17,6 +18,7 @@ function getWeather(source='owm', callback) {
     if (source === 'owm') {
       owm += COORDS.lat + '&lon=' + COORDS.lon + '&appid=' + OWMAPIKEY
       getJSON(owm, (data) => {
+        console.log(data)
         if (data.cod !== 200) {
           console.error('owm down, url: ' + owm)
           getWeather('dsn', callback)
@@ -35,7 +37,8 @@ function getWeather(source='owm', callback) {
               'speed'    : data.wind.speed,
               'deg'      : data.wind.deg
             },
-            'sealevel' : data.main.sea_level
+            'sealevel' : data.main.sea_level,
+            'owmicon': data.weather[0].icon
           }
           callback(weatherInfo)
         }
@@ -89,7 +92,8 @@ function putWeatherInCard(weatherInfo) {
   const warmSpan = document.createElement('span')
 
   console.log(weatherDesc)
-  weatherImg.src = weatherImage[weatherDesc]
+  // weatherImg.src = weatherImage[weatherDesc]
+  weatherImg.src = OWMIMGURL + weatherInfo.owmicon + ".png"
 
   coldSpan.classList = 'coldWeather'
   warmSpan.classList = 'warmWeather'

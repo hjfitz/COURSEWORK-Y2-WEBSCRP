@@ -1,0 +1,23 @@
+.card {
+  position:absolute;
+  max-height: 500px;
+  max-width: 300px;
+}
+
+#main-row {
+  z-index:1;
+  display:none;
+}
+
+#setup {
+  z-index: 2;
+}
+
+.option-button {
+  z-index: 3;
+  transition: 0.5s;
+}
+
+.option-button:hover {
+  opacity: 0.8;
+}

@@ -31,6 +31,6 @@ body {
   z-index:9999;
 }
 
-.todo-desc {
-  width: 100%;
+.restbutton {
+  padding: 0 2em;
 }

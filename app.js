@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const api = require('./routes/api');
 const index = require('./routes/index');
-const users = require('./routes/users');
 
 const app = express();
 
@@ -27,11 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', api);
 // app.use(subdomain('api', api));
 app.use('/', index);
-app.use('/users', users);
-
 
 /*
- * Because every page is now a bower module
+ * Because some pages are now a bower module
  * we disallow the user to see the raw handlebars form
  */
 app.use('*.hbs', function(req, res, next) {

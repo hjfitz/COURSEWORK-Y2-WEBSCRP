@@ -54,23 +54,23 @@ api.patch('/todos/:id', function (req, res, next) {
   var id    = req.params.id;
   // First, check that the title and description aren't null
   if (title.length > 1 && desc.length > 1) {
+    // Next, we check if the item exists in the database
+    console.log('Attempting PATCH on rowid: ' + req.params.id)
+    sqliteDB.run('update todo set title =$title, desc= $desc where rowid = $rowid', {
+      $title: req.body.title,
+      $desc: req.body.desc,
+      $rowid: req.params.id
+    }, (err) => {
+      if (err) {
+        handleError(res, err, "PATCH on /todos")
+      } else {
+        handleSuccess(res, "PATCH on /todos")
+      }
+    })
     //check that the row exists in the database
   } else {
     handleError(res, err, "PATCH on /todos", "You can't leave the title or description blank")
   }
-  // Next, we check if the item exists in the database
-  console.log('Attempting PATCH on rowid: ' + req.params.id)
-  sqliteDB.run('update todo set title =$title, desc= $desc where rowid = $rowid', {
-    $title: req.body.title,
-    $desc: req.body.desc,
-    $rowid: req.params.id
-  }, (err) => {
-    if (err) {
-      handleError(res, err, "PATCH on /todos")
-    } else {
-      handleSuccess(res, "PATCH on /todos")
-    }
-  })
 })
 
 /*
