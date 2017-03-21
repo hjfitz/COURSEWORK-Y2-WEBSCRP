@@ -3,8 +3,8 @@ const
   topBuffer   = document.querySelector('nav').offsetHeight
   winWidth    = document.documentElement.clientWidth,
   winHeight   = document.documentElement.clientHeight - topBuffer,
-  maxWidth    = Math.floor(winWidth/12),
-  maxHeight   = Math.floor(winHeight/6),
+  maxWidth    = Math.floor(winWidth/24),
+  maxHeight   = Math.floor(winHeight/11),
   optBoxWidth = winWidth / 4,
   weatherCard = document.getElementById('weather-card'),
   newsCard    = document.getElementById('news-card'),
@@ -20,7 +20,8 @@ const
 
 let
   blocks = [],
-  selected = []
+  selected = [],
+  input = []
 ;
 
 function getRandomColour() {
@@ -29,7 +30,7 @@ function getRandomColour() {
   for (let i = 0; i < 4; i++ ) {
     color += letters[Math.floor(Math.random() * letters.length)]
   }
-  return color + "ff";
+  return color + "ff"; //makes it nice and blue
 }
 
 function setup() {
@@ -37,7 +38,7 @@ function setup() {
   for (let j=topBuffer; j<winHeight; j += maxHeight) {
     let col = 0
     let rowList = []
-    for (let i=0; i<(winWidth-maxWidth-optBoxWidth); i+= maxWidth) {
+    for (let i=0; i<(winWidth-maxWidth); i+= maxWidth) {
       let index = { "row": row, "col": col }
       let div = document.createElement('div')
       div.style.position = "absolute",
@@ -59,20 +60,67 @@ function setup() {
     row++
   }
   //create the options area
-  let opt = document.createElement("div")
-  opt.id = "options-area"
-  opt.style.position = "absolute"
-  opt.style.height = winHeight + "px"
-  opt.style.width = optBoxWidth + "px"
-  opt.style.top = topBuffer + "px"
-  opt.style.right = "0px"
-  opt.style.backgroundColor = "#f0f"
-  addToOpt(opt)
-  setupArea.appendChild(opt)
+  let
+    button = document.createElement('a'),
+    save = document.createElement('a'),
+    select = document.createElement("select"),
+    dropper = document.getElementById('dropper'),
+    addbtn = document.getElementById('add'),
+    savebtn = document.getElementById('save')
+  ;
+  button.textContent = "Add"
+  save.textContent = "Save"
+  button.classList = "waves-effect waves-light btn"
+  save.classList = "waves-effect waves-light btn"
+  select.classList = "browser-default black-text"
+  select.id = "card-list"
+  button.addEventListener('click', addToForm)
+  save.addEventListener('click', saveAll)
+  for (let key in card) {
+    let option = document.createElement('option')
+    option.textContent = key
+    option.value = key
+    select.appendChild(option)
+  }
+  dropper.appendChild(select)
+  addbtn.appendChild(button)
+  savebtn.appendChild(save)
 }
 
-function addToOpt() {
+function addToForm() {
+  if (input.length === 0) {
+    console.warn("no area selected")
+  } else {
+    //make me work all ways
+    let
+      left = input[0].style.left,
+      top = input[0].style.top,
+      //hacky looking
+      width = (parseInt(input[1].style.left, 10) - parseInt(left)) + maxWidth + "px",
+      height = (parseInt(input[1].style.top, 10) - parseInt(top)) + maxHeight + "px",
+      newCard = card[$('select').val()]//,
+      //TODO
+      // select = document.getElementById('card-list')
+      // select.remove(select.selectedIndex)
+      ;
+    newCard.style.left = left
+    newCard.style.position = "absolute"
+    newCard.style.top = top
+    newCard.style.width = width
+    newCard.style.height = height
+    newCard.style.minWidth = width
+    newCard.style.minHeight = height
+    newCard.style.zIndex = 3
+    setupArea.appendChild(newCard)
 
+  }
+}
+
+function saveAll() {
+  let tiles = document.querySelectorAll('.option-button')
+  for (const tile of tiles) {
+    tile.classList.toggle("hide")
+  }
 }
 
 function changeOpacity(e) {
@@ -91,6 +139,8 @@ function changeOpacity(e) {
 }
 
 function highlight() {
+  resetColours()
+  input.length = 0
   let
     locationStart = JSON.parse(selected[0].dataset.index),
     locationEnd = JSON.parse(selected[1].dataset.index),
@@ -102,13 +152,20 @@ function highlight() {
   for (let i = startX; i <= endX; i++) {
     let curRow = blocks[i]
     for (let j = startY; j <= endY; j++) {
-      console.log(curRow[j])
-      curRow[j].style.backgroundColor = getRandomColour()//"#f0f"
+      // console.log(curRow[j])
+      curRow[j].style.backgroundColor = getRandomColour()
       curRow[j].style.opacity = "1"
     }
   }
+  input.push(selected[0])
+  input.push(selected[1])
   selected.length = 0 //reset the array
-  console.log("oi")
+}
+
+function resetColours() {
+  for (const tile of document.querySelectorAll('.option-button')) {
+    tile.style.backgroundColor = "#3F51B5"
+  }
 }
 
 setup()
