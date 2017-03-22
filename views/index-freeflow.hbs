@@ -63,19 +63,6 @@
       </div>
     </div>
 
-    <div id=drag-toggle-card class='card hidden' draggable='true'>
-      <div class='card-content'>
-        <span class='card-title'>Drag and Drop Enabled</span>
-        <div class="switch">
-          <label>
-            Off
-            <input type="checkbox">
-            <span class="lever" id='drag-toggle'></span>
-            On
-          </label>
-        </div>
-      </div>
-    </div>
 </div>
 
 <div class="fixed-action-btn toolbar">
@@ -83,10 +70,13 @@
     <i class="large material-icons">mode_edit</i>
   </a>
   <ul>
-    <li id='save'></li>
-    <li id='add'></li>
+    <li><a id='add' class='waves-effect waves-light btn' href=# >Add</a></li>
+    <li><a id='load' class='waves-effect waves-light btn' href=# >Load</a></li>
+    <li><a id='save' class='waves-effect waves-light btn' href=# >Save</a></li>
+    <li><a id='edit' class='waved-effect waves-light btn' href=# >Edit</a></li>
     <li class="valign-wrapper"><a href="#!" id="dropper"></a></li>
   </ul>
 </div>
 
+<script type='text/javascript' src='javascripts/layout/Tiles.js'></script>
 <script type='text/javascript' src='javascripts/layout/freeflow.js'></script>
