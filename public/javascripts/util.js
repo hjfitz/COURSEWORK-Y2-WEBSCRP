@@ -37,10 +37,19 @@ function toggleNightMode() {
   Materialize.toast('Night mode toggled!', 3000)
 }
 
+randomNumber = function(max) {
+    return Math.floor(Math.random() * max)
+}
+
 // probably a *SIGNIFICANTLY* better way to do this
 randomColor = function(col="rand") {
   let letters = [0,1,2,3,4,5,6,7,8,9,'A','B','C','E']
   let color = ''
+  if (col == "randomRGB") {
+    let cols = ['red', 'blue', 'green']
+    console.log(cols[randomNumber(cols.length)])
+    return randomColor(cols[randomNumber(cols.length)])
+  }
   if (col == "rand") {
     for (let i = 0; i < 6; i++ ) {
       color += letters[Math.floor(Math.random() * letters.length)]

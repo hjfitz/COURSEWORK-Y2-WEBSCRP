@@ -82,10 +82,12 @@ class Tiles {
         startY = locationEnd.col
         endY = locationStart.col
       }
+      let colour = ['red','green','blue'][randomNumber(3)]
       for (let i = startX; i <= endX; i++) {
         let curRow = this.columns[i]
         for (let j = startY; j <= endY; j++) {
-          curRow[j].style.backgroundColor = randomColor("red")
+
+          curRow[j].style.backgroundColor = randomColor(colour)
           curRow[j].style.opacity = "1"
         }
       }
