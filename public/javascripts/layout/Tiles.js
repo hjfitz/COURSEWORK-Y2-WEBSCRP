@@ -21,7 +21,7 @@ class Tiles {
 
   createTiles() {
     let row = 0
-    for (let j=this.pageInfo.topBuffer; j<this.pageInfo.winHeight; j+= this.pageInfo.maxHeight) {
+    for (let j=this.pageInfo.topBuffer; j<=this.pageInfo.winHeight; j+= this.pageInfo.maxHeight) {
       let col = 0
       let rowList = []
       for (let i=0; i< (this.pageInfo.winWidth - this.pageInfo.maxWidth); i += this.pageInfo.maxWidth) {
@@ -57,6 +57,7 @@ class Tiles {
   resetTiles() {
     for (const tile of this.tilesOnPage) {
       tile.style.backgroundColor = this.tileColor
+      tile.style.opacity = null
     }
   }
 
@@ -82,19 +83,19 @@ class Tiles {
         startY = locationEnd.col
         endY = locationStart.col
       }
-      let colour = ['red','green','blue'][randomNumber(3)]
+      let colour = ['red','green'][Util.randomNumber(2)]
       for (let i = startX; i <= endX; i++) {
         let curRow = this.columns[i]
         for (let j = startY; j <= endY; j++) {
 
-          curRow[j].style.backgroundColor = randomColor(colour)
+          curRow[j].style.backgroundColor = Util.randomColor(colour)
           curRow[j].style.opacity = "1"
         }
       }
       this.selectedArea.push(this.selectedTiles[0])
       this.selectedArea.push(this.selectedTiles[1])
     } else {
-      this.selectedTiles[0].style.opacity = "1"
+      this.selectedTiles[0].style.opacity = null
     }
     this.selectedTiles.length = 0 //reset the array
   }

@@ -1,11 +1,11 @@
-$(document).ready( () => {
+document.addEventListener('DOMContentLoaded', () => {
+  getNewNews()
+  getRedditPic()
   startTime()
-  //check if it's night mode, if it is then toggle!
-  nightModeWatch()
+  main()
 })
 
-
-function nightModeWatch() {
+function main() {
     getWeatherWithGeoLocation('owm', data => {
       putWeatherInCard(data)
       putWeatherInStatus(data)
@@ -14,13 +14,13 @@ function nightModeWatch() {
       let today = new Date()
       sunset.setUTCSeconds(data.sunset)
       if (today < sunset) {
-        toggleNightMode()
+        Util.toggleNightMode()
       }
 
       window.setInterval(() => {
         today = new Date()
         if (today > sunset) {
-          toggleNightMode()
+          Util.toggleNightMode()
         }
       }, 300000)
     })

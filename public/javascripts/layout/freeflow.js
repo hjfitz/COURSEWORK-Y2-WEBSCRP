@@ -132,7 +132,7 @@ function changeOpacity(e) {
     clicks = { "true": "false", "false":"true" }
   ; //yeah, I know...
   if (clicked === "true") {
-    e.target.style.opacity = "1"
+    e.target.style.opacity = null
   } else {
     e.target.style.opacity = "0.8"
   }

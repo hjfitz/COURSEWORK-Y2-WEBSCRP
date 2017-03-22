@@ -3,7 +3,7 @@ let subreddit = 'aww'
 const REDDITURL = "https://www.reddit.com/r/" + subreddit + "/top/.json"
 
 function getAPOD() {
-  getJSON(APODAPIKEY, (data) => {
+  Util.getJSON(APODAPIKEY, (data) => {
     let picData = {
       alt: data.explanation,
       src: data.url,
@@ -15,7 +15,7 @@ function getAPOD() {
 }
 
 function getRedditPic() {
-  getJSON(REDDITURL, (data) => {
+  Util.getJSON(REDDITURL, (data) => {
     //random number for entry - constant length 25 thanks to reddit api
     let randomPost = (Math.random() * 25).toFixed(0);
     let numChecks = 0; //max bound of 25
