@@ -1,14 +1,15 @@
 //TODO use the tilesAcross and tilesDown to configure the layout
 class Tiles {
   constructor(area, tileColor, tiles) {
-    this.selectedArea = []
-    this.tilesOnPage = []
-    this.columns = []
-    this.selectedTiles = []
-    this.tilesAcross = tiles.across
-    this.tilesDown = tiles.down
-    this.tileColor = tileColor
-    this.drawArea = area
+    this.selectedArea    = []
+    this.tilesOnPage     = []
+    this.columns         = []
+    this.selectedTiles   = []
+    this.tilesAcross     = tiles.across
+    this.tilesDown       = tiles.down
+    this.tileColor       = tileColor
+    this.secondaryColor  = '#7986CB'
+    this.drawArea        = area
     this.pageInfo = {
       'topBuffer': document.querySelector('nav').offsetHeight,
       'winWidth': document.documentElement.clientWidth,
@@ -16,12 +17,11 @@ class Tiles {
       'maxWidth': Math.floor(document.documentElement.clientWidth/this.tilesAcross),
       'maxHeight': Math.floor(document.documentElement.clientHeight/this.tilesDown)
     }
-    let self = this
   }
 
   createTiles() {
     let row = 0
-    for (let j=this.pageInfo.topBuffer; j<=this.pageInfo.winHeight; j+= this.pageInfo.maxHeight) {
+    for (let j=this.pageInfo.topBuffer; j<=(this.pageInfo.winHeight + this.pageInfo.maxHeight); j+= this.pageInfo.maxHeight) {
       let col = 0
       let rowList = []
       for (let i=0; i< (this.pageInfo.winWidth - this.pageInfo.maxWidth); i += this.pageInfo.maxWidth) {
