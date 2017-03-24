@@ -4,7 +4,7 @@ const
   newsCard    = document.getElementById('news-card'),
   todoCard    = document.getElementById('todo-card'),
   imageCard   = document.getElementById('image-card'),
-  pageTiles   = new Tiles(setupArea, "#3F51B5", { 'across': 32, 'down': 20}),
+  pageTiles   = new Tiles(setupArea, "#3F51B5", { 'across': 32, 'down': 25}),
   cards       = [weatherCard, newsCard, todoCard, imageCard],
   card = {
     'weather': weatherCard,
