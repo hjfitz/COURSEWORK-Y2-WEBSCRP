@@ -6,10 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function main() {
+  console.log(window.localStorage.getItem('location'))
+  if (window.localStorage.getItem('location') !== null) {
+    Weather.getByLatLong('owm', () => {
+      Weather.addToCard()
+    },
+    JSON.parse(window.localStorage.getItem('location')))
+  } else {
     Weather.getWithGeolocation('owm', () => {
         Weather.addToCard()
 
     })
+  }
     // getWeatherWithGeoLocation('owm', data => {
     //   putWeatherInCard(data)
     //   putWeatherInStatus(data)

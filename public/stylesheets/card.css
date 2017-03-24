@@ -1,0 +1,12 @@
+.setting-icon {
+  position:absolute;
+  right:0;
+  top:0;
+  opacity: 0.3;
+  transition: 1s;
+  padding:0.5em
+}
+
+.setting-icon:hover {
+  opacity:1;
+}

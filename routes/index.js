@@ -64,4 +64,10 @@ router.get('/cal', function (req, res, next) {
   })
 })
 
+router.get('/loc', function (req,res,next) {
+    res.render('setLocation', {
+        'title': 'location attempt'
+    })
+})
+
 module.exports = router

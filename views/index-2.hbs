@@ -1,15 +1,18 @@
 <script type="text/javascript" src=javascripts/widgets/news.js></script>
 <script type="text/javascript" src="javascripts/widgets/picture.js"></script>
+<link rel='stylesheet' href='stylesheets/card.css'>
 
 <p></p> <!-- fix me! -->
 <div class=row>
 
 
   <div class="col s12 m6">
-
+<!-- move to create card in weather class -->
       <div id='weather-card' class='card' draggable='true'>
         <div id='weather-content' class='card-content'>
           <span id='weather-title' class='card-title' id='weather-title'>It's currently...</span>
+          <i id='weather-setting-icon' class="material-icons setting-icon" data-widget="weather-card">settings</i>
+
           <img src='' id='weather-image' />
           <p id='weather-text'></p>
         </div>
