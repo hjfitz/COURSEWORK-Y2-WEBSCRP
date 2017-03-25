@@ -80,7 +80,7 @@ class Card {
 
   addSettings(action) {
     let settingsIcon = document.createElement('i')
-    settingsIcon.id = this.cardName + 'setting-icon'
+    settingsIcon.id = this.cardName + ' setting-icon'
     settingsIcon.classList = 'material-icons setting-icon'
     settingsIcon.dataset.widget = this.cardName + '-card'
     settingsIcon.textContent = 'settings'
