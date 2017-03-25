@@ -8,7 +8,6 @@ class Tiles {
     this.tilesAcross     = tiles.across
     this.tilesDown       = tiles.down
     this.tileColor       = tileColor
-    this.secondaryColor  = '#7986CB'
     this.drawArea        = area
     this.pageInfo = {
       'topBuffer': document.querySelector('nav').offsetHeight,

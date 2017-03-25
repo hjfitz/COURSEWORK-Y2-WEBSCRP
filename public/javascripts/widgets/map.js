@@ -1,6 +1,4 @@
-const weatherSettingIcon = document.getElementById('weather-setting-icon')
 const overlay = document.getElementById('black-overlay')
-weatherSettingIcon.addEventListener('click', toggleWeatherSettings)
 overlay.addEventListener('click', toggleWeatherSettings)
 overlay.addEventListener('click', Weather.addToCard)
 let mapHidden = true
@@ -15,6 +13,8 @@ function toggleWeatherSettings() {
 }
 
 function hideMap() {
+  const weatherArea = document.getElementById('weather-settings')
+  weatherArea.style.width = "0"
   mapHidden = true
   const map = document.getElementById('map-card')
   map.parentElement.removeChild(map)
@@ -26,6 +26,7 @@ function showMap() {
   //setting display:none messes with the map created by google
   //setting z-index doesn't work
   const weatherArea = document.getElementById('weather-settings')
+  weatherArea.style.width = "400px"
   const mapArea = document.createElement('div')
   const mapCard = document.createElement('div')
   const content = document.createElement('div')

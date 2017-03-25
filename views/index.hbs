@@ -1,4 +1,5 @@
 <link rel='stylesheet' href='stylesheets/freeflow.css' />
+<link rel='stylesheet' href='stylesheets/map.css' />
 <p></p> <!-- fix me! -->
 
 <div class='setup' id='setup'>
@@ -6,6 +7,20 @@
 
 <div class='row' id='main-row'>
 </div>
+
+<div id='black-overlay' class='black-overlay hide'></div>
+
+
+  <div id='weather-settings' class='col s12 m6 hiddenMap weather-settings'>
+    <div class=card id='map-card'>
+      <div class=card-content>
+        <div id="map"></div>
+        <p>Your location is: <span id='location'>foo</span></p>
+        <p> <a href="#" id='save' class='waves-effect waves-light btn'>Save</a></p>
+      </div>
+    </div>
+  </div>
+
 
 <div class="fixed-action-btn toolbar">
   <a class="btn-floating btn-large purple">
@@ -19,6 +34,9 @@
     <li class="valign-wrapper"><a href="#!" id="dropper"></a></li>
   </ul>
 </div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuhTVhl6O7-7ICHrmDcI6RI7NdjlEMk8o&callback=initMap"></script>
+<script type='text/javascript' src='javascripts/config/setLocation.js'></script>
+<script type='text/javascript' src='javascripts/widgets/map.js'></script>
 <script type='text/javascript' src='javascripts/widgets/Card.js'></script>
 <script type='text/javascript' src='javascripts/layout/Tiles.js'></script>
 <script type='text/javascript' src='javascripts/layout/tile.js'></script>

@@ -60,9 +60,6 @@ a {
   z-index:9999;
 }
 
-.col {
-  min-height: 100vh;
-}
 
 .card {
   resize:both;

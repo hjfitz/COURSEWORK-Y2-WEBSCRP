@@ -17,6 +17,8 @@ const
     'todo': todoCard.getCard()
   }
 
+weatherCard.addSettings(toggleWeatherSettings)
+
 for (const card of cardObjs) {
   card.addCard(mainRow)
 }
