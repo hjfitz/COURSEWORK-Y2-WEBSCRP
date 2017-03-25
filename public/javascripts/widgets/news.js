@@ -19,7 +19,7 @@ console.log(curSource)
 const NEWSAPIGET = newsApiUrl + curSource  + NEWSAPIKEY;
 
 function getNewNews() {
-  Util.getJSON(NEWSAPIGET, (data) => {
+  Util.getJSON(NEWSAPIGET, data => {
     let newsInfo = {
       "newsPic": data.articles[0].urlToImage,
       "desc": data.articles[0].description,

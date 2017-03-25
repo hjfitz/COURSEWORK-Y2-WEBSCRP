@@ -1,25 +1,24 @@
 const
   setupArea   = document.getElementById('setup'),
-  weatherCard = document.getElementById('weather-card'),
-  newsCard    = document.getElementById('news-card'),
-  todoCard    = document.getElementById('todo-card'),
-  imageCard   = document.getElementById('image-card'),
+  mainRow     = document.getElementById('main-row'),
+  weatherCard = new Card('weather', {'image': true}),
+  newsCard    = new Card('news', {'image': true, 'button': true}),
+  imageCard   = new Card('pic', {'image': true, 'truncateTitle': true }),
+  todoCard    = new Card('todo'),
   pageTiles   = new Tiles(setupArea, "#3F51B5", { 'across': 32, 'down': 27}),
-  cards       = [weatherCard, newsCard, todoCard, imageCard],
+  weather     = new Weather()
+  weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location'))),
+  cardObjs    = [weatherCard, newsCard, todoCard, imageCard],
+  cards       = [weatherCard.getCard(), newsCard.getCard(), todoCard.getCard(), imageCard.getCard()],
   card = {
-    'weather': weatherCard,
-    'news': newsCard,
-    'image': imageCard,
-    'todo': todoCard
+    'weather': weatherCard.getCard(),
+    'news': newsCard.getCard(),
+    'image': imageCard.getCard(),
+    'todo': todoCard.getCard()
   }
 
-for (const card of cards) {
-  card.addEventListener('resize', snapResize)
-  console.log(card)
-}
-
-function snapResize() {
-  console.log("oioi")
+for (const card of cardObjs) {
+  card.addCard(mainRow)
 }
 
 function setup() {
@@ -109,6 +108,7 @@ function saveAll() {
   let visCards = []
   for (const cd of cards) {
     //need a better way to parse this
+    console.log(cd)
     if (cd.dataset['onPage'] == 1) {
       visCards.push({
         'id': cd.id,

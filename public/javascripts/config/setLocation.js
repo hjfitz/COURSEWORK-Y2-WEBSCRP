@@ -11,8 +11,11 @@ function setLocation(latLng) {
   console.log('setLoc invoked')
   const lat = latLng.lat()
   const lng = latLng.lng()
-  let sentence = "Latitude: " + lat + " | Longitude: " + lng
-  loc.textContent = sentence
+  let sentence = "Latitude: " + lat.toFixed(2) + " Longitude: " + lng.toFixed(2)
+  console.log("setLocaiton invoked")
+  Materialize.toast("location set :" + sentence, 3000)
+
+  // loc.textContent = sentence
 }
 
 function save() {
@@ -21,6 +24,7 @@ function save() {
     'lat': curLoc.lat(),
     'lon': curLoc.lng()
   }
+  setLocation(curLoc)
   let saveLoc = JSON.stringify(location)
   localStorage.setItem('location', saveLoc)
   console.log(markers)
@@ -56,6 +60,7 @@ function initMap() {
   }
 
   function clearMarkers() {
+    markers.length = 0
     for (const marker of markers) {
       marker.setMap(null)
     }

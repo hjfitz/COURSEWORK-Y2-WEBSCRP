@@ -32,3 +32,12 @@
 select {
   height:100%;
 }
+
+.resizer {
+  position:absolute;
+  bottom:0;
+  right:0;
+  height:20px;
+  width:20px;
+  background-color:#ff00ff;
+}

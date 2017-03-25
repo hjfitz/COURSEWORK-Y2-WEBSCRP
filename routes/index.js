@@ -33,6 +33,16 @@ router.get('/flow', function (req, res, next) {
   })
 })
 
+router.get('/flow-dyncard', function (req, res, next) {
+  sqliteDB.all('select * from todo', (err, todos) => {
+    if (err) console.error(err)
+    res.render('index-freeflow-dyncard', {
+      title: 'ws_cwk3',
+      'todos': todos
+    })
+  })
+})
+
 router.get('/budget', function (req, res, next) {
   res.render('budget', { title: 'budget' })
 })
@@ -68,6 +78,12 @@ router.get('/loc', function (req,res,next) {
     res.render('setLocation', {
         'title': 'location attempt'
     })
+})
+
+router.get('/test', function(req,res,next) {
+  res.render('index-rewrite', {
+    'title': 'test'
+  })
 })
 
 module.exports = router

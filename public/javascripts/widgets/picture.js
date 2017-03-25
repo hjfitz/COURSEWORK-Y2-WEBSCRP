@@ -34,19 +34,21 @@ function getRedditPic() {
       src: currentPost.data.url,
       title: currentPost.data.title,
       href: "https://www.reddit.com" + currentPost.data.permalink
-    };
-    putPicInCard(picData);
-  });
+    }
+    putPicInCard(picData)
+  })
 }
 
 //maybe change add callback then run the parser (random choice?)
 function putPicInCard(picData) {
-  let img = document.getElementById("pic-image");
-  let p = document.getElementById("pic-text");
-  let a = document.getElementById("pic-link");
-  img.src = picData.src;
-  img.title = picData.alt;
-  img.alt = picData.alt;
-  a.href = picData.href;
-  p.textContent = picData.title;
+  let img = document.getElementById("pic-image")
+  let p = document.getElementById("pic-title")
+  let para = document.getElementById('pic-text')
+  let a = document.getElementById("pic-image-link")
+  para.textContent = picData.title
+  img.src = picData.src
+  img.title = picData.alt
+  img.alt = picData.alt
+  a.href = picData.href
+  p.textContent = picData.title
 }

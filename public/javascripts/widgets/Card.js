@@ -1,80 +1,94 @@
-//extras concept, list of JSON for extra internal content
-// [
-//   {
-//     name: "icon",
-//     type: 'img',
-//     classList: 'icon right',
-//     style: {
-//       left: '100px',
-//       right: '30px'
-//     }
-//   },
-//   {
-//     name: 'settings',
-//     type: 'p'
-//   }
-// ]
-
 /* * * * * */
 /* C A R D */
 /* * * * * */
 
 
 class Card {
-  constructor(cardName, cardText, settingsMethod, extras, allowImage=false, cardImage=null) {
+  constructor(cardName, extras={}, cardImage='images/loading.png') {
+    this.card = document.createElement('div')
     this.cardName = cardName
-    this.image = allowImage
-    this.settings = settingsMethod
-    this.cardText = cardText
-    this.cardImage = () => {
-      if (allowImage && cardImage) {
-        return cardImage
-      } else {
-        return null
-      }
+    this.cardImage = cardImage
+    if (extras) {
+      this.button = extras.button
+      this.settings = extras.settings
+      this.image = extras.image
     }
-    this.cardElements = {
-      'body': null,
-      'contentArea': null,
-      'title': null,
-      'image': null
-    }
+    this.extras = extras
+    this.createCard()
   }
 
-  createCard(appendingArea) {
+  getCard() {
+    return this.card
+  }
+
+  createCard() {
     //create the main card
-    let card = document.createElement('div')
-    card.id = this.cardName + "-card"
-    card.classList = 'card'
+    this.card.id = this.cardName + "-card"
+    this.card.classList = 'card'
 
     let content = document.createElement('div')
     content.id = this.cardName + "-content"
     content.classList = "card-content"
 
+    let text = document.createElement('p')
+    text.id = this.cardName + '-text'
+
     let title = document.createElement('span')
     title.id = this.cardName + "-title"
-    title.classList = "card-title"
+    if ("truncateTitle" in this.extras) {
+      title.classList = "card-title truncate"
+    } else {
+      title.classList = "card-title"
+    }
+    title.textContent = this.cardName
 
+    let imageContainer, image, imageLink
+
+    if (this.image) {
+      imageContainer = document.createElement('div')
+      imageContainer.classList = 'card-image'
+      imageLink = document.createElement('a')
+      imageLink.id = this.cardName + '-image-link'
+      imageLink.href = '#'
+      image = document.createElement('img')
+      image.id = this.cardName + '-image'
+      image.src = this.cardImage
+      imageLink.appendChild(image)
+      imageContainer.appendChild(imageLink)
+      this.card.appendChild(imageContainer)
+    }
+
+    this.card.appendChild(content)
+
+    if (this.button) {
+      let action = document.createElement('div')
+      action.classList = 'card-action'
+      let link = document.createElement('a')
+      link.id = this.cardName + '-link'
+      link.href = '#'
+      link.textContent = 'Link'
+      action.appendChild(link)
+      this.card.appendChild(action)
+    }
+
+
+
+    content.appendChild(title)
+    content.appendChild(text)
+
+  }
+
+  addSettings(action) {
     let settingsIcon = document.createElement('i')
     settingsIcon.id = this.cardName + 'setting-icon'
     settingsIcon.classList = 'material-icons setting-icon'
     settingsIcon.dataset.widget = this.cardName + '-card'
     settingsIcon.textContent = 'settings'
-
-    let image
-    if (this.image) {
-      image = document.createElement('img')
-      image.id = this.cardName + '-image'
-      image.src = this.cardImage
-    }
-
-    let text = document.createElement('p')
-    text.id =
+    this.card.appendChild(settingsIcon)
+    settingsIcon.addEventListener('click', action)
   }
 
-  setTitle() {
-
+  addCard(appendingArea) {
+    appendingArea.appendChild(this.card)
   }
-
-  set
 }

@@ -1,21 +1,39 @@
 <script type="text/javascript" src=javascripts/widgets/news.js></script>
 <script type="text/javascript" src="javascripts/widgets/picture.js"></script>
 <link rel='stylesheet' href='stylesheets/card.css'>
+<link rel='stylesheet' href='stylesheets/map.css'>
 
 <p></p> <!-- fix me! -->
 <div class=row>
 
+<div id='black-overlay' class='black-overlay hide'></div>
 
-  <div class="col s12 m6">
+  <div id='weather-settings' class='col s12 m6 hiddenMap weather-settings'>
+    <div class=card id='map-card'>
+      <div class=card-content>
+        <div id="map"></div>
+        <p>Your location is: <span id='location'>foo</span></p>
+        <p> <a href="#" id='save' class='waves-effect waves-light btn'>Save</a></p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id='main' class="col s12 m6">
 <!-- move to create card in weather class -->
-      <div id='weather-card' class='card' draggable='true'>
+      <div id='weather-card' class='card' >
         <div id='weather-content' class='card-content'>
           <span id='weather-title' class='card-title'>It's currently...</span>
           <i id='weather-setting-icon' class="material-icons setting-icon" data-widget="weather-card">settings</i>
 
           <img src='' id='weather-image' />
           <p id='weather-text'></p>
+          <p id='temp-para'></p>
+          <p id='min-temp-para'></p><span id='cold'></span>
+          <p id='max-temp-para'></p><span id='warm'></span>
+          <p id='desc-para'></p>
         </div>
+        <span class='resizer'></span>
       </div>
 
     <div id=newsCard class="card">
@@ -25,22 +43,19 @@
         </a>
       </div>
       <div id="news-content" class="card-content">
-        <span id="news-title" class="card-title truncate"></span>
+        <span id="news-title" class="card-title"></span>
       </div>
       <div class="card-action">
         <a id="news-link" href="#">Link</a>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title"><a href="/todo" class="orange-text">Your Todos</a></span>
-        <ul class="collection not-dark">
-          {{#each todos}}
-          <!-- Need to remove from database upon swipe -->
-            <li class="collection-item dismissable">{{title}}</li>
-          {{/each}}
-        </ul>
+    <div class="row">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Agenda</span>
+          <p></p>
+        </div>
       </div>
     </div>
 
@@ -54,25 +69,32 @@
     <div class=row>
       <div class="card">
         <div class="card-image">
-          <a id=pic-link href="#">
+          <a id=pic-image-link href="#">
             <img id=pic-image src="images/loading.png">
           </a>
         </div>
         <div class="card-content center">
-          <span id=pic-text class="card-title truncate">Picture of the moment</span>
+          <span id=pic-text class="card-title">Picture of the moment</span>
         </div>
       </div>
     </div>
 
-  <div class="row">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Agenda</span>
-        <p></p>
-      </div>
+
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><a href="/todo" class="orange-text">Your Todos</a></span>
+      <ul class="collection not-dark">
+        {{#each todos}}
+        <!-- Need to remove from database upon swipe -->
+          <li class="collection-item dismissable">{{title}}</li>
+        {{/each}}
+      </ul>
     </div>
   </div>
 
 </div>
 
-<script type='text/javascript' src='javascripts/widgets/widgets.js'></script>
+<script defer type='text/javascript' src='javascripts/widgets/widgets.js'></script>
+<script src="javascripts/config/setLocation.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuhTVhl6O7-7ICHrmDcI6RI7NdjlEMk8o&callback=initMap"></script>

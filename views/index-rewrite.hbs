@@ -1,0 +1,40 @@
+<!-- <script type="text/javascript" src=javascripts/widgets/news.js></script>-->
+<script type="text/javascript" src="javascripts/widgets/picture.js"></script>
+<link rel='stylesheet' href='stylesheets/card.css'>
+<link rel='stylesheet' href='stylesheets/map.css'>
+
+<p></p> <!-- fix me! -->
+
+<div class='row'>
+  <div id='test1' class='col s12 m6'>
+  </div>
+  <div id='test2' class='col s12 m6'>
+  </div>
+</div>
+
+
+
+<script type='text/javascript' src='javascripts/widgets/news.js'></script>
+<script type='text/javascript' src='javascripts/widgets/Card.js'></script>
+<!-- <script type='text/javascript' src='javascripts/widgets/Weather.js'></script> -->
+<script defer type='text/javascript'>
+  let weatherCard = new Card('weather-test', { 'image': true})
+  // weatherCard.createCard()
+  weatherCard.addCard(document.getElementById('test1'))
+  let wth = new Weather()
+  wth.getByLatLong('owm','weather-test',JSON.parse(window.localStorage.getItem('location')))
+  let newsCard = new Card('news',{ 'image': true, 'button': true})
+  // newsCard.createCard()
+  newsCard.addCard(document.getElementById('test1'))
+
+  let picCard = new Card('pic', {'image': true, 'truncateTitle': true })
+  picCard.addCard(document.getElementById('test2'))
+
+  let todoCard = new Card('todo')
+  todoCard.addCard(document.getElementById('test2'))
+
+</script>
+<script defer type='text/javascript' src='javascripts/widgets/todo.js'></script>
+<!-- <script defer type='text/javascript' src='javascripts/widgets/widgets.js'></script> -->
+<!-- <script src="javascripts/config/setLocation.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuhTVhl6O7-7ICHrmDcI6RI7NdjlEMk8o&callback=initMap"></script> -->
