@@ -65,3 +65,7 @@ a {
   resize:both;
   overflow:auto;
 }
+
+.switch {
+  padding:1em 0.5em;
+}

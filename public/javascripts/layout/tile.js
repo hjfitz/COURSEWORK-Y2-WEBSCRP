@@ -3,21 +3,24 @@ const
   mainRow     = document.getElementById('main-row'),
   weatherCard = new Card('weather', {'image': true}),
   newsCard    = new Card('news', {'image': true, 'button': true}),
-  imageCard   = new Card('pic', {'image': true, 'truncateTitle': true }),
+  imageCard   = new Card('pic', {'image': true, 'truncateTitle': true, 'text':true }),
   todoCard    = new Card('todo'),
+  timeCard    = new Card('time', { 'text':true}),
   pageTiles   = new Tiles(setupArea, "#3F51B5", { 'across': 32, 'down': 27}),
   weather     = new Weather()
   weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location'))),
-  cardObjs    = [weatherCard, newsCard, todoCard, imageCard],
-  cards       = [weatherCard.getCard(), newsCard.getCard(), todoCard.getCard(), imageCard.getCard()],
+  cardObjs    = [weatherCard, newsCard, todoCard, imageCard, timeCard],
+  cards       = [weatherCard.getCard(), newsCard.getCard(), todoCard.getCard(), imageCard.getCard(), timeCard.getCard],
   card = {
     'weather': weatherCard.getCard(),
     'news': newsCard.getCard(),
     'image': imageCard.getCard(),
-    'todo': todoCard.getCard()
+    'todo': todoCard.getCard(),
+    'time': timeCard.getCard()
   }
 
 weatherCard.addSettings(toggleWeatherSettings)
+timeCard.addSettings(toggleTimeSettings)
 
 for (const card of cardObjs) {
   card.addCard(mainRow)

@@ -3,12 +3,16 @@
  width: 100%;
 }
 
-#weather-settings {
+.setting-card {
   position:absolute;
   z-index: 4;
   left:0;
   right:0;
   margin:0 auto;
+}
+
+#time-settings {
+  width:400px;
 }
 
 .black-overlay {

@@ -2,17 +2,17 @@
 /* C A R D */
 /* * * * * */
 
-
+//class-wrapper for materialize cards
+//upon creating an object of class Card, an element is instantly created;
+//this may be put on the page with Card().addCard()
+//the basic card has a text area, a title and a content area.
+//they are follow the convention of cardName-text, cardName-title and cardName-content.
+//(where cardName is the first argument you pass the constructor)
 class Card {
   constructor(cardName, extras={}, cardImage='images/loading.png') {
     this.card = document.createElement('div')
     this.cardName = cardName
     this.cardImage = cardImage
-    if (extras) {
-      this.button = extras.button
-      this.settings = extras.settings
-      this.image = extras.image
-    }
     this.extras = extras
     this.createCard()
   }
@@ -32,6 +32,7 @@ class Card {
 
     let text = document.createElement('p')
     text.id = this.cardName + '-text'
+    text.textContent = this.cardName
 
     let title = document.createElement('span')
     title.id = this.cardName + "-title"
@@ -44,7 +45,7 @@ class Card {
 
     let imageContainer, image, imageLink
 
-    if (this.image) {
+    if (this.extras.image) {
       imageContainer = document.createElement('div')
       imageContainer.classList = 'card-image'
       imageLink = document.createElement('a')
@@ -60,7 +61,7 @@ class Card {
 
     this.card.appendChild(content)
 
-    if (this.button) {
+    if (this.extras.button) {
       let action = document.createElement('div')
       action.classList = 'card-action'
       let link = document.createElement('a')
@@ -72,9 +73,13 @@ class Card {
     }
 
 
-
     content.appendChild(title)
-    content.appendChild(text)
+
+
+    if (this.extras.text) {
+      content.appendChild(text)
+    }
+
 
   }
 
