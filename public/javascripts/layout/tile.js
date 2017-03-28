@@ -28,6 +28,7 @@ const
 
 weatherCard.addSettings(toggleWeatherSettings)
 timeCard.addSettings(toggleTimeSettings)
+newsCard.addSettings(newsSettings)
 
 for (const card of cardObjs) {
   card.addCard(mainRow)
@@ -86,7 +87,7 @@ function addCardToForm() {
     }
 
     let
-      newCard = card[$('select').val()],
+      newCard = card[$('#card-list').val()],
       prefs = {
         'left':   left + "px",
         'top':    top + "px",

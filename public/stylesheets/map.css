@@ -11,8 +11,12 @@
   margin:0 auto;
 }
 
-#time-settings {
+#time-settings, #news-settings {
   width:400px;
+}
+
+#news-settings {
+  height:70vh;
 }
 
 .black-overlay {

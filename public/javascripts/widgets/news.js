@@ -1,30 +1,44 @@
-/**
-* news.js - pulls from news APIs to display on the main page.
-* Given a configuration item, different sources may be configured.
-*
-* Current ideas:
-** ycombinator
-** BBC news
-** NOT /r/news
-*/
+const
+  newsApiKey          = "&apiKey=7ebe193132874eb7980037010dc43400",
+  newsApiUrl          = " https://newsapi.org/v1/articles?source=",
+  NewsApiSort         = "&sortBy=latest",
+  sources             = ['bbc-news', 'ars-technica', 'national-geographic'],
+  selSource           = Math.floor(Math.random() * 3) ,
+  curSource           = window.localStorage.getItem('news-source') || sources[selSource],
+  NEWSAPIGET          = newsApiUrl + curSource  + newsApiKey,
+  newsSettingsBox     = document.getElementById('news-settings'),
+  newsSettingsOverlay = document.getElementById('black-overlay-news'),
+  newsSettingsContent = document.getElementById('news-content'),
+  newsButton          = document.getElementById('set-news')
+;
 
-const NEWSAPIKEY = "&apiKey=7ebe193132874eb7980037010dc43400";
-const newsApiUrl = " https://newsapi.org/v1/articles?source=";
-let source = "bbc-news";
-let sources = ['bbc-news', 'ars-technica', 'national-geographic']
-const NEWSAPISORT = "&sortBy=latest";
-const curSource = sources[(Math.random() * 2).toFixed(0)]
-// let curSource = source
-console.log(curSource)
-const NEWSAPIGET = newsApiUrl + curSource  + NEWSAPIKEY;
+newsButton.addEventListener('click', setNews)
+newsSettingsOverlay.addEventListener('click', newsSettings)
+
+function newsSettings() {
+  newsSettingsOverlay.classList.toggle('hide')
+  newsSettingsBox.classList.toggle('hide')
+}
+
+function setNews() {
+  let source = $('#news-select').val()
+  if (source === null) {
+    Materialize.toast('Please pick a source from the dropdown!', 3000)
+  } else {
+    window.localStorage.setItem('news-source', source)
+    newsSettings()
+  }
+}
+
 
 function getNewNews() {
+  let randArticle = Math.floor(Math.random() * 9)
   Util.getJSON(NEWSAPIGET, data => {
     let newsInfo = {
-      "newsPic": data.articles[0].urlToImage,
-      "desc": data.articles[0].description,
-      "title": data.articles[0].title,
-      "url": data.articles[0].url
+      "newsPic": data.articles[randArticle].urlToImage,
+      "desc": data.articles[randArticle].description,
+      "title": data.articles[randArticle].title,
+      "url": data.articles[randArticle].url
     };
     putNewsInCard(newsInfo);
   });
