@@ -28,6 +28,11 @@ let
   altDayFormat = 'DD',
   altMonthFormat = 'MM',
   altYearFormat = 'YY',
+  settings;
+
+if ('time-settings' in window.localStorage) {
+  settings = JSON.parse(window.localStorage.getItem('time-settings'))
+} else {
   settings = {
     'allowDate': allowDate,
     'day':dayFormat,
@@ -37,9 +42,13 @@ let
     'seconds':seconds,
     'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat
   }
-;
+}
 
 //add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  setSettings()
+})
+timeSaveButton.addEventListener('click', setTime)
 timeOverlay.addEventListener('click', toggleTimeSettings)
 clockFormatToggle.addEventListener('click', () => { hours = !hours })
 secondsToggle.addEventListener('click', () => { seconds = !seconds })
@@ -98,6 +107,17 @@ function setPreview() {
 function toggleTimeSettings() {
   document.getElementById('time-settings').classList.toggle('hide')
   document.getElementById('black-overlay-time').classList.toggle('hide')
+}
+
+function setTime() {
+  setSettings()
+  toggleTimeSettings()
+  saveTime()
+}
+
+function saveTime() {
+  let savedTime = JSON.stringify(settings)
+  window.localStorage.setItem('time-settings', savedTime)
 }
 
 function putTimeOnCard() {

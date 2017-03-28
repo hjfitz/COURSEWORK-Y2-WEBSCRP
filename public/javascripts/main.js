@@ -3,10 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   getRedditPic()
   startTime()
   main()
+  if ('card_preferences' in window.localStorage) {
+    loadFromLS()
+    // console.log(pageTiles.toggleTiles())
+  }
 })
 
 function main() {
-  console.log(window.localStorage.getItem('location'))
   // if (window.localStorage.getItem('location') !== null) {
   //   Weather.getByLatLong('owm', () => {
   //     Weather.addToCard()

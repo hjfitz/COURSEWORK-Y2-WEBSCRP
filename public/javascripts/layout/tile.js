@@ -10,7 +10,14 @@ const
   weather     = new Weather()
   weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location'))),
   cardObjs    = [weatherCard, newsCard, todoCard, imageCard, timeCard],
-  cards       = [weatherCard.getCard(), newsCard.getCard(), todoCard.getCard(), imageCard.getCard(), timeCard.getCard],
+  cards =
+    [
+      weatherCard.getCard(),
+      newsCard.getCard(),
+      todoCard.getCard(),
+      imageCard.getCard(),
+      timeCard.getCard()
+    ],
   card = {
     'weather': weatherCard.getCard(),
     'news': newsCard.getCard(),
@@ -27,7 +34,9 @@ for (const card of cardObjs) {
 }
 
 function setup() {
-  pageTiles.createTiles()
+  if (!('card_preferences' in window.localStorage)) {
+    pageTiles.createTiles()
+  }
   let
     select  = document.createElement("select"),
     add     = document.getElementById('add'),
@@ -89,9 +98,13 @@ function addCardToForm() {
 }
 
 function editForm() {
-  pageTiles.toggleTiles()
-  pageTiles.resetTiles()
-  //something else
+  //start by creating our awesome grid
+  pageTiles.createTiles()
+  //because our cards are stored in classes, accessible from a list, we can just remove them
+  for (const card of cards) {
+    card.parentElement.removeChild(card)
+    card.dataset['onPage'] = 0
+  }
 }
 
 function putCardInPosition(pref, newCard) {
@@ -112,8 +125,8 @@ function saveAll() {
   //save to local storage for later retrieval
   let visCards = []
   for (const cd of cards) {
-    //need a better way to parse this
-    console.log(cd)
+    //when we put the card in position, we set its on-page dataset to 1
+    //this lets us know now that we need to save the information.
     if (cd.dataset['onPage'] == 1) {
       visCards.push({
         'id': cd.id,
@@ -126,16 +139,23 @@ function saveAll() {
       })
     }
   }
-  //save preferences
+  //save preferences to localStorage
   window.localStorage.setItem('card_preferences', JSON.stringify(visCards))
 }
 
 function loadFromLS() {
-  const info = JSON.parse(window.localStorage.card_preferences)
-  for (const cardInfo of info) {
-    let newCard = document.getElementById(cardInfo.id)
-    let pref = cardInfo.pref
-    putCardInPosition(pref,newCard)
+  //gather our information from localStorage. Perform a check first.
+  if ('card_preferences' in window.localStorage) {
+    const info = JSON.parse(window.localStorage.card_preferences)
+    for (const cardInfo of info) {
+      let newCard = document.getElementById(cardInfo.id)
+      let pref = cardInfo.pref
+      putCardInPosition(pref,newCard)
+    }
+    pageTiles.toggleTiles()
+    console.log("loaded")
+  } else {
+    Materialize.toast('Error, could not find settings!', 3000)
   }
 }
 
