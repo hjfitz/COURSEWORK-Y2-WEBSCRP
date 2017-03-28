@@ -70,7 +70,7 @@ function postEdits () {
   console.log(changedInfo)
   //create dynamically
   const url = 'http://api.webscrp.dev:8000/todo/edit'
-  $.post(url, changedInfo, function(data) {
+  $.post(url, changedInfo, data => {
     if (data.code === 200) {
       toggleEdit()
       location.reload()
@@ -79,7 +79,7 @@ function postEdits () {
     } else {
       console.error('Issue with updating.')
     }
-  });
+  })
 }
 
 function toggleEdit () {

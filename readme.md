@@ -66,6 +66,16 @@ The learning outcomes (as defined in the Unit Spec.) are:
 - SQLITE/MySQL
   - Depends on the size of the file required.
 
+## Thoughts and things learnt
+- It's a great idea to move different parts to different routes.
+  - I have a main route for rendering the pages
+  - I have enother route for the api  
+    - This has two further routes, one for configuration and one for todos.
+- Node handles files weirdly. When I was working on the config part of the UI, I noticed that I couldn't write to `../../util/userconfig.json`. This is because referencing to files in node works two different ways:
+  - Your requires area relative to the file that you are requiring from.
+  - Writing and interfacing with another file must be done in relation to the directory that the program is _being run from_.
+- Light colorschemes are much better.
+
 ## Requirements and setup
 - Because express-subdomain is hacky, you need to set up your hosts file correctly. Assuming you wish to access the application from webscrp.dev:
   - Note: should probably add this as a script in package.json

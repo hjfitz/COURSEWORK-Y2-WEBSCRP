@@ -60,6 +60,16 @@ for (const lever of levers) {
   lever.addEventListener('click', setSettings)
 }
 
+function sendTime() {
+  $.ajax({
+    type: "PATCH",
+    url: '/api/configuration/time',
+    data: settings,
+    success: console.log,
+    error: console.error
+  })
+}
+
 
 function changeDate() {
   let temp = dayFormat
@@ -78,7 +88,6 @@ function changeYear() {
   yearFormat = altYearFormat
   altYearFormat = yearFormat
 }
-
 
 function setSettings() {
   settings = {
@@ -117,6 +126,7 @@ function setTime() {
 
 function saveTime() {
   let savedTime = JSON.stringify(settings)
+  sendTime()
   window.localStorage.setItem('time-settings', savedTime)
 }
 

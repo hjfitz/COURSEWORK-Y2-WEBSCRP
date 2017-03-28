@@ -6,7 +6,7 @@ const configRouter = require('./config')
 //require external files
 const dbUtil = require('../../util/db')
 const sqliteDB = dbUtil.db
-const config = require('../../util/config.json')
+const config = require('../../util/serverconfig.json')
 const helpers = require('../../util/express-helpers')
 //configure main route
 api.use('/todos', todoRouter)

@@ -1,0 +1,32 @@
+{
+  "time": {
+    "allowDate":true,
+    "day":"ddd",
+    "month":"MMM",
+    "year":"Y",
+    "hours":false,
+    "seconds":false,
+    "dateFormat":"ddd-MMM-Y"
+  },
+  "weather": {
+    "lat":50.80289715328839,
+    "lon":-1.0567474365234375
+  },
+  "news": {
+    "provider": "bbc-news"
+  },
+  "reddit": {
+    "subreddit": "aww"
+  },
+  "card_preferences":
+    [
+      {
+        "id":"news-card",
+        "pref": {"left":"480px","top":"122px","width":"355px","height":"571px"}
+      },
+      {
+        "id":"time-card",
+        "pref": {"left":"80px","top":"122px","width":"280px","height":"174px"}
+        }
+      ]
+}

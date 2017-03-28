@@ -12,6 +12,7 @@
 todoRoute.get('/', (req, res, next) => {
   sqliteDB.all('select rowid, * from todo', (err, todos) => {
     if (err) {
+      console.error(err)
       res.send(err) // TODO make a callback function to handle this
     } else {
       res.json(todos)

@@ -25,8 +25,19 @@ function save() {
   }
   setLocation(curLoc)
   let saveLoc = JSON.stringify(location)
+  setLocation(location)
   localStorage.setItem('location', saveLoc)
   console.log('saved!')
+}
+
+function setLocation(location) {
+  $.ajax({
+    type: "PATCH",
+    url: '/api/configuration/weather',
+    data: settings,
+    success: console.log,
+    error: console.error
+  })
 }
 
 function initMap() {

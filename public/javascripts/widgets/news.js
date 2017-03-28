@@ -22,41 +22,52 @@ function newsSettings() {
 
 function setNews() {
   let source = $('#news-select').val()
+  window.localStorage.setItem('news-source', source)
   if (source === null) {
     Materialize.toast('Please pick a source from the dropdown!', 3000)
   } else {
-    window.localStorage.setItem('news-source', source)
     newsSettings()
+    getNewNews()
+    sendNews(source)
   }
 }
 
+function sendNews(source) {
+  let body = { 'provider': source }
+  $.ajax({
+    type: "PATCH",
+    url: '/api/configuration/news',
+    data: body,
+    success: console.log,
+    error: console.error
+  })
+}
 
 function getNewNews() {
   let randArticle = Math.floor(Math.random() * 9)
+  console.log(NEWSAPIGET)
   Util.getJSON(NEWSAPIGET, data => {
     let newsInfo = {
       "newsPic": data.articles[randArticle].urlToImage,
       "desc": data.articles[randArticle].description,
       "title": data.articles[randArticle].title,
       "url": data.articles[randArticle].url
-    };
+    }
     putNewsInCard(newsInfo);
-  });
+  })
 }
 
 function putNewsInCard(news) {
-  let newsCard    = document.getElementById("news-content");
-  let newsLink    = document.getElementById("news-link");
-  let newsTitle   = document.getElementById("news-title");
-  let newsImage   = document.getElementById("news-image");
-  let newsPicLink = document.getElementById("news-image-link");
-  let desc        = document.createElement("p");
+  let
+    newsCard    = document.getElementById("news-content"),
+    newsLink    = document.getElementById("news-link"),
+    newsTitle   = document.getElementById("news-title"),
+    newsImage   = document.getElementById("news-image"),
+    newsPicLink = document.getElementById("news-image-link")
+  ;
 
-  newsPicLink.href      = news.url;
-  newsImage.src         = news.newsPic;
-  newsLink.href         = news.url;
-  newsTitle.textContent = news.title;
-  desc.textContent      = news.desc;
-
-  newsCard.appendChild(desc);
+  newsPicLink.href      = news.url
+  newsImage.src         = news.newsPic
+  newsLink.href         = news.url
+  newsTitle.textContent = news.title
 }

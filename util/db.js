@@ -1,10 +1,10 @@
 const sqlite3 = require('sqlite3').verbose()
-const config = require('./config.json')
-const db = new sqlite3.Database(config.server.dbFile)
+const config = require('./serverconfig.json')
+const db = new sqlite3.Database(config.dbFile)
 
 // check if the program's been run before
 function init () {
-  db.all('SELECT * FROM todo', function (err, row) {
+  db.all('SELECT * FROM todo', (err, row) => {
     if (err) initDatabase()
   })
 }
