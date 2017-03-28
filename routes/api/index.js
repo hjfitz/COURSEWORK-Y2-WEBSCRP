@@ -10,7 +10,7 @@ const config = require('../../util/config.json')
 const helpers = require('../../util/express-helpers')
 //configure main route
 api.use('/todos', todoRouter)
-api.use('/config', configRouter)
+api.use('/configuration', configRouter)
 
 /**
  * MAIN API

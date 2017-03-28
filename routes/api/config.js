@@ -2,8 +2,7 @@ const express = require('express')
 const configRouter = express.Router()
 
 configRouter.get('/', (req, res, next) => {
-  if (err) throw err;
-  res.json('{status:200}')
+  res.json(__dirname)
 })
 
 configRouter.post('/', (req, res, next) => {
