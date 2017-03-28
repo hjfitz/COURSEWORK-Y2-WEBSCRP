@@ -8,7 +8,6 @@ const
   NEWSAPIGET          = newsApiUrl + curSource  + newsApiKey,
   newsSettingsBox     = document.getElementById('news-settings'),
   newsSettingsOverlay = document.getElementById('black-overlay-news'),
-  newsSettingsContent = document.getElementById('news-content'),
   newsButton          = document.getElementById('set-news')
 ;
 

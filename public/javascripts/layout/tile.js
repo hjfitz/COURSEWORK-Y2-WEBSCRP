@@ -29,6 +29,7 @@ const
 weatherCard.addSettings(toggleWeatherSettings)
 timeCard.addSettings(toggleTimeSettings)
 newsCard.addSettings(newsSettings)
+imageCard.addSettings(togglePictureSettings)
 
 for (const card of cardObjs) {
   card.addCard(mainRow)
