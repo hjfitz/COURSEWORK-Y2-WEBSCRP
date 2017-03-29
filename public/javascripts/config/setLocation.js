@@ -26,7 +26,7 @@ function save() {
   setLocation(curLoc)
   let saveLoc = JSON.stringify(location)
   setLocation(location)
-  localStorage.setItem('location', saveLoc)
+  localStorage.setItem('location_preferences', saveLoc)
   console.log('saved!')
 }
 
@@ -34,7 +34,7 @@ function setLocation(location) {
   $.ajax({
     type: "PATCH",
     url: '/api/configuration/weather',
-    data: settings,
+    data: location,
     success: console.log,
     error: console.error
   })

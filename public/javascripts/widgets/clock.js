@@ -8,30 +8,26 @@ const
   secondsCheck = document.getElementById('seconds-check'),
   check24h = document.getElementById('24h-check')
 ;
-let settings;
+let settings,
+  dayFormat = 'ddd',
+  monthFormat = 'MMM',
+  yearFormat = 'YY'
+;
 if ('time-settings' in window.localStorage) {
   console.log("time settings found")
   settings = JSON.parse(window.localStorage.getItem('time-settings'))
 } else {
   settings = {
-    'allowDate': allowDate,
+    'allowDate': true,
     'day':dayFormat,
     'month':monthFormat,
     'year': yearFormat,
-    'hours':hours,
-    'seconds':seconds,
+    'hours':true,
+    'seconds':true,
     'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat,
   }
 }
 
-let
-  seconds = settings.seconds,
-  allowDate = settings.allowDate,
-  hours = settings ,
-  dayFormat = 'ddd',
-  monthFormat = 'MMM',
-  yearFormat = 'YY'
-;
 
 //document's ready, run this
 document.addEventListener('DOMContentLoaded', () => {

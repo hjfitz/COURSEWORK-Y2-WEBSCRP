@@ -1,1 +1,6 @@
-{"time":{"allowDate":"true","day":"ddd","month":"MMM","year":"YY","hours":"false","seconds":"false","dateFormat":"ddd-MMM-YY","altDayFormat":"DD","altMonthFormat":"MM","altYearFormat":"YY"},"weather":{"lat":50.80289715328839,"lon":-1.0567474365234375},"news":{"provider":"google-news"},"reddit":{"subreddit":"oldschoolcool"},"card_preferences":[{"id":"news-card","pref":{"left":"480px","top":"122px","width":"355px","height":"571px"}},{"id":"time-card","pref":{"left":"80px","top":"122px","width":"280px","height":"174px"}}]}
+{"time":{"allowDate":"true","day":"ddd","month":"MMM","year":"YY","hours":"false","seconds":"true","dateFormat":"ddd-MMM-YY"},
+"weather": {
+  "lat":50.80289715328839,
+  "lon":-1.0567474365234375
+},
+"news":{"provider":"hacker-news"},"reddit":{"subreddit":"catsstandingup"},"card_preferences":[{"id":"news-card","pref":{"left":"480px","top":"122px","width":"355px","height":"571px"}},{"id":"time-card","pref":{"left":"80px","top":"122px","width":"280px","height":"174px"}}]}

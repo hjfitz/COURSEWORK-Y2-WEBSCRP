@@ -8,7 +8,6 @@ const
   timeCard    = new Card('time', { 'text':true}),
   pageTiles   = new Tiles(setupArea, "#3F51B5", { 'across': 32, 'down': 27}),
   weather     = new Weather()
-  weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location'))),
   cardObjs    = [weatherCard, newsCard, todoCard, imageCard, timeCard],
   cards =
     [
@@ -24,8 +23,17 @@ const
     'image': imageCard.getCard(),
     'todo': todoCard.getCard(),
     'time': timeCard.getCard()
-  }
+  };
 
+if (!('location_preferences' in window.localStorage)) {
+  Util.getJSON('/api/configuration/weather', data => {
+    console.log(data)
+    window.localStorage.setItem('location_preferences', JSON.stringify(data))
+    weather.getByLatLong('owm', 'weather', data)
+  })
+} else {
+  weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location_preferences')))
+}
 weatherCard.addSettings(toggleWeatherSettings, setupArea)
 timeCard.addSettings(toggleTimeSettings, setupArea)
 newsCard.addSettings(newsSettings, setupArea)
