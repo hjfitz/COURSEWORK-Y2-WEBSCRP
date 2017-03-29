@@ -69,3 +69,20 @@ a {
 .switch {
   padding:1em 0.5em;
 }
+#pic-card .card-image {
+/*#pic-card > .card-image img {*/
+
+  display: block;
+    height: 200px;
+
+  line-height: 200px;
+    overflow: hidden;
+}
+#pic-card > .card-image img {
+/*#pic-card .card-image {*/
+  position: relative;
+  /*margin: -50% auto;*/
+  width: 100%;
+  height:auto;
+  vertical-align: middle;
+}

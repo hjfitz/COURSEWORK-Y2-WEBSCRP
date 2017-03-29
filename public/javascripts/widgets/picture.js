@@ -1,11 +1,12 @@
 const
-  apodUrl          = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3",
-  subreddit        = window.localStorage.getItem('picture_preferences') || 'aww',
-  redditUrl        = "https://www.reddit.com/r/" + subreddit + "/top/.json",
-  pictureOverlay   = document.getElementById('black-overlay-reddit'),
-  pictureSettings  = document.getElementById('picture-settings'),
-  pictureSetButton = document.getElementById('set-pic'),
-  pictureInput     = document.getElementById('pic-custom')
+  apodUrl                = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3",
+  subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
+  subreddit              = JSON.parse(subredditFromLocalStor).subreddit
+  redditUrl              = "https://www.reddit.com/r/" + subreddit + "/top/.json",
+  pictureOverlay         = document.getElementById('black-overlay-reddit'),
+  pictureSettings        = document.getElementById('picture-settings'),
+  pictureSetButton       = document.getElementById('set-pic'),
+  pictureInput           = document.getElementById('pic-custom')
 ;
 
 pictureOverlay.addEventListener('click', togglePictureSettings)
@@ -15,6 +16,7 @@ function setPicture() {
   let customInput = $('#pic-custom').val()
   let selectInput = $('#pic-select').val()
   let newSub = customInput || selectInput
+  if (newSub == customInput) Materialize.toast("Warning, this could lead to unexpected behaviour!",3000)
   console.log(newSub)
 //add a check for APOD
   let body = { 'subreddit': newSub }
@@ -24,11 +26,12 @@ function setPicture() {
     data: body,
     success: data => {
       console.log(data)
-      window.localStorage.setItem('picture_preferences', newSub)
+      window.localStorage.setItem('picture_preferences', JSON.stringify(body))
     },
     error: console.error
   })
   togglePictureSettings()
+  getRedditPic()
 }
 
 function togglePictureSettings() {
@@ -36,7 +39,35 @@ function togglePictureSettings() {
   pictureSettings.classList.toggle('hide')
 }
 
-
+function getRedditPic() {
+  console.log(redditUrl)
+  Util.getJSON(redditUrl, data => {
+    //random number for entry - constant length 25 thanks to reddit api
+    let randomPost = (Math.random() * 25).toFixed(0);
+    let numChecks = 0; //max bound of 25
+    let picList = data.data.children;
+    let currentPost = picList[randomPost];
+    let notImage = true;
+    while (notImage) {
+      randomPost = (Math.random() * 25).toFixed(0);
+      currentPost = picList[randomPost];
+      try {
+        let postUrl = "http://www.reddit.com" + currentPost.data.permalink;
+        let imgUrl = currentPost.data.url;
+        notImage = (imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
+      } catch (err) {
+        console.warn(err)
+      }
+    }
+    let picData = {
+      alt: currentPost.data.title,
+      src: currentPost.data.url,
+      title: currentPost.data.title,
+      href: "https://www.reddit.com" + currentPost.data.permalink
+    }
+    putPicInCard(picData)
+  })
+}
 
 function getAPOD() {
   Util.getJSON(APODAPIKEY, data => {
@@ -48,31 +79,6 @@ function getAPOD() {
     };
     putPicInCard(picData);
   });
-}
-
-function getRedditPic() {
-  Util.getJSON(redditUrl, data => {
-    //random number for entry - constant length 25 thanks to reddit api
-    let randomPost = (Math.random() * 25).toFixed(0);
-    let numChecks = 0; //max bound of 25
-    let picList = data.data.children;
-    let currentPost = picList[randomPost];
-    let notImage = true;
-    while (notImage) {
-      randomPost = (Math.random() * 25).toFixed(0);
-      currentPost = picList[randomPost];
-      let postUrl = "http://www.reddit.com" + currentPost.data.permalink;
-      let imgUrl = currentPost.data.url;
-      notImage = (imgUrl.match(/\.(jpeg|jpg|gif|png)$/) == null)
-    }
-    let picData = {
-      alt: currentPost.data.title,
-      src: currentPost.data.url,
-      title: currentPost.data.title,
-      href: "https://www.reddit.com" + currentPost.data.permalink
-    }
-    putPicInCard(picData)
-  })
 }
 
 //maybe change add callback then run the parser (random choice?)
