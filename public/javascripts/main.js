@@ -1,6 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   getNewNews()
-  getRedditPic()
+  if (!('picture_preferences' in window.localStorage)) {
+    Util.getJSON('/api/configuration/reddit', data => {
+      window.localStorage.setItem('picture_preferences', JSON.stringify(data))
+      getRedditPic(data.subreddit)
+    })
+  } else {
+    subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
+    subreddit              = JSON.parse(subredditFromLocalStor).subreddit;
+    getRedditPic(subreddit)
+  }
+
   startTime()
   main()
 })

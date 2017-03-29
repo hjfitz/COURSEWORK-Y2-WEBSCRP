@@ -2,19 +2,19 @@ let
   subreddit,
   subredditFromLocalStor;
 
-if (!('picture_preferences' in window.localStorage)) {
-  Util.getJSON('/api/configuration/reddit', data => {
-    window.localStorage.setItem('picture_preferences', JSON.stringify(data))
-    subreddit = data.subreddit
-  })
-} else {
-  subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
-  subreddit              = JSON.parse(subredditFromLocalStor).subreddit;
-}
+// if (!('picture_preferences' in window.localStorage)) {
+//   Util.getJSON('/api/configuration/reddit', data => {
+//     window.localStorage.setItem('picture_preferences', JSON.stringify(data))
+//     subreddit = data.subreddit
+//   })
+// } else {
+//   subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
+//   subreddit              = JSON.parse(subredditFromLocalStor).subreddit;
+// }
 
 const
   apodUrl                = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3",
-  redditUrl              = "https://www.reddit.com/r/" + subreddit + "/top/.json",
+  // redditUrl              = "https://www.reddit.com/r/" + subreddit + "/top/.json",
   pictureOverlay         = document.getElementById('black-overlay-reddit'),
   pictureSettings        = document.getElementById('picture-settings'),
   pictureSetButton       = document.getElementById('set-pic'),
@@ -53,7 +53,8 @@ function togglePictureSettings() {
 
 //TODO IMPORTANT innit fam
 //allow subreddit as parameter, can therefore call with our checks, thus removing the error thrown.
-function getRedditPic() {
+function getRedditPic(subreddit) {
+  let redditUrl = "https://www.reddit.com/r/" + subreddit + "/top/.json"
   console.log(subreddit)
   console.log(redditUrl)
   Util.getJSON(redditUrl, data => {
