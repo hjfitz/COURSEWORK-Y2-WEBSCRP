@@ -69,7 +69,7 @@ a {
 .switch {
   padding:1em 0.5em;
 }
-#pic-card .card-image {
+#pic-card .card-image, #weather-card > .card-image {
 /*#pic-card > .card-image img {*/
 
   display: block;
@@ -78,7 +78,7 @@ a {
   line-height: 200px;
     overflow: hidden;
 }
-#pic-card > .card-image img {
+#pic-card > .card-image img, #weather-card > .card-image img {
 /*#pic-card .card-image {*/
   position: relative;
   /*margin: -50% auto;*/

@@ -83,12 +83,16 @@ class Card {
 
   }
 
-  addSettings(action) {
-    let settingsIcon = document.createElement('i')
-    settingsIcon.id = this.cardName + ' setting-icon'
-    settingsIcon.classList = 'material-icons setting-icon'
+  addSettings(action, area) {
+    let settingsIcon            = document.createElement('i')
+    let overlayContainer        = document.createElement('div')
+    overlayContainer.id         = "black-overlay-" + this.cardName //+ "-test"
+    overlayContainer.classList  = "black-overlay hide"
+    settingsIcon.id             = this.cardName + ' setting-icon'
+    settingsIcon.classList      = 'material-icons setting-icon'
     settingsIcon.dataset.widget = this.cardName + '-card'
-    settingsIcon.textContent = 'settings'
+    settingsIcon.textContent    = 'settings'
+    area.appendChild(overlayContainer)
     this.card.appendChild(settingsIcon)
     settingsIcon.addEventListener('click', action)
   }

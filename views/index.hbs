@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class='row'>
-        <a id='set-pic' class='waved-effect waves-light btn' href=# >Set</a>
+        <a id='set-pic' class='waves-effect waves-light btn' href=# >Set</a>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@
           <option value="recode">Recode</option>
         </select>
 
-        <a id='set-news' class='waved-effect waves-light btn' href=# >Set</a>
+        <a id='set-news' class='waves-effect waves-light btn' href=# >Set</a>
       </div>
     </div>
   </div>
@@ -87,51 +87,28 @@
     <div class=card id='time-setting-card'>
       <div class=card-content>
         <span class='card-title'>Set the time</span>
-        <div class='row'>
+        <div class='row center'>
           <form action="#">
-            <p>
-              <input type="checkbox" id="24h" />
-              <label for="24h">24h Clock</label>
-            </p>
-            <p>
-              <input type="checkbox" id="seconds" />
-              <label for="seconds">Seconds</label>
-            </p>
-          </form>
+           <p>
+             <input type="checkbox" id="24h-check" />
+             <label for="24h-check">24h Time</label>
+           </p>
+           <p>
+             <input type="checkbox" id="seconds-check" />
+             <label for="seconds-check">Allow Seconds</label>
+           </p>
+         </form>
         </div>
+        <div class='row center'>
+          <div class='col'>
+            </div>
+              <a id='date-toggle' class='waves-effect waves-light btn' href=# >Day</a>
+              <a id='month-toggle' class='waves-effect waves-light btn' href=# >Month</a>
+              <a id='year-toggle' class='waves-effect waves-light btn' href=# >Year</a>
+            </div>
 
-        <div class='row'>
-          <div class="switch">
-            <label>
-              <span id='day'>Day</span>
-              <input type="checkbox">
-              <span class="lever" id='date-lever'></span>
-              <span id='date'>date</span>
-            </label>
-          </div>
-          <div class="switch">
-            <label>
-              <span id='month'>Month</span>
-              <input type="checkbox">
-              <span class="lever" id='month-lever'></span>
-              <span id='month-num'>Month number</span>
-            </label>
-          </div>
-          <div class="switch">
-            <label>
-              <span id='year-short'>Year short</span>
-              <input type="checkbox">
-              <span class="lever" id='year-lever'></span>
-              <span id='year'>Year</span>
-            </label>
-          </div>
-
-        </div>
-
-        <div class='row'>
-          <p id='time-preview'>00:00</p>
-          <p id='date-preview'>01-01-1970</p>
-          <a id='set-time' class='waved-effect waves-light btn' href=# >Set</a>
+        <div class='row center'>
+          <a id='set-time' class='waves-effect waves-light btn' href=# >Set</a>
         </div>
       </div>
     </div>
@@ -145,7 +122,7 @@
     <li><a id='add' class='waves-effect waves-light btn' href=# >Add</a></li>
     <li><a id='load' class='waves-effect waves-light btn' href=# >Load</a></li>
     <li><a id='save' class='waves-effect waves-light btn' href=# >Save</a></li>
-    <li><a id='edit' class='waved-effect waves-light btn' href=# >Edit</a></li>
+    <li><a id='edit' class='waves-effect waves-light btn' href=# >Edit</a></li>
     <li class="valign-wrapper"><a href="#!" id="dropper"></a></li>
   </ul>
 </div>

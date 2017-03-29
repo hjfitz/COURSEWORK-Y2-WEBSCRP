@@ -26,10 +26,10 @@ const
     'time': timeCard.getCard()
   }
 
-weatherCard.addSettings(toggleWeatherSettings)
-timeCard.addSettings(toggleTimeSettings)
-newsCard.addSettings(newsSettings)
-imageCard.addSettings(togglePictureSettings)
+weatherCard.addSettings(toggleWeatherSettings, setupArea)
+timeCard.addSettings(toggleTimeSettings, setupArea)
+newsCard.addSettings(newsSettings, setupArea)
+imageCard.addSettings(togglePictureSettings, setupArea)
 
 for (const card of cardObjs) {
   card.addCard(mainRow)

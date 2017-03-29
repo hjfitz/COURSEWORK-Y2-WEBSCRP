@@ -2,35 +2,15 @@ const
   timeSettings       = document.getElementById('time-settings'),
   timeOverlay        = document.getElementById('black-overlay-time'),
   timeSaveButton     = document.getElementById('set-time'),
-  clockFormatToggle  = document.getElementById('24h'),
-  secondsToggle      = document.getElementById('seconds'),
-  dateToggle         = document.getElementById('date-lever'),
-  monthToggle        = document.getElementById('month-lever'),
-  yearToggle         = document.getElementById('year-lever'),
-  timeStylePreview   = document.getElementById('time-preview'),
-  yearStylePreview   = document.getElementById('date-preview'),
-  dayPreview         = document.getElementById('day'),
-  datePreview        = document.getElementById('date'),
-  monthPreview       = document.getElementById('month'),
-  monthNumberPreview = document.getElementById('month-num'),
-  yearShortPreview   = document.getElementById('year-short'),
-  yearPreview        = document.getElementById('year'),
-  levers             = document.getElementsByClassName('lever')
+  dateButton = document.getElementById('date-toggle'),
+  monthButton = document.getElementById('month-toggle'),
+  yearButton = document.getElementById('year-toggle'),
+  secondsCheck = document.getElementById('seconds-check'),
+  check24h = document.getElementById('24h-check')
 ;
-
-let
-  seconds = false,
-  allowDate = true,
-  hours = false ,
-  dayFormat = 'ddd',
-  monthFormat = 'MMM',
-  yearFormat = 'Y',
-  altDayFormat = 'DD',
-  altMonthFormat = 'MM',
-  altYearFormat = 'YY',
-  settings;
-
+let settings;
 if ('time-settings' in window.localStorage) {
+  console.log("time settings found")
   settings = JSON.parse(window.localStorage.getItem('time-settings'))
 } else {
   settings = {
@@ -40,94 +20,98 @@ if ('time-settings' in window.localStorage) {
     'year': yearFormat,
     'hours':hours,
     'seconds':seconds,
-    'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat
+    'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat,
   }
 }
 
-//add event listeners
+let
+  seconds = settings.seconds,
+  allowDate = settings.allowDate,
+  hours = settings ,
+  dayFormat = 'ddd',
+  monthFormat = 'MMM',
+  yearFormat = 'YY'
+;
+
+//document's ready, run this
 document.addEventListener('DOMContentLoaded', () => {
-  setSettings()
+  putTimeOnCard()
+  setButtons()
 })
-timeSaveButton.addEventListener('click', setTime)
+//add event listeners
 timeOverlay.addEventListener('click', toggleTimeSettings)
-clockFormatToggle.addEventListener('click', () => { hours = !hours })
-secondsToggle.addEventListener('click', () => { seconds = !seconds })
-dateToggle.addEventListener('click', changeDate)
-monthToggle.addEventListener('click', changeMonth)
-yearToggle.addEventListener('click', changeYear)
-for (const lever of levers) {
-  lever.addEventListener('click', setPreview)
-  lever.addEventListener('click', setSettings)
+dateButton.addEventListener('click', changeDateFormat)
+monthButton.addEventListener('click', changeMonthFormat)
+yearButton.addEventListener('click', changeYearFormat)
+timeSaveButton.addEventListener('click', sendTime)
+secondsCheck.addEventListener('click', toggleSeconds)
+check24h.addEventListener('click', toggleHours)
+
+//set functions
+function setButtons() {
+  dateButton.textContent = moment().format(settings.day)
+  monthButton.textContent = moment().format(settings.month)
+  yearButton.textContent = moment().format(settings.year)
+  if (settings.seconds) secondsCheck.checked = "checked"
+  if (!settings.hours) check24h.checked = "checked"
+  settings.dateFormat = settings.day + '-' + settings.month + '-' + settings.year
 }
+
+function toggleSeconds() {
+  settings.seconds = !settings.seconds
+  // setButtons()
+}
+
+function toggleHours() {
+  settings.hours = !settings.hours
+  // setButtons()
+}
+
+function changeDateFormat() {
+  if (settings.day == "DD") {
+    settings.day = "ddd"
+  } else {
+    settings.day = "DD"
+  }
+  setButtons()
+}
+
+function changeMonthFormat() {
+  if (settings.month == "MM") {
+    settings.month = "MMM"
+  } else {
+    settings.month = "MM"
+  }
+  setButtons()
+}
+
+function changeYearFormat() {
+  if (settings.year == "Y") {
+    settings.year = "YY"
+  } else {
+    settings.year = "Y"
+  }
+  setButtons()
+}
+
+function toggleTimeSettings() {
+  timeSettings.classList.toggle('hide')
+  timeOverlay.classList.toggle('hide')
+}
+
 
 function sendTime() {
   $.ajax({
     type: "PATCH",
     url: '/api/configuration/time',
     data: settings,
-    success: console.log,
+    success: (data) => {
+      console.log(data)
+      window.localStorage.setItem('time-settings', JSON.stringify(settings))
+    },
     error: console.error
   })
-}
-
-
-function changeDate() {
-  let temp = dayFormat
-  dayFormat = altDayFormat
-  altDayFormat = temp
-}
-
-function changeMonth() {
-  let temp = monthFormat
-  monthFormat = altMonthFormat
-  altMonthFormat = temp
-}
-
-function changeYear() {
-  let temp = yearFormat
-  yearFormat = altYearFormat
-  altYearFormat = yearFormat
-}
-
-function setSettings() {
-  settings = {
-    'allowDate': allowDate,
-    'day':dayFormat,
-    'month':monthFormat,
-    'year': yearFormat,
-    'hours':hours,
-    'seconds':seconds,
-    'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat
-  }
   putTimeOnCard()
-}
-
-
-function setPreview() {
-  dayPreview.textContent         = moment().format("ddd")
-  datePreview.textContent        = moment().format('DD')
-  monthPreview.textContent       = moment().format('MMM')
-  monthNumberPreview.textContent = moment().format('MM')
-  yearShortPreview.textContent   = moment().format('YY')
-  yearPreview.textContent        = moment().format('Y')
-
-}
-
-function toggleTimeSettings() {
-  document.getElementById('time-settings').classList.toggle('hide')
-  document.getElementById('black-overlay-time').classList.toggle('hide')
-}
-
-function setTime() {
-  setSettings()
-  toggleTimeSettings()
-  saveTime()
-}
-
-function saveTime() {
-  let savedTime = JSON.stringify(settings)
-  sendTime()
-  window.localStorage.setItem('time-settings', savedTime)
 }
 
 function putTimeOnCard() {
@@ -139,9 +123,12 @@ function putTimeOnCard() {
   }
   timeArea.textContent = getFormattedTime(settings.hours, settings.seconds)
 }
-
-//by default, we want a 24h clock with no seconds
-function getFormattedTime(twelveHours=false, allowSeconds=false) {
+//
+// //by default, we want a 24h clock with no seconds
+function getFormattedTime(twelveHours, allowSeconds) {
+  console.log(twelveHours)
+  console.log(settings)
+  console.log(JSON.parse(window.localStorage.getItem('time-settings')))
   const curDate = new Date()
   //get the main data for the clock
   let hours = curDate.getHours()
@@ -149,17 +136,18 @@ function getFormattedTime(twelveHours=false, allowSeconds=false) {
   //ensure that they're formatted correctly
   if (hours.toString().length === 1) hours ='0' + hours
   if (minutes.toString().length === 1) minutes = '0' + minutes
-  //format the time
-  let time = hours + ':' + minutes
   //check if we want the clock in 12h form. if we do, format it correctly
   if (twelveHours && hours > 12) hours -= 12
+  //format the time
+  let time = hours + ':' + minutes
   //if we want seconds on the clock, enable it.
   if (allowSeconds) {
     let seconds = curDate.getSeconds()
+    if (seconds.toString().length == 1) seconds = '0' + seconds
     return time + ':' + seconds
   } else {
     //otherwise return the time we've calculated
     return time
   }
 }
-//doesn't the word seconds look funny by now
+// //doesn't the word seconds look funny by now
