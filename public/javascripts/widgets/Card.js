@@ -9,7 +9,7 @@
 //they are follow the convention of cardName-text, cardName-title and cardName-content.
 //(where cardName is the first argument you pass the constructor)
 class Card {
-  constructor(cardName, extras={}, cardImage='images/loading.png') {
+  constructor(cardName, extras={}, cardImage='images/loading.gif') {
     this.card = document.createElement('div')
     this.cardName = cardName
     this.cardImage = cardImage

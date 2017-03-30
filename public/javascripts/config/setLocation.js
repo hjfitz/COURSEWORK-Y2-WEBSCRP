@@ -43,8 +43,9 @@ function initMap() {
   if (!mapHidden) {
     if ("location_preferences" in window.localStorage) {
       let prefPosition = JSON.parse(window.localStorage.getItem('location_preferences'))
-      mapCenter = { "lat": prefPosition.lat, "lng": prefPosition.lon }
+      mapCenter = { "lat": parseFloat(prefPosition.lat), "lng": parseFloat(prefPosition.lon) }
     }
+    console.log(mapCenter)
     const loc = document.getElementById('location')
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,

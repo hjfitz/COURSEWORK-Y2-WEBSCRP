@@ -13,16 +13,18 @@ class Weather {
     this.owmkey = '&appid=bbc67f01cffb0e40951dbab4a4e69a87'
     this.owmImgUrl = 'http://openweathermap.org/img/w/'
     this.card = document.getElementById('weather-card')
-  }
+    this.owmLookup = {
+      '01': 'CLEAR_DAY',
+      '02': 'PARTLY_CLOUDY_DAY',
+      '03': 'CLOUDY',
+      '04': 'CLOUDY',
+      '09': 'RAIN',
+      '10': 'SLEET',
+      '11': 'SLEET',
+      '13': 'SNOW',
+      '50': 'FOG'
+    }
 
-  getWithGeolocation(source='owm', cardToAdd) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      let coords = {
-        lat: pos.coords.latitude.toFixed(4),
-        lon: pos.coords.longitude.toFixed(4)
-      }
-      this.getByLatLong(source, cardToAdd, coords)
-    })
   }
 
   getByLatLong(source='owm', cardToAdd, coords) {
@@ -50,7 +52,8 @@ class Weather {
             'deg'      : data.wind.deg
             },
             'sealevel' : data.main.sea_level,
-            'owmicon'  : data.weather[0].icon
+            'isOwm'    : true,
+            'skycon'   : (data.weather[0].icon).replace(/[a-zA-z]/gi, '')
           }
           // this.saveWeather(weather)
           console.log(weather)
@@ -59,13 +62,12 @@ class Weather {
       })
       } else if (source === 'dsn') {
         console.info('Falling back to darksky.net for weather.')
-        dsn += pos.coords.latitude.toFixed(4) + ','
-        dsn +=pos.coords.longitude.toFixed(4) +'?units=si'
+        let dsnUrl = this.dsn + coords.lat + ',' + coords.lon +'?units=si'
         // darksky.net has a no access-control-header present
         // rather than force the user to install a chrome extension
         // we use jquery's $.ajax and json with padding as the datatype
         $.ajax({
-          url: dsn,
+          url: dsnUrl,
           dataType: 'jsonp',
           success: (data) => {
           this.weather = {
@@ -76,9 +78,12 @@ class Weather {
             'humidity' : data.currently.humidity,
             'sunrise'  : data.daily.data[0].sunriseTime,
             'sunset'   : data.daily.data[0].sunsetTime,
-            'desc'     : data.currently.summary
+            'desc'     : data.currently.summary,
+            'isOwm'    : false,
+            'skycon'   : data.currently.icon
           }
-          callback(weather)
+          console.log(dsnUrl)
+          this.addToCardObject(cardToAdd,this.weather)
           }
         })
     }
@@ -137,6 +142,7 @@ class Weather {
       }
 
       addToCardObject(contentArea, weather) {
+        console.log(weather)
 
         let tempUnit = '°C' //fix me in config
         const weatherArea = document.getElementById(contentArea + '-content')
@@ -158,7 +164,30 @@ class Weather {
         const coldSpan = document.createElement('span')
         const warmSpan = document.createElement('span')
 
-        weatherImg.src = 'http://openweathermap.org/img/w/' + weather.owmicon + ".png"
+
+        let imgContainer = document.getElementById('weather-image-link')
+        let weatherimage = document.getElementById('weather-image')
+
+        weatherimage.parentElement.removeChild(weatherimage)
+        imgContainer.innerHtml = ''
+        let canvas = document.createElement('canvas')
+        let dim = imgContainer.parentElement.getBoundingClientRect()
+        let canvHeight = dim.height
+        let canvWidth = dim.width
+        canvas.id = "weather-anim"
+        canvas.height = canvHeight
+        canvas.width = canvWidth
+        imgContainer.appendChild(canvas)
+        let skycons = new Skycons({'color':'black'})
+        let iconName;
+
+        if (weather.isOwm) {
+          iconName = this.owmLookup[weather.skycon.toString()]
+        } else {
+          iconName = weather.skycon.toUpperCase().replace('-','_')
+        }
+        skycons.add(canvas,Skycons[iconName])
+        skycons.play()
 
         coldSpan.classList = 'coldWeather'
         warmSpan.classList = 'warmWeather'
@@ -166,57 +195,19 @@ class Weather {
         coldSpan.textContent = minTemp
         warmSpan.textContent = maxTemp
 
-        weatherTitle.textContent = 'It\'s currently ' + curTemp
+        weatherTitle.textContent = `Its currently ${curTemp}`
         minTempPara.textContent = 'Maximum temp is '
         maxTempPara.textContent = 'Minimum temp is '
 
         minTempPara.appendChild(coldSpan)
         maxTempPara.appendChild(warmSpan)
-        descPara.textContent = 'It\'s ' + weatherDesc.toLowerCase() + ' outside.'
+        descPara.textContent = `It's ${weatherDesc.toLowerCase()} outside.`
         weatherArea.appendChild(tempPara)
         weatherArea.appendChild(minTempPara)
         weatherArea.appendChild(maxTempPara)
         weatherArea.appendChild(descPara)
       }
 
-       putInStatus() {
-        let tempUnit = '°C'
-
-        const weatherButton   = document.getElementById('weathinfo')
-        const weatherHigh     = document.getElementById('weather-high')
-        const weatherLow      = document.getElementById('weather-low')
-        const weatherDesc     = document.getElementById('weather-description')
-        const weatherInfoDesc = this.weather.desc
-
-        const curTemp   = this.weather.avg + tempUnit
-        const minTemp   = this.weather.min + tempUnit
-        const maxTemp   = this.weather.max + tempUnit
-        let tempPara    = document.createElement('p')
-        let minTempPara = document.createElement('p')
-        let maxTempPara = document.createElement('p')
-        let descPara    = document.createElement('p')
-
-        let coldSpan = document.createElement('span')
-        let warmSpan = document.createElement('span')
-
-        coldSpan.classList = 'coldWeather'
-        warmSpan.classList = 'warmWeather'
-
-        coldSpan.textContent = minTemp
-        warmSpan.textContent = maxTemp
-
-        weatherButton.textContent = 'It\'s currently ' + curTemp
-        minTempPara.textContent   = 'Maximum temp is '
-        maxTempPara.textContent   = 'Minimum temp is '
-
-        minTempPara.appendChild(coldSpan)
-        maxTempPara.appendChild(warmSpan)
-        descPara.textContent = 'It\'s ' + weatherInfoDesc.toLowerCase() + ' outside.'
-
-        weatherHigh.appendChild(minTempPara)
-        weatherLow.appendChild(maxTempPara)
-        weatherDesc.appendChild(descPara)
-    }
 
      kelvinToCelsius(tempK) {
         return (parseInt(tempK) - 273.15).toFixed(2)

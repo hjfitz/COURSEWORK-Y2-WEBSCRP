@@ -73,17 +73,23 @@
   </div>
 </div>
 
-  <div id='weather-settings' class='col s12 m6 setting-card'>
+
+
+<div id='weather-settings' class='col s12 m6 setting-card'>
     <div class=card id='map-card'>
       <div class=card-content>
-        <div id="map"></div>
-        <p>Your location is: <span id='location'>foo</span></p>
-        <p> <a href="#" id='save' class='waves-effect waves-light btn'>Save</a></p>
+        <div class='row'>
+          <div id="map"></div>
+        </div>
+        <div class='row'>
+          <!-- add someting about the options -->
+          <p> <a href="#" id='save' class='waves-effect waves-light btn'>Save</a></p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id='time-settings' class='col s12 m6 hide setting-card'>
+<div id='time-settings' class='col s12 m6 hide setting-card'>
     <div class=card id='time-setting-card'>
       <div class=card-content>
         <span class='card-title'>Set the time</span>
@@ -114,15 +120,17 @@
     </div>
   </div>
 
+
+
 <div class="fixed-action-btn toolbar">
   <a class="btn-floating btn-large purple">
     <i class="large material-icons">mode_edit</i>
   </a>
   <ul>
-    <li><a id='add' class='waves-effect waves-light btn' href=# >Add</a></li>
-    <li><a id='load' class='waves-effect waves-light btn' href=# >Load</a></li>
+    <!-- <li><a id='load' class='waves-effect waves-light btn' href=# >Load</a></li> -->
     <li><a id='save' class='waves-effect waves-light btn' href=# >Save</a></li>
     <li><a id='edit' class='waves-effect waves-light btn' href=# >Edit</a></li>
+    <li><a id='add' class='waves-effect waves-light btn' href=# >Add</a></li>
     <li class="valign-wrapper"><a href="#!" id="dropper"></a></li>
   </ul>
 </div>

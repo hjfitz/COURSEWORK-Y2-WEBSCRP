@@ -3,8 +3,6 @@ const todoAPI = '/api/todos'
 
 function getTodos(callback) {
   Util.getJSON(todoAPI, data => {
-    console.log(data)
-    console.log(callback)
     callback(data)
   })
 }

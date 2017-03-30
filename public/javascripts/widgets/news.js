@@ -3,7 +3,9 @@ const
   newsApiUrl          = " https://newsapi.org/v1/articles?source=",
   NewsApiSort         = "&sortBy=latest",
   sources             = ['bbc-news', 'ars-technica', 'national-geographic'],
-  selSource           = Math.floor(Math.random() * 3) ,
+  selSource           = Math.floor(Math.random() * 3)
+;
+let
   curSource           = window.localStorage.getItem('news-source') || sources[selSource],
   NEWSAPIGET          = newsApiUrl + curSource  + newsApiKey,
   newsSettingsBox     = document.getElementById('news-settings'),
@@ -22,6 +24,8 @@ function newsSettings() {
 function setNews() {
   let source = $('#news-select').val()
   window.localStorage.setItem('news-source', source)
+  curSource = source
+  NEWSAPIGET = newsApiUrl + curSource  + newsApiKey
   if (source === null) {
     Materialize.toast('Please pick a source from the dropdown!', 3000)
   } else {
@@ -59,7 +63,8 @@ function getNewNews() {
 function putNewsInCard(news) {
   let
     newsCard    = document.getElementById("news-content"),
-    newsLink    = document.getElementById("news-link"),
+    newsDesc    = document.getElementById('news-text'),
+    // newsLink    = document.getElementById("news-link"),
     newsTitle   = document.getElementById("news-title"),
     newsImage   = document.getElementById("news-image"),
     newsPicLink = document.getElementById("news-image-link")
@@ -67,6 +72,7 @@ function putNewsInCard(news) {
 
   newsPicLink.href      = news.url
   newsImage.src         = news.newsPic
-  newsLink.href         = news.url
+  // newsLink.href         = news.url
   newsTitle.textContent = news.title
+  newsDesc.textContent = news.desc
 }

@@ -2,7 +2,7 @@ const
   setupArea   = document.getElementById('setup'),
   mainRow     = document.getElementById('main-row'),
   weatherCard = new Card('weather', {'image': true}),
-  newsCard    = new Card('news', {'image': true, 'button': true}),
+  newsCard    = new Card('news', {'image': true, 'truncateTitle':true, 'text':true}),
   imageCard   = new Card('pic', {'image': true, 'truncateTitle': true, 'text':true }),
   todoCard    = new Card('todo'),
   timeCard    = new Card('time', { 'text':true}),
@@ -54,7 +54,7 @@ function setup() {
   let
     select  = document.createElement("select"),
     add     = document.getElementById('add'),
-    load    = document.getElementById('load'),
+    // load    = document.getElementById('load'),
     save    = document.getElementById('save'),
     edit    = document.getElementById('edit'),
     dropper = document.getElementById('dropper')
@@ -63,7 +63,7 @@ function setup() {
   select.id        = "card-list"
   add.addEventListener('click', addCardToForm)
   save.addEventListener('click', saveAll)
-  load.addEventListener('click', loadFromLS)
+  // load.addEventListener('click', loadFromLS)
   edit.addEventListener('click', editForm)
   for (let key in card) {
     let option = document.createElement('option')
