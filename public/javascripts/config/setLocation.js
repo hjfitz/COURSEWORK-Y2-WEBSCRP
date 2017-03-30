@@ -1,42 +1,36 @@
-const
-  loc = document.getElementById('location'),
-  saveBtn = document.getElementById('save'),
-  portsmouth = {lat: 50.7886994, lng: -1.0750918}
-  markers = []
-;
+const saveBtn = document.getElementById('save')
+let
+  mapCenter = {lat: 50.7886994, lng: -1.0750918},
+  markers = [];
 
 saveBtn.addEventListener('click', save)
 
-function setLocation(latLng) {
-  console.log('setLoc invoked')
-  const lat = latLng.lat()
-  const lng = latLng.lng()
-  let sentence = "Latitude: " + lat.toFixed(2) + " Longitude: " + lng.toFixed(2)
-  console.log("setLocaiton invoked")
-  Materialize.toast("location set :" + sentence, 3000)
-  loc.textContent = sentence
-}
 
 function save() {
   let curLoc = markers[0].position //we assume that there's always only one markers
+  console.log(curLoc)
   let location = {
     'lat': curLoc.lat(),
     'lon': curLoc.lng()
   }
   setLocation(curLoc)
   let saveLoc = JSON.stringify(location)
-  setLocation(location)
   localStorage.setItem('location_preferences', saveLoc)
-  console.log('saved!')
 }
 
 function setLocation(location) {
+  let loc = {
+    "lat":location.lat(),
+    "lon": location.lng()
+  }
   $.ajax({
     type: "PATCH",
     url: '/api/configuration/weather',
-    data: location,
-    success: console.log,
-    error: console.error
+    data: loc,
+    success: data => {
+      Materialize.toast("Location Saved!", 3000)
+    },
+    error: console.warn
   })
 }
 
@@ -47,21 +41,26 @@ function initMap() {
   //but, we hide this on page load. meaning there's no #map, therefore causing gAPI to throw an error
   //this check keeps the console clean!
   if (!mapHidden) {
+    if ("location_preferences" in window.localStorage) {
+      let prefPosition = JSON.parse(window.localStorage.getItem('location_preferences'))
+      mapCenter = { "lat": prefPosition.lat, "lng": prefPosition.lon }
+    }
     const loc = document.getElementById('location')
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
-        center: portsmouth
-      })
+        center: mapCenter
+      });
       const marker = new google.maps.Marker({
-        position: portsmouth,
+        position: mapCenter,
         map: map
       })
       markers.push(marker)
 
     google.maps.event.addListener(map, 'click', (ev) => {
       clearMarkers()
+      console.log(ev)
       placeMarker(ev.latLng)
-      setLocation(ev.latLng)
+      // setLocation(ev.latLng)
     })
 
     function placeMarker(location) {
@@ -73,10 +72,11 @@ function initMap() {
     }
 
     function clearMarkers() {
-      markers.length = 0
+
       for (const marker of markers) {
         marker.setMap(null)
       }
+      markers.length = 0
     }
   }
 }

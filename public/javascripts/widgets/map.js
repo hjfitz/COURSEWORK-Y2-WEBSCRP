@@ -1,6 +1,7 @@
 const overlay = document.getElementById('black-overlay')
 overlay.addEventListener('click', toggleWeatherSettings)
 overlay.addEventListener('click', Weather.addToCard)
+saveBtn.addEventListener('click', toggleWeatherSettings)
 let mapHidden = true
 hideMap()
 function toggleWeatherSettings() {

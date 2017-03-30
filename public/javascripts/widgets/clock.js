@@ -8,26 +8,69 @@ const
   secondsCheck = document.getElementById('seconds-check'),
   check24h = document.getElementById('24h-check')
 ;
-let settings,
-  dayFormat = 'ddd',
-  monthFormat = 'MMM',
-  yearFormat = 'YY'
-;
+
 if ('time-settings' in window.localStorage) {
   console.log("time settings found")
   settings = JSON.parse(window.localStorage.getItem('time-settings'))
 } else {
+  //if we've somehow managed to not pull from the API, and have nothing saved,
+  //we fall back to some defaults
   settings = {
     'allowDate': true,
-    'day':dayFormat,
-    'month':monthFormat,
-    'year': yearFormat,
+    'day':'ddd',
+    'month':'MMM',
+    'year': 'YY',
     'hours':true,
     'seconds':true,
-    'dateFormat': dayFormat + '-' + monthFormat + '-' + yearFormat,
+    'dateFormat': 'ddd' + '-' + 'MMM' + '-' + 'YY',
   }
 }
 
+//curse you, for not having an event listener for container resize!
+function addDragListener(cardName) {
+
+  let card = document.getElementById(cardName+'-card')
+  let cardTime = document.getElementById(cardName+'-title')
+  let cardDate = document.getElementById(cardName+'-content')
+  cardTime.style.fontSize = window.getComputedStyle(cardTime).fontSize
+  cardDate.style.fontSize = window.getComputedStyle(cardDate).fontSize || 0
+  let dragTangle = document.createElement('span')
+  dragTangle.style.height = "20px"
+  dragTangle.style.width = "20px"
+  dragTangle.style.position = "absolute"
+  dragTangle.style.bottom = "0px"
+  dragTangle.style.right = "0px"
+  dragTangle.style.backgroundColor = "#f0f"
+  card.appendChild(dragTangle)
+  const initArea = card.getBoundingClientRect().width * card.getBoundingClientRect().height
+  const initSize = parseInt(cardTime.style.fontSize)
+  dragTangle.addEventListener('mousedown', dragme)
+  function dragme(ev) {
+    ev.preventDefault()
+    // ev.target.addEventListener('mousemove', changeFontSize)
+    window.addEventListener('mousemove', changeFontSize)
+    // ev.target.addEventListener('mouseup', removeDrag)
+    window.addEventListener('mouseup', removeDrag)
+  }
+  function removeDrag(ev) {
+    ev.preventDefault()
+    ev.target.removeEventListener('mousemove', changeFontSize)
+    window.removeEventListener('mousemove', changeFontSize)
+  }
+  function changeFontSize(ev) {
+    card.style.width = (ev.clientX - card.offsetLeft) + 3 + "px"
+    card.style.minWidth = (ev.clientX - card.offsetLeft) +3+ "px"
+    card.style.height = (ev.clientX - card.offsetTop) + 3 + "px"
+    card.style.minHeight = (ev.clientY - card.offsetTop) +3+ "px"
+    let currentSize = card.getBoundingClientRect()
+    let width = currentSize.width
+    let height = currentSize.height
+    let area = height*width
+    let prop = area/initArea
+    cardTime.style.fontSize = (width+height) * 0.1 + "px"//initSize *prop + "px"
+    // console.log
+  }
+}
 
 //document's ready, run this
 document.addEventListener('DOMContentLoaded', () => {

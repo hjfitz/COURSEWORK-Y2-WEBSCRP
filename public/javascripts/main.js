@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
   getNewNews()
   startTime()
   getPicture()
+
   mainLoop()
 })
 
 function mainLoop(picWait=10, weatherWait=20) {
+  // let nightCheck = new Weather()
   //need a websocket to listen for new todos to refresh them!
+    if ('card_preferences' in window.localStorage) {
   const allCards = JSON.parse(window.localStorage.getItem('card_preferences'))
   window.setInterval(() => {
     //slightly messy, slightly not way to check that we can put the time on our card
@@ -26,4 +29,5 @@ function mainLoop(picWait=10, weatherWait=20) {
     //refresh the weather
     for (const card of allCards) if (card.id == 'weather-card') getWeatherCard()
   }, (weatherWait*60*1000))
+}
 }

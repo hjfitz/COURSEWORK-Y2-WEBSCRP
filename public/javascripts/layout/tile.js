@@ -127,8 +127,8 @@ function putCardInPosition(pref, newCard) {
   newCard.style.top = pref.top
   newCard.style.width = pref.width
   newCard.style.height = pref.height
-  newCard.style.minWidth = pref.width
-  newCard.style.minHeight = pref.height
+  // newCard.style.minWidth = pref.width
+  // newCard.style.minHeight = pref.height
   newCard.style.zIndex = 3
   newCard.dataset['onPage'] = 1
   setupArea.appendChild(newCard)
@@ -155,6 +155,7 @@ function saveAll() {
   }
   //save preferences to localStorage
   window.localStorage.setItem('card_preferences', JSON.stringify(visCards))
+  mainLoop()
 }
 
 function loadFromLS() {

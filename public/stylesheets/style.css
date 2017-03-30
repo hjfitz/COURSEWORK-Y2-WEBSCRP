@@ -63,25 +63,28 @@ a {
 
 .card {
   resize:both;
-  overflow:auto;
+  overflow:hidden;
 }
 
 .switch {
   padding:1em 0.5em;
 }
-#pic-card .card-image, #weather-card > .card-image {
-/*#pic-card > .card-image img {*/
-
+#pic-card .card-image {
   display: block;
-    height: 200px;
-
+  height: 75%;
   line-height: 200px;
-    overflow: hidden;
+  overflow: hidden;
 }
+
+#weather-card > .card-image {
+  height: 250px;
+  line-height:250px;
+  display:block;
+  overflow:hidden;
+}
+
 #pic-card > .card-image img, #weather-card > .card-image img {
-/*#pic-card .card-image {*/
   position: relative;
-  /*margin: -50% auto;*/
   width: 100%;
   height:auto;
   vertical-align: middle;

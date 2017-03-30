@@ -15,13 +15,13 @@ class Weather {
     this.card = document.getElementById('weather-card')
   }
 
-  getWithGeolocation(source='owm', callback) {
+  getWithGeolocation(source='owm', cardToAdd) {
     navigator.geolocation.getCurrentPosition(pos => {
       let coords = {
         lat: pos.coords.latitude.toFixed(4),
         lon: pos.coords.longitude.toFixed(4)
       }
-      this.getByLatLong(source, callback, coords)
+      this.getByLatLong(source, cardToAdd, coords)
     })
   }
 

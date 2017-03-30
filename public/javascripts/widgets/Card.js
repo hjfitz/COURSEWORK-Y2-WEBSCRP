@@ -100,4 +100,10 @@ class Card {
   addCard(appendingArea) {
     appendingArea.appendChild(this.card)
   }
+
+  // toggleSnap(tileObj) {
+  //   if (tileObj.tilesVisible) {
+  //
+  //   }
+  // }
 }

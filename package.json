@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "install-reqs": "bash reqs.sh",
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "dashboard": "node ./bin/www",
+    "install-deps": "bash install.sh"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

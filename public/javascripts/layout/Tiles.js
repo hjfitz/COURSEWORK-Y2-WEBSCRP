@@ -19,6 +19,7 @@ class Tiles {
   }
 
   createTiles() {
+    this.tilesVisible = true
     let row = 0
     for (let j=this.pageInfo.topBuffer; j<=(this.pageInfo.winHeight + this.pageInfo.maxHeight); j+= this.pageInfo.maxHeight) {
       let col = 0
@@ -48,6 +49,11 @@ class Tiles {
   }
 
   toggleTiles() {
+    if (this.tilesVisible == true) {
+      this.tilesVisible = false
+    } else {
+      this.tilesVisible = true
+    }
     for (const tile of this.tilesOnPage) {
       tile.classList.toggle('hide')
     }
