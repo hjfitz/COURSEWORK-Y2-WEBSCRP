@@ -1,48 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+  loadFromLS()
   getNewNews()
-  if (!('picture_preferences' in window.localStorage)) {
-    Util.getJSON('/api/configuration/reddit', data => {
-      window.localStorage.setItem('picture_preferences', JSON.stringify(data))
-      getRedditPic(data.subreddit)
-    })
-  } else {
-    subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
-    subreddit              = JSON.parse(subredditFromLocalStor).subreddit;
-    getRedditPic(subreddit)
-  }
-
   startTime()
-  main()
+  getPicture()
+  mainLoop()
 })
 
-function main() {
-  // if (window.localStorage.getItem('location') !== null) {
-  //   Weather.getByLatLong('owm', () => {
-  //     Weather.addToCard()
-  //   },
-  //   JSON.parse(window.localStorage.getItem('location')))
-  // } else {
-  //   Weather.getWithGeolocation('owm', () => {
-  //       Weather.addToCard()
-  //
-  //   })
-  // }
-    // getWeatherWithGeoLocation('owm', data => {
-    //   putWeatherInCard(data)
-    //   putWeatherInStatus(data)
-    //   //temporary, and most likely buggy, auto night mode feature
-    //   let sunset = new Date(0)
-    //   let today = new Date()
-    //   sunset.setUTCSeconds(data.sunset)
-    //   if (today < sunset) {
-    //     Util.toggleNightMode()
-    //   }
-    //
-    //   window.setInterval(() => {
-    //     today = new Date()
-    //     if (today > sunset) {
-    //       Util.toggleNightMode()
-    //     }
-    //   }, 300000)
-    // })
+function mainLoop(picWait=10, weatherWait=20) {
+  //need a websocket to listen for new todos to refresh them!
+  const allCards = JSON.parse(window.localStorage.getItem('card_preferences'))
+  window.setInterval(() => {
+    //slightly messy, slightly not way to check that we can put the time on our card
+    for (const card of allCards) if (card.id == 'time-card') putTimeOnCard()
+  }, 1000)
+
+  window.setInterval(() => {
+    for (const card of allCards) {
+      if (card.id == "news-card") getNewNews()
+      if (card.id == "pic-card") getPicture()
+      if (card.id == "todo-card") getTodos(putTodosInCard)
+    }
+  }, (picWait*1000))
+
+  window.setInterval(() => {
+    //refresh the weather
+    for (const card of allCards) if (card.id == 'weather-card') getWeatherCard()
+  }, (weatherWait*60*1000))
 }

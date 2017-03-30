@@ -122,9 +122,6 @@ function putTimeOnCard() {
 //
 // //by default, we want a 24h clock with no seconds
 function getFormattedTime(twelveHours, allowSeconds) {
-  console.log(twelveHours)
-  console.log(settings)
-  console.log(JSON.parse(window.localStorage.getItem('time-settings')))
   const curDate = new Date()
   //get the main data for the clock
   let hours = curDate.getHours()

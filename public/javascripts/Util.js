@@ -4,6 +4,7 @@
 
 class Util {
   static getJSON(url, callback) {
+    console.log("getjson called: " + url)
     let xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function() {
@@ -57,7 +58,7 @@ class Util {
 
   static toggleNightMode() {
     let cards = document.querySelectorAll('.card')
-    let notChange = document.querySelectorAll('.not-dark')
+    let notChange = document.querySelectorAll('.not-dark, select')
     cards.forEach(card => {
       card.classList.toggle('blue-grey')
       card.classList.toggle('white-text')
