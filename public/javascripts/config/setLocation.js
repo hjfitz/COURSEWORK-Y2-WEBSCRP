@@ -25,7 +25,7 @@ function setLocation(location) {
   }
   $.ajax({
     type: "PATCH",
-    url: '/api/configuration/weather',
+    url: '/api/configuration/location',
     data: loc,
     success: data => {
       Materialize.toast("Location Saved!", 3000)

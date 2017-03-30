@@ -64,7 +64,6 @@ function putNewsInCard(news) {
   let
     newsCard    = document.getElementById("news-content"),
     newsDesc    = document.getElementById('news-text'),
-    // newsLink    = document.getElementById("news-link"),
     newsTitle   = document.getElementById("news-title"),
     newsImage   = document.getElementById("news-image"),
     newsPicLink = document.getElementById("news-image-link")
@@ -72,7 +71,6 @@ function putNewsInCard(news) {
 
   newsPicLink.href      = news.url
   newsImage.src         = news.newsPic
-  // newsLink.href         = news.url
   newsTitle.textContent = news.title
   newsDesc.textContent = news.desc
 }

@@ -25,18 +25,6 @@ const
     'time': timeCard.getCard()
   };
 
-function setWeatherCard() {
-  if (!('location_preferences' in window.localStorage)) {
-    Util.getJSON('/api/configuration/weather', data => {
-      console.log(data)
-      window.localStorage.setItem('location_preferences', JSON.stringify(data))
-      weather.getByLatLong('owm', 'weather', data)
-    })
-  } else {
-    weather.getByLatLong('owm', 'weather', JSON.parse(window.localStorage.getItem('location_preferences')))
-  }
-}
-
 
 weatherCard.addSettings(toggleWeatherSettings, setupArea)
 timeCard.addSettings(toggleTimeSettings, setupArea)
@@ -54,7 +42,6 @@ function setup() {
   let
     select  = document.createElement("select"),
     add     = document.getElementById('add'),
-    // load    = document.getElementById('load'),
     save    = document.getElementById('save'),
     edit    = document.getElementById('edit'),
     dropper = document.getElementById('dropper')
@@ -63,7 +50,6 @@ function setup() {
   select.id        = "card-list"
   add.addEventListener('click', addCardToForm)
   save.addEventListener('click', saveAll)
-  // load.addEventListener('click', loadFromLS)
   edit.addEventListener('click', editForm)
   for (let key in card) {
     let option = document.createElement('option')

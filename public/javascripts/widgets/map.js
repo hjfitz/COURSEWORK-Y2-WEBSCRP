@@ -1,57 +1,34 @@
 const overlay = document.getElementById('black-overlay')
 overlay.addEventListener('click', toggleWeatherSettings)
 overlay.addEventListener('click', Weather.addToCard)
-saveBtn.addEventListener('click', toggleWeatherSettings)
-let mapHidden = true
-hideMap()
-function toggleWeatherSettings() {
-  overlay.classList.toggle('hide')
-  if (mapHidden) {
-    showMap()
-  } else {
-    hideMap()
-  }
-}
 
 function hideMap() {
-  const weatherArea = document.getElementById('weather-settings')
-  weatherArea.style.width = "0"
   mapHidden = true
-  const map = document.getElementById('map-card')
+  const
+    weatherArea = document.getElementById('weather-settings'),
+    map = document.getElementById('map');
+  weatherArea.style.width = "0"
   map.parentElement.removeChild(map)
 }
 
 function showMap() {
+  getWeatherPreferences()
   mapHidden = false
-  //hacky, but it works.
-  //setting display:none messes with the map created by google
-  //setting z-index doesn't work
-  const weatherArea = document.getElementById('weather-settings')
+  const
+    map               = document.createElement('div')
+    mapArea           = document.getElementById('map-area'),
+    weatherArea       = document.getElementById('weather-settings'),
+    pressureCheck     = document.getElementById('pressure-check'),
+    humidityCheck     = document.getElementById('humidity-check'),
+    windspeedCheck    = document.getElementById('windspeed-check'),
+    savedWeatherPrefs = JSON.parse(window.localStorage.getItem('weather_preferenes'))
+  ;
+  pressureCheck.checked = savedWeatherPrefs.pressure
+  humidityCheck.checked = savedWeatherPrefs.humidity
+  windspeedCheck.checked = savedWeatherPrefs.windspeed
+
   weatherArea.style.width = "400px"
-  const mapArea = document.createElement('div')
-  const mapCard = document.createElement('div')
-  const content = document.createElement('div')
-  const locInfo = document.createElement('p')
-  const locArea = document.createElement('span')
-  const saveButtonPara = document.createElement('p')
-  const saveButton = document.createElement('a')
-  locInfo.textContent = "Your location is: "
-  locArea.id = 'location'
-  locInfo.appendChild(locArea)
-  saveButton.href = '#'
-  saveButton.id = 'save'
-  saveButton.classList = 'waves-effect waves-light btn'
-  saveButton.textContent = 'Save'
-  content.classList = 'card-content'
-  mapCard.id = 'map-card'
-  mapCard.classList = 'card'
-  mapArea.id = 'map'
-  saveButton.addEventListener('click', save)
-  saveButtonPara.appendChild(saveButton)
-  weatherArea.appendChild(mapCard)
-  mapCard.appendChild(content)
-  content.appendChild(mapArea)
-  content.appendChild(locInfo)
-  content.appendChild(saveButtonPara)
+  map.id = 'map'
+  mapArea.appendChild(map)
   initMap()
 }

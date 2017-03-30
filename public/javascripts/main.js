@@ -30,7 +30,7 @@ function mainLoop(picWait=10, weatherWait=20) {
 
     window.setInterval(() => {
       //refresh the weather
-      for (const card of allCards) if (card.id == 'weather-card') getWeatherCard()
+      for (const card of allCards) if (card.id == 'weather-card') setWeatherCard()
     }, (weatherWait*60*1000))
   } else {
     if (!introRun) addIntroCard()

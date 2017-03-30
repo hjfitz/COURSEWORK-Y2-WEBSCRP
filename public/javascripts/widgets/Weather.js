@@ -47,13 +47,9 @@ class Weather {
             'sunrise'  : data.sys.sunrise, //parse me!
             'sunset'   : data.sys.sunset,
             'desc'     : data.weather[0].main,
-            'wind'     : {
-            'speed'    : data.wind.speed,
-            'deg'      : data.wind.deg
-            },
-            'sealevel' : data.main.sea_level,
+            'windspeed': data.wind.speed,
             'isOwm'    : true,
-            'skycon'   : (data.weather[0].icon).replace(/[a-zA-z]/gi, '')
+            'skycon'   : this.owmLookup[(data.weather[0].icon).replace(/[a-zA-z]/gi, '')]
           }
           // this.saveWeather(weather)
           console.log(weather)
@@ -79,8 +75,9 @@ class Weather {
             'sunrise'  : data.daily.data[0].sunriseTime,
             'sunset'   : data.daily.data[0].sunsetTime,
             'desc'     : data.currently.summary,
+            'windspeed': data.currently.windSpeed,
             'isOwm'    : false,
-            'skycon'   : data.currently.icon
+            'skycon'   : data.currently.icon.toUpperCase().replace(/\-/g,'_')
           }
           console.log(dsnUrl)
           this.addToCardObject(cardToAdd,this.weather)
@@ -142,6 +139,7 @@ class Weather {
       }
 
       addToCardObject(contentArea, weather) {
+        getWeatherPreferences()
         console.log(weather)
 
         let tempUnit = '°C' //fix me in config
@@ -169,7 +167,7 @@ class Weather {
         let weatherimage = document.getElementById('weather-image')
 
         weatherimage.parentElement.removeChild(weatherimage)
-        imgContainer.innerHtml = ''
+        // imgContainer.innerHtml = ''
         let canvas = document.createElement('canvas')
         let dim = imgContainer.parentElement.getBoundingClientRect()
         let canvHeight = dim.height
@@ -179,13 +177,8 @@ class Weather {
         canvas.width = canvWidth
         imgContainer.appendChild(canvas)
         let skycons = new Skycons({'color':'black'})
-        let iconName;
-
-        if (weather.isOwm) {
-          iconName = this.owmLookup[weather.skycon.toString()]
-        } else {
-          iconName = weather.skycon.toUpperCase().replace('-','_')
-        }
+        let iconName = weather.skycon
+        console.log(iconName)
         skycons.add(canvas,Skycons[iconName])
         skycons.play()
 
