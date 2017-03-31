@@ -1,6 +1,4 @@
-let
-  subreddit,
-  subredditFromLocalStor;
+
 
 const
   apodUrl                = "https://api.nasa.gov/planetary/apod?api_key=zx2CHmoKEkOZl6YgpETGlgfjAvIcySy75iRMZMD3",
@@ -22,6 +20,7 @@ function setPicture() {
   //if there's been a custom subreddit, use that. warn the user
   let newSub = customInput || selectInput
   if (newSub == customInput) Materialize.toast("Warning, this could lead to unexpected behaviour!",3000)
+  console.log(newSub)
   //pass this to the server via PATCH
   let body = { 'subreddit': newSub }
   $.ajax({
@@ -34,7 +33,18 @@ function setPicture() {
     error: console.error
   })
   togglePictureSettings()
-  getRedditPic()
+
+  if (!('picture_preferences' in window.localStorage)) {
+    Util.getJSON('/api/configuration/reddit', data => {
+      window.localStorage.setItem('picture_preferences', JSON.stringify(data))
+      getRedditPic(data.subreddit)
+    })
+  } else {
+    let subredditFromLocalStor = window.localStorage.getItem('picture_preferences')
+    let subreddit              = JSON.parse(subredditFromLocalStor).subreddit
+    console.log(subreddit)
+    getRedditPic(subreddit)
+  }
 }
 
 //hide or show the settings, depending on whether they're hidden or not.
@@ -54,13 +64,15 @@ function getPicture() {
       getRedditPic(data.subreddit)
     })
   } else {
-    subredditFromLocalStor = window.localStorage.getItem('picture_preferences'),
-    subreddit              = JSON.parse(subredditFromLocalStor).subreddit;
+    let subredditFromLocalStor = window.localStorage.getItem('picture_preferences')
+    let subreddit              = JSON.parse(subredditFromLocalStor).subreddit
+    console.log(subreddit)
     getRedditPic(subreddit)
   }
 }
 
 function getRedditPic(subreddit) {
+  console.log(subreddit)
   let redditUrl = "https://www.reddit.com/r/" + subreddit + "/top/.json"
   Util.getJSON(redditUrl, data => {
     //random number for entry - constant length 25 thanks to reddit api
@@ -70,7 +82,9 @@ function getRedditPic(subreddit) {
     let notImage = true
     //loop through all images until we've got a valid one - see RegEx in notImage
     //continue to pick a random image
-    while (notImage) {
+    let count = 0
+    while (notImage && count < 50) {
+      count++
       randomPost = (Math.random() * 24).toFixed()
       currentPost = picList[randomPost]
       try {
