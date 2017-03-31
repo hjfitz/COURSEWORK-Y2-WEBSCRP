@@ -9,7 +9,7 @@ class Weather {
     this.owmkey = '&appid=bbc67f01cffb0e40951dbab4a4e69a87'
     this.owmImgUrl = 'http://openweathermap.org/img/w/'
     this.card = document.getElementById('weather-card')
-    this.weatherStats = {}
+    this.nightMode = false
     this.owmLookup = {
       //owm gives icon names, so that we can use them. skycons are nicer, so a lookup table is made.
       '01': 'CLEAR_DAY',
@@ -23,10 +23,6 @@ class Weather {
       '50': 'FOG'
     }
 
-  }
-
-  getWeatherStats() {
-    return this.weatherStats
   }
 
   //we've got lat and long from the map. ask for a source, a card and coordinates,
@@ -84,7 +80,7 @@ class Weather {
           }
           console.log(dsnUrl)
           this.weatherStats = weather
-          this.addToCardObject(cardToAdd,this.weather)
+          this.addToCardObject(cardToAdd,weather)
           }
         })
     }
@@ -206,7 +202,17 @@ class Weather {
       weatherArea.appendChild(humidPara)
     }
 
+    // this.checkNightMode(weather)
+
   }
+
+  // checkNightMode(weather) {
+  //   let curTime = new Date()
+  //   if (weather.sunset < curTime) {
+  //     Util.toggleNightMode()
+  //     this.nightMode = true
+  //   }
+  // }
 
   //helpful functions
 
