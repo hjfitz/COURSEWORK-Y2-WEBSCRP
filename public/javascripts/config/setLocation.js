@@ -16,6 +16,7 @@ function save() {
   setLocation(curLoc)
   let saveLoc = JSON.stringify(location)
   localStorage.setItem('location_preferences', saveLoc)
+   setWeatherCard()
 }
 
 function setLocation(location) {
