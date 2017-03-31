@@ -8,9 +8,11 @@ const
   windspeedCheck    = document.getElementById('windspeed-check'),
   unitToggle        = document.getElementById('unit-toggle'),
   unitLever         = document.getElementById('unit-lever'),
-  savedWeatherPrefs = JSON.parse(window.localStorage.getItem('weather_preferences')),
   weatherSaveBtn = document.getElementById('save-weather'),
   overlay = document.getElementById('black-overlay');
+
+let savedWeatherPrefs = JSON.parse(window.localStorage.getItem('weather_preferences')); 
+
 
 overlay.addEventListener('click', toggleWeatherSettings)
 overlay.addEventListener('click', Weather.addToCard)
@@ -93,21 +95,24 @@ function hideMap() {
 }
 
 function showMap() {
-   console.log(savedWeatherPrefs)
+
   getWeatherPreferences()
+  savedWeatherPrefs = JSON.parse(window.localStorage.getItem('weather_preferences'))
+  console.log(savedWeatherPrefs)
   const map = document.createElement('div')
   mapHidden = false
   //check the checkboxes depending on what's said in the options
-  if (savedWeatherPrefs.pressure === true || savedWeatherPrefs.pressure == "true") {
-    pressureCheck.checked = true
-  }
-  if (savedWeatherPrefs.humidity === true || savedWeatherPrefs.humidity == "true") {
-    humidityCheck.checked = true
-  }
-  if (savedWeatherPrefs.windspeed === true || savedWeatherPrefs.windspeed == "true") {
-    windspeedCheck.checked = true
-  }
-  unitLever.checked = (savedWeatherPrefs.unit == 'F')
+    if (savedWeatherPrefs.pressure === true || savedWeatherPrefs.pressure == "true") {
+      pressureCheck.checked = true
+    }
+    if (savedWeatherPrefs.humidity === true || savedWeatherPrefs.humidity == "true") {
+      humidityCheck.checked = true
+    }
+    if (savedWeatherPrefs.windspeed === true || savedWeatherPrefs.windspeed == "true") {
+      windspeedCheck.checked = true
+    }
+    unitLever.checked = (savedWeatherPrefs.unit == 'F')
+
 
   //set the weather area to it's original size
   weatherArea.style.width = "400px"

@@ -85,7 +85,8 @@ function addIntroCard() {
     "You can click the grey background to return",
     "You can also resize each of the widgets!",
     "Make sure to save and refresh the page when you're done! (Save is in the same menu as add)",
-    "Have fun!"
+    "Have fun!",
+    "If there is image, or animated weather icon, refresh the page!"
   ]
   //much easier than making lots of <p>
   for (const line of lines) {

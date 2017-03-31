@@ -139,6 +139,7 @@ function putCardInPosition(pref, newCard) {
 }
 
 function saveAll() {
+  mainLoop()
   console.log("all saved")
   pageTiles.toggleTiles()
   //save to local storage for later retrieval
@@ -161,7 +162,7 @@ function saveAll() {
   //save preferences to localStorage
   window.localStorage.setItem('card_preferences', JSON.stringify(visCards))
   //call the loop for news, weather and so on
-  mainLoop()
+  // mainLoop()
 }
 
 function loadFromLS() {
