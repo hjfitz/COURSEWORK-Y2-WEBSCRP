@@ -15,6 +15,14 @@ function mainLoop(picWait=10, weatherWait=20) {
   //need a websocket to listen for new todos to refresh them!
   if ('card_preferences' in window.localStorage) {
     let allCards = JSON.parse(window.localStorage.getItem('card_preferences'))
+    for (const card of allCards) {
+      if (card.id == 'time-card') putTimeOnCard()
+      if (card.id == "news-card") getNewNews()
+      if (card.id == "pic-card") getPicture()
+      if (card.id == "todo-card") getTodos(putTodosInCard)
+      if (card.id == 'weather-card') setWeatherCard()
+
+    }
     window.setInterval(() => {
       //slightly messy, slightly not way to check that we can put the time on our card
       for (const card of allCards) {

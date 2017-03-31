@@ -1,4 +1,5 @@
 function setWeatherCard() {
+  getWeatherPreferences()
   //if we've got location preferences, set the weather. else, fetch it!
   if (!('location_preferences' in window.localStorage)) {
     Util.getJSON('/api/configuration/location', data => {

@@ -9,6 +9,7 @@ class Weather {
     this.owmkey = '&appid=bbc67f01cffb0e40951dbab4a4e69a87'
     this.owmImgUrl = 'http://openweathermap.org/img/w/'
     this.card = document.getElementById('weather-card')
+    this.weatherStats = {}
     this.owmLookup = {
       //owm gives icon names, so that we can use them. skycons are nicer, so a lookup table is made.
       '01': 'CLEAR_DAY',
@@ -22,6 +23,10 @@ class Weather {
       '50': 'FOG'
     }
 
+  }
+
+  getWeatherStats() {
+    return this.weatherStats
   }
 
   //we've got lat and long from the map. ask for a source, a card and coordinates,
@@ -50,6 +55,7 @@ class Weather {
             //remove and alphabetical chars so that we may use the lookup
             'skycon'   : this.owmLookup[(data.weather[0].icon).replace(/[a-zA-z]/gi, '')]
           }
+          this.weatherStats = weather
           this.addToCardObject(cardToAdd,weather)
         }
       })
@@ -63,7 +69,7 @@ class Weather {
           url: dsnUrl,
           dataType: 'jsonp',
           success: (data) => {
-          this.weather = {
+          let weather = {
             'min'      : data.daily.data[0].temperatureMin,
             'max'      : data.daily.data[0].temperatureMax,
             'avg'      : data.currently.temperature,
@@ -77,6 +83,7 @@ class Weather {
             'skycon'   : data.currently.icon.toUpperCase().replace(/\-/g,'_')
           }
           console.log(dsnUrl)
+          this.weatherStats = weather
           this.addToCardObject(cardToAdd,this.weather)
           }
         })
@@ -202,7 +209,7 @@ class Weather {
   }
 
   //helpful functions
-  
+
   kelvinToCelsius(tempK) {
     return (parseFloat(tempK) - 273.15).toFixed(2)
   }

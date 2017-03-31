@@ -93,6 +93,7 @@ function hideMap() {
 }
 
 function showMap() {
+   console.log(savedWeatherPrefs)
   getWeatherPreferences()
   const map = document.createElement('div')
   mapHidden = false
