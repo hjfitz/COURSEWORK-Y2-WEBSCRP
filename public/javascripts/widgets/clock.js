@@ -2,15 +2,15 @@ const
   timeSettings       = document.getElementById('time-settings'),
   timeOverlay        = document.getElementById('black-overlay-time'),
   timeSaveButton     = document.getElementById('set-time'),
-  dateButton = document.getElementById('date-toggle'),
-  monthButton = document.getElementById('month-toggle'),
-  yearButton = document.getElementById('year-toggle'),
-  secondsCheck = document.getElementById('seconds-check'),
-  check24h = document.getElementById('24h-check')
+  dateButton         = document.getElementById('date-toggle'),
+  monthButton        = document.getElementById('month-toggle'),
+  yearButton         = document.getElementById('year-toggle'),
+  secondsCheck       = document.getElementById('seconds-check'),
+  check24h           = document.getElementById('24h-check')
 ;
 
+//get the settings, or fall back, if they don't exist.
 if ('time-settings' in window.localStorage) {
-  console.log("time settings found")
   settings = JSON.parse(window.localStorage.getItem('time-settings'))
 } else {
   //if we've somehow managed to not pull from the API, and have nothing saved,
@@ -26,49 +26,64 @@ if ('time-settings' in window.localStorage) {
   }
 }
 
-//curse you, for not having an event listener for container resize!
+/* It appears that the only event listener for resize is only for the window.
+ * therefore, our own is created; A mousedown event listener is added.
+ * the mousedown adds two, one for mousemove and one for mouseup
+ * mouseup removes the mousedown event listener
+ * mousemove brings us to a function where we can change the height, width and font size
+ * of the info in the area.
+ * Ideally, I would have liked to have this for every card. It's not *really* necessary though, and time was a constraint.
+ */
 function addDragListener(cardName) {
+  let
+    card = document.getElementById(cardName+'-card'),
+    cardTime = document.getElementById(cardName+'-title'),
+    cardDate = document.getElementById(cardName+'-content'),
+    dragTangle = document.createElement('span');
 
-  let card = document.getElementById(cardName+'-card')
-  let cardTime = document.getElementById(cardName+'-title')
-  let cardDate = document.getElementById(cardName+'-content')
-  cardTime.style.fontSize = window.getComputedStyle(cardTime).fontSize
+  if ('clock_font_pref' in window.localStorage) {
+    cardTime.style.fontSize = window.localStorage.getItem('clock_font_pref')
+  } else {
+    cardTime.style.fontSize = window.getComputedStyle(cardTime).fontSize
+  }
   cardDate.style.fontSize = window.getComputedStyle(cardDate).fontSize || 0
-  let dragTangle = document.createElement('span')
+  //create a small area to draw the window, and stick it on the bottom left
   dragTangle.style.height = "20px"
   dragTangle.style.width = "20px"
   dragTangle.style.position = "absolute"
   dragTangle.style.bottom = "0px"
   dragTangle.style.right = "0px"
-  dragTangle.style.backgroundColor = "#f0f"
   card.appendChild(dragTangle)
-  const initArea = card.getBoundingClientRect().width * card.getBoundingClientRect().height
-  const initSize = parseInt(cardTime.style.fontSize)
+  // add the event listener that allows us to resize!
   dragTangle.addEventListener('mousedown', dragme)
   function dragme(ev) {
     ev.preventDefault()
-    // ev.target.addEventListener('mousemove', changeFontSize)
+    //adding the event listeners to the window let us drag move the window,
+    //even if the moue leaves the card - calculation is done on the
+    //size of the card, and the position of the mouse on the page.
     window.addEventListener('mousemove', changeFontSize)
-    // ev.target.addEventListener('mouseup', removeDrag)
     window.addEventListener('mouseup', removeDrag)
   }
   function removeDrag(ev) {
     ev.preventDefault()
-    ev.target.removeEventListener('mousemove', changeFontSize)
+    //save the font size. don't pass to server.
+    //if we reset, clock may have massive size but tiny container size
+    window.localStorage.setItem('clock_font_pref', cardTime.style.fontSize)
+    window.removeEventListener('mouseup', removeDrag) //there will only be one event listener
     window.removeEventListener('mousemove', changeFontSize)
   }
   function changeFontSize(ev) {
+    //make the card move! just like the CSS attrbiute 'draggable:both;'
+    //however, we can add in stuff with JS!
     card.style.width = (ev.clientX - card.offsetLeft) + 3 + "px"
-    card.style.minWidth = (ev.clientX - card.offsetLeft) +3+ "px"
+    card.style.minWidth = (ev.clientX - card.offsetLeft) + 3 + "px"
     card.style.height = (ev.clientX - card.offsetTop) + 3 + "px"
-    card.style.minHeight = (ev.clientY - card.offsetTop) +3+ "px"
-    let currentSize = card.getBoundingClientRect()
-    let width = currentSize.width
-    let height = currentSize.height
-    let area = height*width
-    let prop = area/initArea
-    cardTime.style.fontSize = (width+height) * 0.1 + "px"//initSize *prop + "px"
-    // console.log
+    card.style.minHeight = (ev.clientY - card.offsetTop) + 3 + "px"
+    let
+      currentSize = card.getBoundingClientRect(),
+      width = currentSize.width,
+      height = currentSize.height;
+    cardTime.style.fontSize = (width+height) * 0.1 + "px"
   }
 }
 
@@ -86,7 +101,7 @@ timeSaveButton.addEventListener('click', sendTime)
 secondsCheck.addEventListener('click', toggleSeconds)
 check24h.addEventListener('click', toggleHours)
 
-//set functions
+//set the buttons to their corresponding format using moment.
 function setButtons() {
   dateButton.textContent = moment().format(settings.day)
   monthButton.textContent = moment().format(settings.month)
@@ -98,12 +113,10 @@ function setButtons() {
 
 function toggleSeconds() {
   settings.seconds = !settings.seconds
-  // setButtons()
 }
 
 function toggleHours() {
   settings.hours = !settings.hours
-  // setButtons()
 }
 
 function changeDateFormat() {

@@ -1,3 +1,4 @@
+//initialise. create new cards, create our tiles and put everything in to a nice array
 const
   setupArea   = document.getElementById('setup'),
   mainRow     = document.getElementById('main-row'),
@@ -25,17 +26,19 @@ const
     'time': timeCard.getCard()
   };
 
+//add event listeners
+weatherCard.addSettings(toggleWeatherSettings)
+timeCard.addSettings(toggleTimeSettings)
+newsCard.addSettings(newsSettings)
+imageCard.addSettings(togglePictureSettings)
 
-weatherCard.addSettings(toggleWeatherSettings, setupArea)
-timeCard.addSettings(toggleTimeSettings, setupArea)
-newsCard.addSettings(newsSettings, setupArea)
-imageCard.addSettings(togglePictureSettings, setupArea)
-
+//add the cards to the page, but hide in a hidden area
 for (const card of cardObjs) {
   card.addCard(mainRow)
 }
 
 function setup() {
+  //if we don't have any settings, let the user create some!
   if (!('card_preferences' in window.localStorage)) {
     pageTiles.createTiles()
   }
@@ -46,11 +49,14 @@ function setup() {
     edit    = document.getElementById('edit'),
     dropper = document.getElementById('dropper')
   ;
+  //add event listeners
   select.classList = "browser-default black-text"
   select.id        = "card-list"
   add.addEventListener('click', addCardToForm)
   save.addEventListener('click', saveAll)
   edit.addEventListener('click', editForm)
+  //go through out dict, and add the keys to a dropdown.
+  //the key value is later used to acces the card
   for (let key in card) {
     let option = document.createElement('option')
     option.textContent = key
@@ -64,6 +70,11 @@ function addCardToForm() {
   if (pageTiles.selectedArea.length === 0) {
     Materialize.toast('No area selected!', 3000)
   } else {
+    //each tile you see on the page is an absolutely positioned div.
+    //getting the top and left of each tile allows us to define
+    //left and top values of the card we aim to put on the page.
+    //because we get the left of each of the positioned cards,
+    //we can define the width (by adding the width defined, too!)
     let
       firstCardTop = parseInt(pageTiles.selectedArea[0].style.top, 10),
       firstCardLeft = parseInt(pageTiles.selectedArea[0].style.left, 10),
@@ -75,17 +86,20 @@ function addCardToForm() {
       height = (firstCardTop - secondCardTop + pageTiles.pageInfo.maxHeight)
     ;
 
+    //we check if the other card selected is higher, and redfine top based on that
     if (firstCardTop < secondCardTop) {
       top = firstCardTop
       height = secondCardTop - firstCardTop + pageTiles.pageInfo.maxHeight
     }
 
+    //same as before, but for left
     if (firstCardLeft < secondCardLeft) {
       left = firstCardLeft
       width = secondCardLeft - firstCardLeft + pageTiles.pageInfo.maxWidth
     }
 
     let
+    //we access the card we want to add to the page, based on the value of the dropdown
       newCard = card[$('#card-list').val()],
       prefs = {
         'left':   left + "px",
@@ -93,6 +107,7 @@ function addCardToForm() {
         'width':  width + "px",
         'height': height + "px"
       }
+      //put the card on the page!
     putCardInPosition(prefs,newCard)
   }
 }
@@ -100,6 +115,8 @@ function addCardToForm() {
 function editForm() {
   //start by creating our awesome grid
   pageTiles.createTiles()
+  //reset the font settings for the clock, if it exists
+  if ('clock_font_pref' in localStorage) localStorage.removeItem('clock_font_pref')
   //because our cards are stored in classes, accessible from a list, we can just remove them
   for (const card of cards) {
     card.parentElement.removeChild(card)
@@ -113,14 +130,16 @@ function putCardInPosition(pref, newCard) {
   newCard.style.top = pref.top
   newCard.style.width = pref.width
   newCard.style.height = pref.height
-  // newCard.style.minWidth = pref.width
-  // newCard.style.minHeight = pref.height
+  //make the card visible
   newCard.style.zIndex = 3
+  //notify us later on, when we go to save.
+  //the card could be removed from the dropdown, but what if we want to reposition?
   newCard.dataset['onPage'] = 1
   setupArea.appendChild(newCard)
 }
 
 function saveAll() {
+  console.log("all saved")
   pageTiles.toggleTiles()
   //save to local storage for later retrieval
   let visCards = []
@@ -141,6 +160,7 @@ function saveAll() {
   }
   //save preferences to localStorage
   window.localStorage.setItem('card_preferences', JSON.stringify(visCards))
+  //call the loop for news, weather and so on
   mainLoop()
 }
 
@@ -160,6 +180,8 @@ function loadFromLS() {
   }
 }
 
+//each of the div/tiles have an event listener for changeOpacity
+//this reduces the opacity of a div when it's been clicked. when two are clicked, we highlight an area
 function changeOpacity(e) {
   pageTiles.selectedTiles.push(e.target);
   let
@@ -173,6 +195,7 @@ function changeOpacity(e) {
   }
   //toggle the 'boolean'... (can't store bool in dataset!)
   e.target.dataset.clicked = clicks[clicked]
+  //highlight an area when we've selected corners
   if (pageTiles.selectedTiles.length == 2) pageTiles.highlight()
 }
 

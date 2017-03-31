@@ -1,11 +1,12 @@
 const
   newsApiKey          = "&apiKey=7ebe193132874eb7980037010dc43400",
-  newsApiUrl          = " https://newsapi.org/v1/articles?source=",
+  newsApiUrl          = "https://newsapi.org/v1/articles?source=",
   NewsApiSort         = "&sortBy=latest",
   sources             = ['bbc-news', 'ars-technica', 'national-geographic'],
   selSource           = Math.floor(Math.random() * 3)
 ;
 let
+  //set a random source if we don't have one. create the url and get our elements
   curSource           = window.localStorage.getItem('news-source') || sources[selSource],
   NEWSAPIGET          = newsApiUrl + curSource  + newsApiKey,
   newsSettingsBox     = document.getElementById('news-settings'),
@@ -13,14 +14,18 @@ let
   newsButton          = document.getElementById('set-news')
 ;
 
+//add event listeners
 newsButton.addEventListener('click', setNews)
 newsSettingsOverlay.addEventListener('click', newsSettings)
 
 function newsSettings() {
+  //hide or show the overlay and the container
   newsSettingsOverlay.classList.toggle('hide')
   newsSettingsBox.classList.toggle('hide')
 }
 
+// save the news options. get a value from the select and set localStorage. recreate the newsapi url.
+//send the news to the api, put new news in the card and hide the box.
 function setNews() {
   let source = $('#news-select').val()
   window.localStorage.setItem('news-source', source)
@@ -35,6 +40,8 @@ function setNews() {
   }
 }
 
+
+//PATCH the new news source to the api
 function sendNews(source) {
   let body = { 'provider': source }
   $.ajax({
@@ -46,6 +53,7 @@ function sendNews(source) {
   })
 }
 
+//get the news artivles, and from that, pick a random article. put this stuff in the card.
 function getNewNews() {
   let randArticle = Math.floor(Math.random() * 9)
   console.log(NEWSAPIGET)
@@ -60,6 +68,7 @@ function getNewNews() {
   })
 }
 
+//set attributes corresponding to those in the json object passed.
 function putNewsInCard(news) {
   let
     newsCard    = document.getElementById("news-content"),

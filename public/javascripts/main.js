@@ -17,7 +17,12 @@ function mainLoop(picWait=10, weatherWait=20) {
     let allCards = JSON.parse(window.localStorage.getItem('card_preferences'))
     window.setInterval(() => {
       //slightly messy, slightly not way to check that we can put the time on our card
-      for (const card of allCards) if (card.id == 'time-card') putTimeOnCard()
+      for (const card of allCards) {
+        if (card.id == 'time-card'){
+         putTimeOnCard()
+         addDragListener('time')
+       }
+     }
     }, 1000)
 
     window.setInterval(() => {

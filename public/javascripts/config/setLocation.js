@@ -1,14 +1,14 @@
-const saveBtn = document.getElementById('save')
+const saveBtn = document.getElementById('save-weather')
+//give a default value for the center - UoP
 let
   mapCenter = {lat: 50.7886994, lng: -1.0750918},
   markers = [];
 
 saveBtn.addEventListener('click', save)
 
-
 function save() {
-  let curLoc = markers[0].position //we assume that there's always only one markers
-  console.log(curLoc)
+  let curLoc = markers[0].position //we assume that there's always only one marker
+  //get the lat and long of  the marker, to save to LS and send to the server for backup
   let location = {
     'lat': curLoc.lat(),
     'lon': curLoc.lng()
@@ -23,6 +23,7 @@ function setLocation(location) {
     "lat":location.lat(),
     "lon": location.lng()
   }
+  //PATCH to the server - we aren't creating anything new.
   $.ajax({
     type: "PATCH",
     url: '/api/configuration/location',
@@ -41,12 +42,12 @@ function initMap() {
   //but, we hide this on page load. meaning there's no #map, therefore causing gAPI to throw an error
   //this check keeps the console clean!
   if (!mapHidden) {
+    //if we say where we are, set the center to that!
     if ("location_preferences" in window.localStorage) {
       let prefPosition = JSON.parse(window.localStorage.getItem('location_preferences'))
       mapCenter = { "lat": parseFloat(prefPosition.lat), "lng": parseFloat(prefPosition.lon) }
     }
-    console.log(mapCenter)
-    const loc = document.getElementById('location')
+    //create a map
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
         center: mapCenter
@@ -57,13 +58,14 @@ function initMap() {
       })
       markers.push(marker)
 
+      //add a new tack and remove the old one.
     google.maps.event.addListener(map, 'click', (ev) => {
       clearMarkers()
       console.log(ev)
       placeMarker(ev.latLng)
-      // setLocation(ev.latLng)
     })
 
+    //place our new marker
     function placeMarker(location) {
       let marker = new google.maps.Marker({
         position: location,
@@ -72,8 +74,8 @@ function initMap() {
       markers.push(marker)
     }
 
+    //remove the markers from the map and set the length to 0
     function clearMarkers() {
-
       for (const marker of markers) {
         marker.setMap(null)
       }

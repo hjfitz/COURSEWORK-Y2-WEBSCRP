@@ -87,126 +87,111 @@ class Weather {
 
   }
 
-       addToCard() {
-        let tempUnit = '°C'
-        const weatherArea  = document.getElementById('weather-content')
-        const weatherText  = document.getElementById('weather-text')
-        const weatherTitle = document.getElementById('weather-title')
-        const weatherImg   = document.getElementById('weather-image')
-        const weatherDesc  = this.weather.desc
-
-        const curTemp = this.weather.avg + tempUnit
-        const minTemp = this.weather.min + tempUnit
-        const maxTemp = this.weather.max + tempUnit
-
-        // const tempPara    = document.createElement('p')
-        // const minTempPara = document.createElement('p')
-        // const maxTempPara = document.createElement('p')
-        // const descPara    = document.createElement('p')
-
-        const tempPara    = document.getElementById('tmep-para')
-        const minTempPara = document.getElementById('min-temp-para')
-        const maxTempPara = document.getElementById('max-temp-para')
-        const descPara    = document.getElementById('desc-para')
-
-        // const coldSpan = document.createElement('span')
-        // const warmSpan = document.createElement('span')
-
-        const coldSpan = document.getElementById('cold')
-        const warmSpan = document.getElementById('warm')
-
-
-        console.log(weatherDesc)
-        weatherImg.src = 'http://openweathermap.org/img/w/' + this.weather.owmicon + ".png"
-
-        coldSpan.classList = 'coldWeather'
-        warmSpan.classList = 'warmWeather'
-
-        coldSpan.textContent = minTemp
-        warmSpan.textContent = maxTemp
-
-        weatherTitle.textContent = 'It\'s currently ' + curTemp
-        minTempPara.textContent = 'Maximum temp is '
-        maxTempPara.textContent = 'Minimum temp is '
-
-        // minTempPara.appendChild(coldSpan)
-        // maxTempPara.appendChild(warmSpan)
-        descPara.textContent = 'It\'s ' + weatherDesc.toLowerCase() + ' outside.'
-        // weatherArea.appendChild(tempPara)
-        // weatherArea.appendChild(minTempPara)
-        // weatherArea.appendChild(maxTempPara)
-        // weatherArea.appendChild(descPara)
-      }
-
-      addToCardObject(contentArea, weather) {
-        getWeatherPreferences()
-        console.log(weather)
-
-        let tempUnit = '°C' //fix me in config
-        const weatherArea = document.getElementById(contentArea + '-content')
-        const weatherText  = document.getElementById(contentArea + '-text')
-        const weatherTitle = document.getElementById(contentArea + '-title')
-        const weatherImg   = document.getElementById(contentArea + '-image')
-        const weatherDesc  = weather.desc
-
-        const curTemp = weather.avg + tempUnit
-        const minTemp = weather.min + tempUnit
-        const maxTemp = weather.max + tempUnit
-
-        const tempPara    = document.createElement('p')
-        const minTempPara = document.createElement('p')
-        const maxTempPara = document.createElement('p')
-        const descPara    = document.createElement('p')
-
-
-        const coldSpan = document.createElement('span')
-        const warmSpan = document.createElement('span')
-
-
-        let imgContainer = document.getElementById('weather-image-link')
-        let weatherimage = document.getElementById('weather-image')
-
-        weatherimage.parentElement.removeChild(weatherimage)
-        // imgContainer.innerHtml = ''
-        let canvas = document.createElement('canvas')
-        let dim = imgContainer.parentElement.getBoundingClientRect()
-        let canvHeight = dim.height
-        let canvWidth = dim.width
-        canvas.id = "weather-anim"
-        canvas.height = canvHeight
-        canvas.width = canvWidth
-        imgContainer.appendChild(canvas)
-        let skycons = new Skycons({'color':'black'})
-        let iconName = weather.skycon
-        console.log(iconName)
-        skycons.add(canvas,Skycons[iconName])
-        skycons.play()
-
-        coldSpan.classList = 'coldWeather'
-        warmSpan.classList = 'warmWeather'
-
-        coldSpan.textContent = minTemp
-        warmSpan.textContent = maxTemp
-
-        weatherTitle.textContent = `Its currently ${curTemp}`
-        minTempPara.textContent = 'Maximum temp is '
-        maxTempPara.textContent = 'Minimum temp is '
-
-        minTempPara.appendChild(coldSpan)
-        maxTempPara.appendChild(warmSpan)
-        descPara.textContent = `It's ${weatherDesc.toLowerCase()} outside.`
-        weatherArea.appendChild(tempPara)
-        weatherArea.appendChild(minTempPara)
-        weatherArea.appendChild(maxTempPara)
-        weatherArea.appendChild(descPara)
-      }
-
-
-     kelvinToCelsius(tempK) {
-        return (parseInt(tempK) - 273.15).toFixed(2)
+  addToCardObject(contentArea, weather) {
+    getWeatherPreferences()
+    let weatherPrefs = window.localStorage.getItem('weather_preferences')
+    weatherPrefs = JSON.parse(weatherPrefs)
+    let tempUnit = '°C'
+    if (weatherPrefs.unit == 'F') {
+      tempUnit = '°F'
+      weather.avg = this.celsiusToFahrenheit(weather.avg)
+      weather.min = this.celsiusToFahrenheit(weather.min)
+      weather.max = this.celsiusToFahrenheit(weather.max)
     }
 
-     kelvinToFareneit(tempK) {
-        return (parseInt(tempK) * (9/5) - 459.67).toFixed(2)
+    let deletable = document.querySelectorAll('.weather-delete')
+    for (const del of deletable) {
+      del.parentElement.removeChild(del)
     }
+
+    const weatherArea  = document.getElementById(contentArea + '-content')
+    const weatherText  = document.getElementById(contentArea + '-text')
+    const weatherTitle = document.getElementById(contentArea + '-title')
+    const weatherImg   = document.getElementById(contentArea + '-image')
+    const weatherDesc  = weather.desc
+
+    const curTemp = weather.avg + tempUnit
+    const minTemp = weather.min + tempUnit
+    const maxTemp = weather.max + tempUnit
+
+    const tempPara    = document.createElement('p')
+    const minTempPara = document.createElement('p')
+    const maxTempPara = document.createElement('p')
+    const descPara    = document.createElement('p')
+    tempPara.classList = "weather-delete"
+    minTempPara.classList = "weather-delete"
+    maxTempPara.classList = "weather-delete"
+    descPara.classList = "weather-delete"
+
+    const coldSpan = document.createElement('span')
+    const warmSpan = document.createElement('span')
+
+    //add animated icon
+    let imgContainer = document.getElementById('weather-image-link')
+    while (imgContainer.hasChildNodes()) {
+      imgContainer.removeChild(imgContainer.lastChild)
+    }
+    let canvas = document.createElement('canvas')
+    let dim = imgContainer.parentElement.getBoundingClientRect()
+    let canvHeight = dim.height
+    let canvWidth = dim.width
+    canvas.id = "weather-anim"
+    canvas.height = canvHeight
+    canvas.width = canvWidth
+    imgContainer.appendChild(canvas)
+    let skycons = new Skycons({'color':'black'})
+    let iconName = weather.skycon
+    console.log(iconName)
+    skycons.add(canvas,Skycons[iconName])
+    skycons.play()
+
+    coldSpan.classList = 'coldWeather'
+    warmSpan.classList = 'warmWeather'
+
+    coldSpan.textContent = minTemp
+    warmSpan.textContent = maxTemp
+
+    weatherTitle.textContent = `Its currently ${curTemp}`
+    maxTempPara.textContent = 'Maximum temp is '
+    minTempPara.textContent = 'Minimum temp is '
+
+
+    minTempPara.appendChild(coldSpan)
+    maxTempPara.appendChild(warmSpan)
+    descPara.textContent = `It's ${weatherDesc.toLowerCase()} outside.`
+    weatherArea.appendChild(tempPara)
+    weatherArea.appendChild(minTempPara)
+    weatherArea.appendChild(maxTempPara)
+    weatherArea.appendChild(descPara)
+
+    if (weatherPrefs.pressure == "true") {
+      let pressurePara = document.createElement('p')
+      pressurePara.textContent = "The pressure is: " + weather.pressure
+      pressurePara.classList = "weather-delete"
+      weatherArea.appendChild(pressurePara)
+    }
+
+    if (weatherPrefs.windspeed == "true") {
+      let windPara = document.createElement('p')
+      windPara.textContent = "The windspeed is: " + weather.windspeed
+      windPara.classList = "weather-delete"
+      weatherArea.appendChild(windPara)
+    }
+
+    if (weatherPrefs.humidity == "true") {
+      let humidPara = document.createElement('p')
+      humidPara.classList = "weather-delete"
+      humidPara.textContent = `The humidity is ${weather.windspeed} outside`
+      weatherArea.appendChild(humidPara)
+    }
+
+  }
+
+  kelvinToCelsius(tempK) {
+    return (parseFloat(tempK) - 273.15).toFixed(2)
+  }
+
+  celsiusToFahrenheit(tempF) {
+    return (parseFloat(tempF) * (9/5) + 32).toFixed(2)
+  }
 }

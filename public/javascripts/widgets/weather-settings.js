@@ -1,12 +1,8 @@
-saveBtn.addEventListener('click', toggleWeatherSettings)
-let mapHidden = true
-hideMap()
-
-
 function setWeatherCard() {
+  //if we've got location preferences, set the weather. else, fetch it!
   if (!('location_preferences' in window.localStorage)) {
     Util.getJSON('/api/configuration/location', data => {
-      console.log(data)
+      //save the weather info
       window.localStorage.setItem('location_preferences', JSON.stringify(data))
       weather.getByLatLong('dsn', 'weather', data)
     })
@@ -15,16 +11,8 @@ function setWeatherCard() {
   }
 }
 
-function toggleWeatherSettings() {
-  overlay.classList.toggle('hide')
-  if (mapHidden) {
-    showMap()
-  } else {
-    hideMap()
-  }
-}
-
 function getWeatherPreferences() {
+  //if we've not got weather preferences, get it!
   if (!('weather_preferenes' in window.localStorage)) {
     Util.getJSON('/api/configuration/weather', data => {
       window.localStorage.setItem('weather_preferences', JSON.stringify(data))

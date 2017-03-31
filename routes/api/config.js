@@ -14,6 +14,7 @@ configRouter.get('/:item', (req, res, next) => {
   var configItem = req.params.item
   //need to figure out a way for hot-reloading config. //TODO
   var userConfig = require(configFile)
+  console.log(userConfig)
   if (configItem in userConfig) {
     res.json(userConfig[configItem])
   } else {

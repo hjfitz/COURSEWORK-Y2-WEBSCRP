@@ -21,6 +21,13 @@ class Tiles {
   createTiles() {
     this.tilesVisible = true
     let row = 0
+    //loop from the buffer added by the navbar to the height of the page. with each loop, we loop from the left to the right.
+    //steps in the loop are defined as the width and height of tiles we wish to add. those are calculated by
+    //dividing by the height and width of the page by the values given in the constructor.
+    //on each of the internal (column) loops, we add the tile created in to a list. when that loop terminates, we add the list to another list.
+    //we then add that list to a variable created in the constructor
+    //we increment the row and col values on their respective loops. this is stored in a dataset for easy access later on.
+    // with each loop, we create a div with calculated height, width, top and left values. event listeners are added.
     for (let j=this.pageInfo.topBuffer; j<=(this.pageInfo.winHeight + this.pageInfo.maxHeight); j+= this.pageInfo.maxHeight) {
       let col = 0
       let rowList = []
@@ -49,16 +56,19 @@ class Tiles {
   }
 
   toggleTiles() {
+    //set visible to true
     if (this.tilesVisible == true) {
       this.tilesVisible = false
     } else {
       this.tilesVisible = true
     }
+    //add a class to EVERY tile, causing it to hide.
     for (const tile of this.tilesOnPage) {
       tile.classList.toggle('hide')
     }
   }
 
+  //set the background color of each tile to the default one defined earlier.
   resetTiles() {
     for (const tile of this.tilesOnPage) {
       tile.style.backgroundColor = this.tileColor
@@ -66,10 +76,13 @@ class Tiles {
     }
   }
 
+
+
   highlight() {
     this.resetTiles()
     this.selectedArea.length = 0
     if (this.selectedTiles[0] !== this.selectedTiles[1]) {
+      //access the dataset defined earlier
       let locationStart = JSON.parse(this.selectedTiles[0].dataset.index)
       let locationEnd = JSON.parse(this.selectedTiles[1].dataset.index)
       var startX,startY,endX,endY
@@ -81,6 +94,7 @@ class Tiles {
         startX = locationEnd.row
         endX = locationStart.row
       }
+      //find the furthest left
       if (locationStart.col <= locationEnd.col) {
         startY = locationStart.col
         endY = locationEnd.col
@@ -88,15 +102,20 @@ class Tiles {
         startY = locationEnd.col
         endY = locationStart.col
       }
+      //now that the closest to the bottom, top, left and right have been defined,
+      //we use their dataset values defined earlier to iterate through the 2d array of tiles, changing their coloue
+      //pick a random colour for getRandomColor
       let colour = ['red','green'][Util.randomNumber(2)]
       for (let i = startX; i <= endX; i++) {
         let curRow = this.columns[i]
         for (let j = startY; j <= endY; j++) {
-
+          //fill the tiles with color!
           curRow[j].style.backgroundColor = Util.randomColor(colour)
           curRow[j].style.opacity = "1"
         }
       }
+
+      //define the area to stick the card in
       this.selectedArea.push(this.selectedTiles[0])
       this.selectedArea.push(this.selectedTiles[1])
     } else {

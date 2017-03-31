@@ -2,14 +2,23 @@
 /* C A R D */
 /* * * * * */
 
-//class-wrapper for materialize cards
-//upon creating an object of class Card, an element is instantly created;
-//this may be put on the page with Card().addCard()
-//the basic card has a text area, a title and a content area.
-//they are follow the convention of cardName-text, cardName-title and cardName-content.
-//(where cardName is the first argument you pass the constructor)
+/*
+ * class-wrapper for materialize cards
+ * upon creating an object of class Card, an element is instantly created;
+ * this may be put on the page with Card().addCard()
+ * the basic card has a text area, a title and a content area.
+ * they are follow the convention of cardName-text, cardName-title and cardName-content.
+ * (where cardName is the first argument you pass the constructor)
+ * There are 3 main methods.
+      getCard - returning the card created
+      addCard - appends the card to an element (passed as a parameter)
+      addSettings - creates a spanner icon, and adds an event listener for a click on to it.
+                    this click invokes the function passed as a parameter
+ */
+
 class Card {
   constructor(cardName, extras={}, cardImage='images/loading.gif') {
+    //create our element for the card. create the card when the object is constructed.
     this.card = document.createElement('div')
     this.cardName = cardName
     this.cardImage = cardImage
@@ -21,6 +30,9 @@ class Card {
     return this.card
   }
 
+  //create a card using materialie classes.
+  //each card has a content area and title
+  //paragraph, image area and link button are optional and must be specified in the constructor.
   createCard() {
     //create the main card
     this.card.id = this.cardName + "-card"
@@ -83,16 +95,14 @@ class Card {
 
   }
 
-  addSettings(action, area) {
+  //optional settings for the card. a function is passed, so we can add an event listener.
+  //we create a spanner icon and with css, put it in the top left. the function passed is the action of the event listener
+  addSettings(action) {
     let settingsIcon            = document.createElement('i')
-    let overlayContainer        = document.createElement('div')
-    overlayContainer.id         = "black-overlay-" + this.cardName //+ "-test"
-    overlayContainer.classList  = "black-overlay hide"
     settingsIcon.id             = this.cardName + ' setting-icon'
     settingsIcon.classList      = 'material-icons setting-icon'
     settingsIcon.dataset.widget = this.cardName + '-card'
     settingsIcon.textContent    = 'settings'
-    area.appendChild(overlayContainer)
     this.card.appendChild(settingsIcon)
     settingsIcon.addEventListener('click', action)
   }
@@ -100,10 +110,4 @@ class Card {
   addCard(appendingArea) {
     appendingArea.appendChild(this.card)
   }
-
-  // toggleSnap(tileObj) {
-  //   if (tileObj.tilesVisible) {
-  //
-  //   }
-  // }
 }
