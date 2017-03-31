@@ -3,6 +3,8 @@
 /* * * * * * * * * * * * * * * * * * */
 
 class Util {
+  //to shorten the use of XHR every time we need something
+  //and because we ALWAYS want JSON in *this project*, create a function to handle this for us
   static getJSON(url, callback) {
     let xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)
@@ -24,7 +26,13 @@ class Util {
       return Math.floor(Math.random() * max)
   }
 
-  // probably a *SIGNIFICANTLY* better way to do this
+  //creates a random color. defaults to a totally random colour
+  //returns random blue, green and red shades too, if we do want.
+  // picks random items from letters and concatenates them, giving a color.
+  // to define the specific colors, we set the correct values to FF.
+  // // for red, we set color to #ff, and add 4 more random chars.
+  // // for blue, we set color to # [4 random chars] ff
+  // // same for green.
   static randomColor(col="rand") {
     let letters = [0,1,2,3,4,5,6,7,8,9,'A','B','C','E']
     let color = ''
@@ -55,6 +63,7 @@ class Util {
       }
   }
 
+  // we set classes dark, and their text white, unless told otherwise.
   static toggleNightMode() {
     let cards = document.querySelectorAll('.card')
     let notChange = document.querySelectorAll('.not-dark, select')

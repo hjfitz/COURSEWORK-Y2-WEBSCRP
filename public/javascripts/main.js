@@ -42,6 +42,11 @@ function mainLoop(picWait=10, weatherWait=20) {
   }
 }
 
+/*
+ * create an introduction card, call it setup
+ * position it correctly, and add some nice information to help the user.
+ * add an event listener to dismiss the card
+ */
 function addIntroCard() {
   introRun = true
   let introCard = new Card('intro',{'button':true, 'text': true})
@@ -74,6 +79,7 @@ function addIntroCard() {
     "Make sure to save and refresh the page when you're done! (Save is in the same menu as add)",
     "Have fun!"
   ]
+  //much easier than making lots of <p>
   for (const line of lines) {
     let p = document.createElement('p')
     p.textContent = line

@@ -2,10 +2,6 @@
 /* W E A T H E R */
 /* * * * * * * * */
 
-//TODO:
-// Add a way to get the location in other ways (move to different page/js file?)
-// Add a way to get the weather with city name
-
 class Weather {
   constructor() {
     this.owm = 'http://api.openweathermap.org/data/2.5/weather?lat='
@@ -14,6 +10,7 @@ class Weather {
     this.owmImgUrl = 'http://openweathermap.org/img/w/'
     this.card = document.getElementById('weather-card')
     this.owmLookup = {
+      //owm gives icon names, so that we can use them. skycons are nicer, so a lookup table is made.
       '01': 'CLEAR_DAY',
       '02': 'PARTLY_CLOUDY_DAY',
       '03': 'CLOUDY',
@@ -27,14 +24,15 @@ class Weather {
 
   }
 
-  getByLatLong(source='owm', cardToAdd, coords) {
+  //we've got lat and long from the map. ask for a source, a card and coordinates,
+  //the weather is grabbed from an api (or backup) and put on to the page
+  getByLatLong(source, cardToAdd, coords) {
     if (source === 'owm') {
       let queryUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + coords.lat + '&lon=' + coords.lon + '&appid=bbc67f01cffb0e40951dbab4a4e69a87'
-      console.log(queryUrl)
       Util.getJSON(queryUrl, data => {
-        console.log(data)
         if (data.cod !== 200) {
           console.error('owm down, url: ' + queryUrl)
+          //there's an error, fall back to the other api
           this.getByLatLong('dsn', cardToAdd, coords)
         } else {
           console.info('Using OWM for weather.')
@@ -44,15 +42,14 @@ class Weather {
             'avg'      : this.kelvinToCelsius(data.main.temp),
             'pressure' : data.main.pressure,
             'humidity' : data.main.humidity,
-            'sunrise'  : data.sys.sunrise, //parse me!
+            'sunrise'  : data.sys.sunrise,
             'sunset'   : data.sys.sunset,
             'desc'     : data.weather[0].main,
             'windspeed': data.wind.speed,
             'isOwm'    : true,
+            //remove and alphabetical chars so that we may use the lookup
             'skycon'   : this.owmLookup[(data.weather[0].icon).replace(/[a-zA-z]/gi, '')]
           }
-          // this.saveWeather(weather)
-          console.log(weather)
           this.addToCardObject(cardToAdd,weather)
         }
       })
@@ -87,63 +84,78 @@ class Weather {
 
   }
 
+
   addToCardObject(contentArea, weather) {
+    //get the weather preferences and save to LS for access here
     getWeatherPreferences()
     let weatherPrefs = window.localStorage.getItem('weather_preferences')
     weatherPrefs = JSON.parse(weatherPrefs)
     let tempUnit = '°C'
-    if (weatherPrefs.unit == 'F') {
+    if (weatherPrefs.unit == 'F') { //we default to centigrade, so if fahrenheit is defined, we convert.
       tempUnit = '°F'
       weather.avg = this.celsiusToFahrenheit(weather.avg)
       weather.min = this.celsiusToFahrenheit(weather.min)
       weather.max = this.celsiusToFahrenheit(weather.max)
     }
 
+    //remove all elements that have previously been added
     let deletable = document.querySelectorAll('.weather-delete')
     for (const del of deletable) {
       del.parentElement.removeChild(del)
     }
 
+    // get the areas from the card - so that we can put information in them
     const weatherArea  = document.getElementById(contentArea + '-content')
     const weatherText  = document.getElementById(contentArea + '-text')
     const weatherTitle = document.getElementById(contentArea + '-title')
     const weatherImg   = document.getElementById(contentArea + '-image')
     const weatherDesc  = weather.desc
 
+    //make the temperatures more informative
     const curTemp = weather.avg + tempUnit
     const minTemp = weather.min + tempUnit
     const maxTemp = weather.max + tempUnit
 
+    //create areas for information
     const tempPara    = document.createElement('p')
     const minTempPara = document.createElement('p')
     const maxTempPara = document.createElement('p')
     const descPara    = document.createElement('p')
+    //mark them as disposable.
     tempPara.classList = "weather-delete"
     minTempPara.classList = "weather-delete"
     maxTempPara.classList = "weather-delete"
     descPara.classList = "weather-delete"
 
+    //define spans so that we may color the cold and warm temperatures.
     const coldSpan = document.createElement('span')
     const warmSpan = document.createElement('span')
 
     //add animated icon
     let imgContainer = document.getElementById('weather-image-link')
+    //remove nodes in the image <a> tag.
     while (imgContainer.hasChildNodes()) {
       imgContainer.removeChild(imgContainer.lastChild)
     }
-    let canvas = document.createElement('canvas')
-    let dim = imgContainer.parentElement.getBoundingClientRect()
-    let canvHeight = dim.height
-    let canvWidth = dim.width
+    //create a canvas to put skycons in
+    //find the dimensions of the <a>, to size the canvas
+    let
+      canvas     = document.createElement('canvas'),
+      dim        = imgContainer.parentElement.getBoundingClientRect(),
+      canvHeight = dim.height,
+      canvWidth  = dim.width;
+
     canvas.id = "weather-anim"
     canvas.height = canvHeight
     canvas.width = canvWidth
     imgContainer.appendChild(canvas)
+    //create and play the weather icons
     let skycons = new Skycons({'color':'black'})
     let iconName = weather.skycon
     console.log(iconName)
     skycons.add(canvas,Skycons[iconName])
     skycons.play()
+
 
     coldSpan.classList = 'coldWeather'
     warmSpan.classList = 'warmWeather'
@@ -155,15 +167,17 @@ class Weather {
     maxTempPara.textContent = 'Maximum temp is '
     minTempPara.textContent = 'Minimum temp is '
 
-
+    //add the coloured spans
     minTempPara.appendChild(coldSpan)
     maxTempPara.appendChild(warmSpan)
+    //add a description then add all the info to the card!
     descPara.textContent = `It's ${weatherDesc.toLowerCase()} outside.`
     weatherArea.appendChild(tempPara)
-    weatherArea.appendChild(minTempPara)
     weatherArea.appendChild(maxTempPara)
+    weatherArea.appendChild(minTempPara)
     weatherArea.appendChild(descPara)
 
+    //if we've selected any of the options, add that information.
     if (weatherPrefs.pressure == "true") {
       let pressurePara = document.createElement('p')
       pressurePara.textContent = "The pressure is: " + weather.pressure
@@ -187,6 +201,8 @@ class Weather {
 
   }
 
+  //helpful functions
+  
   kelvinToCelsius(tempK) {
     return (parseFloat(tempK) - 273.15).toFixed(2)
   }
