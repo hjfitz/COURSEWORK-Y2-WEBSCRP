@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "dashboard": "node ./bin/www",
-    "install-deps": "bash install.sh"
+    "install-deps": "bash install.sh",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
